@@ -1,0 +1,1070 @@
+{
+  "event": [
+    {
+      "id": 1,
+      "title": "Go Concurrency Workshop",
+      "tags": ["Technology", "Programming"],
+      "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1600&q=80",
+      "date": "Aug 22, 2026",
+      "startTime": "09:00",
+      "endTime": "17:00 WIB",
+      "location": "Bandung",
+      "attendees": 48,
+      "capacity": 100,
+      "status": "open",
+      "description": "A deep-dive workshop into Go concurrency patterns — goroutines, channels, select statements, and real-world use cases. Suitable for intermediate Go developers ready to write production-grade concurrent code. We'll cover common pitfalls, race conditions, and how to use the sync package effectively. Bring your laptop and be ready to write a lot of code.\n\nWe'll build three mini-projects throughout the day: a rate limiter, a worker pool, and a concurrent web scraper.",
+      "organizer": {
+        "name": "Rizky Pratama",
+        "community": "Bandung Go Community",
+        "avatar": "https://i.pravatar.cc/150?img=12"
+      },
+      "speakers": [
+        {
+          "name": "Ahmad Fauzan",
+          "role": "Staff Engineer, Tokopedia",
+          "avatar": "https://i.pravatar.cc/150?img=13"
+        },
+        {
+          "name": "Dina Rahayu",
+          "role": "Backend Lead, Traveloka",
+          "avatar": "https://i.pravatar.cc/150?img=5"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Dian Purnama",
+          "timeAgo": "2h ago",
+          "message": "Super excited for this one — will there be any live coding exercises?",
+          "avatar": "https://i.pravatar.cc/150?img=25"
+        },
+        {
+          "id": 2,
+          "name": "Ahmad Fauzan",
+          "timeAgo": "1h ago",
+          "message": "Yes! The afternoon session is entirely hands-on. Bring your laptop with Go 1.22+ installed.",
+          "avatar": "https://i.pravatar.cc/150?img=13"
+        },
+        {
+          "id": 3,
+          "name": "Siti Rahayu",
+          "timeAgo": "45m ago",
+          "message": "Is there parking nearby? Coming from outside Bandung.",
+          "avatar": "https://i.pravatar.cc/150?img=32"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "AI Product Design Summit",
+      "tags": ["Design"],
+      "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80",
+      "date": "Sep 5, 2026",
+      "startTime": "08:30",
+      "endTime": "16:30 WIB",
+      "location": "Jakarta",
+      "attendees": 234,
+      "capacity": 300,
+      "status": "open",
+      "description": "A full-day summit exploring the intersection of AI and product design. Learn how leading product teams in Indonesia are integrating AI features into their design workflows — from prompt-driven prototyping to designing trustworthy AI interactions.\n\nSessions include hands-on workshops with AI design tools, panel discussions with senior product designers, and networking opportunities with the region's top design talent.",
+      "organizer": {
+        "name": "Kevin Santoso",
+        "community": "Jakarta AI & ML Club",
+        "avatar": "https://i.pravatar.cc/150?img=15"
+      },
+      "speakers": [
+        {
+          "name": "Amelia Wijaya",
+          "role": "Head of Design, Gojek",
+          "avatar": "https://i.pravatar.cc/150?img=9"
+        },
+        {
+          "name": "Reza Firmansyah",
+          "role": "Product Design Lead, Bukalapak",
+          "avatar": "https://i.pravatar.cc/150?img=14"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Indira Kusuma",
+          "timeAgo": "3h ago",
+          "message": "Will the slides be shared after the event?",
+          "avatar": "https://i.pravatar.cc/150?img=45"
+        },
+        {
+          "id": 2,
+          "name": "Kevin Santoso",
+          "timeAgo": "2h ago",
+          "message": "Yes, we'll email all attendees the slide deck and recordings within a week.",
+          "avatar": "https://i.pravatar.cc/150?img=15"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Frontend Craft Conference",
+      "tags": ["Technology", "Programming"],
+      "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
+      "date": "Oct 12, 2026",
+      "startTime": "09:00",
+      "endTime": "17:30 WIB",
+      "location": "Bandung",
+      "attendees": 167,
+      "capacity": 200,
+      "status": "open",
+      "description": "A conference dedicated to the craft of frontend engineering — performance, accessibility, component architecture, and the tools shaping modern web development. Talks cover React, Vue, and framework-agnostic patterns for building resilient user interfaces at scale.\n\nExpect deep technical talks, live demos, and an open Q&A with speakers from Indonesia's largest tech companies.",
+      "organizer": {
+        "name": "Bimo Hartanto",
+        "community": "Indonesia Frontend Devs",
+        "avatar": "https://i.pravatar.cc/150?img=52"
+      },
+      "speakers": [
+        {
+          "name": "Nadia Permata",
+          "role": "Senior Frontend Engineer, Traveloka",
+          "avatar": "https://i.pravatar.cc/150?img=47"
+        },
+        {
+          "name": "Fajar Ramadhan",
+          "role": "Frontend Architect, Tokopedia",
+          "avatar": "https://i.pravatar.cc/150?img=51"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Yoga Pratama",
+          "timeAgo": "5h ago",
+          "message": "Is this event beginner-friendly or more for experienced devs?",
+          "avatar": "https://i.pravatar.cc/150?img=53"
+        },
+        {
+          "id": 2,
+          "name": "Bimo Hartanto",
+          "timeAgo": "4h ago",
+          "message": "A mix of both — morning talks are more approachable, afternoon sessions get more advanced.",
+          "avatar": "https://i.pravatar.cc/150?img=52"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Product Management Masterclass",
+      "tags": ["Business", "Career"],
+      "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80",
+      "date": "Sep 18, 2026",
+      "startTime": "10:00",
+      "endTime": "13:00 WIB",
+      "location": "Online Event",
+      "attendees": 89,
+      "capacity": 150,
+      "status": "open",
+      "description": "An online masterclass for aspiring and early-career product managers. Learn frameworks for prioritization, stakeholder management, and roadmap planning used by senior PMs at top Indonesian tech companies.\n\nThe session includes a live case study workshop where participants build a mini product roadmap and receive feedback from experienced mentors.",
+      "organizer": {
+        "name": "Raisa Nurdiana",
+        "community": "Product Minds Indonesia",
+        "avatar": "https://i.pravatar.cc/150?img=44"
+      },
+      "speakers": [
+        {
+          "name": "Bimo Hartanto",
+          "role": "Product Manager, Nusantara Labs",
+          "avatar": "https://i.pravatar.cc/150?img=52"
+        },
+        {
+          "name": "Clara Situmorang",
+          "role": "Senior PM, Traveloka",
+          "avatar": "https://i.pravatar.cc/150?img=48"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Fikri Ramadhan",
+          "timeAgo": "1d ago",
+          "message": "Will there be a recording for those in a different timezone?",
+          "avatar": "https://i.pravatar.cc/150?img=60"
+        },
+        {
+          "id": 2,
+          "name": "Raisa Nurdiana",
+          "timeAgo": "20h ago",
+          "message": "Yes, the recording will be available for 30 days after the event.",
+          "avatar": "https://i.pravatar.cc/150?img=44"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Music Production Bootcamp",
+      "tags": ["Music"],
+      "image": "https://images.unsplash.com/photo-1574517947730-55cb23e608c2?auto=format&fit=crop&w=1600&q=80",
+      "date": "Nov 3, 2026",
+      "startTime": "13:00",
+      "endTime": "18:00 WIB",
+      "location": "Surabaya",
+      "attendees": 45,
+      "capacity": 60,
+      "status": "open",
+      "description": "A hands-on bootcamp for musicians and producers looking to level up their production skills. Covers sound design, mixing fundamentals, and arrangement techniques using industry-standard DAWs.\n\nParticipants will leave with a finished track produced during the session, plus feedback from professional sound engineers.",
+      "organizer": {
+        "name": "Dimas Aditya",
+        "community": "Music Tech Community",
+        "avatar": "https://i.pravatar.cc/150?img=33"
+      },
+      "speakers": [
+        {
+          "name": "Laras Wening",
+          "role": "Music Producer & Sound Engineer",
+          "avatar": "https://i.pravatar.cc/150?img=29"
+        },
+        {
+          "name": "Rafi Ananda",
+          "role": "Audio Engineer, Independent",
+          "avatar": "https://i.pravatar.cc/150?img=34"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Bella Anjani",
+          "timeAgo": "6h ago",
+          "message": "Do we need to bring our own laptop with a DAW installed?",
+          "avatar": "https://i.pravatar.cc/150?img=31"
+        },
+        {
+          "id": 2,
+          "name": "Dimas Aditya",
+          "timeAgo": "5h ago",
+          "message": "Yes, please bring a laptop. We recommend Ableton Live or FL Studio, trial versions work fine.",
+          "avatar": "https://i.pravatar.cc/150?img=33"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Startup Pitch Night",
+      "tags": ["Business"],
+      "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=80",
+      "date": "Sep 28, 2026",
+      "startTime": "18:30",
+      "endTime": "21:00 WIB",
+      "location": "Jakarta",
+      "attendees": 120,
+      "capacity": 120,
+      "status": "full",
+      "description": "An evening where early-stage founders pitch their startups to a panel of investors and industry mentors. Watch live pitches, network with the Jakarta startup ecosystem, and get insights into what investors are looking for in 2026.\n\nLimited seats available. Selected founders will get 5 minutes to pitch, followed by live Q&A from the judging panel.",
+      "organizer": {
+        "name": "Vino Aditama",
+        "community": "Startup Founders Circle",
+        "avatar": "https://i.pravatar.cc/150?img=53"
+      },
+      "speakers": [
+        {
+          "name": "Melati Sari",
+          "role": "Investment Partner, East Ventures",
+          "avatar": "https://i.pravatar.cc/150?img=41"
+        },
+        {
+          "name": "Arya Wibowo",
+          "role": "Founder & CEO, Nusantara Labs",
+          "avatar": "https://i.pravatar.cc/150?img=54"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Putri Handayani",
+          "timeAgo": "2d ago",
+          "message": "Is there still a waitlist for this? It shows as full.",
+          "avatar": "https://i.pravatar.cc/150?img=43"
+        },
+        {
+          "id": 2,
+          "name": "Vino Aditama",
+          "timeAgo": "1d ago",
+          "message": "Yes, DM us on Instagram and we'll add you to the waitlist in case of cancellations.",
+          "avatar": "https://i.pravatar.cc/150?img=53"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "React Performance Deep Dive",
+      "tags": ["Technology", "Programming"],
+      "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1600&q=80",
+      "date": "Jul 8, 2026",
+      "startTime": "09:00",
+      "endTime": "15:00 WIB",
+      "location": "Jakarta",
+      "attendees": 95,
+      "capacity": 95,
+      "status": "ended",
+      "description": "A workshop that already took place, covering React rendering internals, memoization strategies, and profiling tools to diagnose slow components in production apps.\n\nAttendees worked through real-world case studies of optimizing large React dashboards, including virtualization and code-splitting techniques.",
+      "organizer": {
+        "name": "Galih Nugroho",
+        "community": "Jakarta React Meetup",
+        "avatar": "https://i.pravatar.cc/150?img=58"
+      },
+      "speakers": [
+        {
+          "name": "Vania Kusumo",
+          "role": "Senior Frontend Engineer, Traveloka",
+          "avatar": "https://i.pravatar.cc/150?img=49"
+        },
+        {
+          "name": "Dimas Prasetyo",
+          "role": "Frontend Lead, Bukalapak",
+          "avatar": "https://i.pravatar.cc/150?img=56"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Sandra Wijaya",
+          "timeAgo": "3w ago",
+          "message": "This was such a great session, the profiling demo was super clear!",
+          "avatar": "https://i.pravatar.cc/150?img=39"
+        },
+        {
+          "id": 2,
+          "name": "Galih Nugroho",
+          "timeAgo": "3w ago",
+          "message": "Glad it was helpful! Recording and slides are in the community Discord.",
+          "avatar": "https://i.pravatar.cc/150?img=58"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "UI/UX Portfolio Review Night",
+      "tags": ["Design", "Career"],
+      "image": "https://images.unsplash.com/photo-1587440871875-191322ee64b0?auto=format&fit=crop&w=1600&q=80",
+      "date": "Jun 20, 2026",
+      "startTime": "18:00",
+      "endTime": "20:30 WIB",
+      "location": "Yogyakarta",
+      "attendees": 40,
+      "capacity": 40,
+      "status": "ended",
+      "description": "A past event where junior and aspiring designers got live, one-on-one portfolio feedback from senior product designers working at top Indonesian tech companies.\n\nThe session also included a short talk on structuring a portfolio for career switchers moving into UI/UX from other fields.",
+      "organizer": {
+        "name": "Larasati Dewi",
+        "community": "Yogyakarta Design Circle",
+        "avatar": "https://i.pravatar.cc/150?img=24"
+      },
+      "speakers": [
+        {
+          "name": "Yusuf Anggara",
+          "role": "Senior Product Designer, Gojek",
+          "avatar": "https://i.pravatar.cc/150?img=59"
+        },
+        {
+          "name": "Mira Handayani",
+          "role": "Design Lead, Mekari",
+          "avatar": "https://i.pravatar.cc/150?img=26"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "name": "Tegar Wibisono",
+          "timeAgo": "1mo ago",
+          "message": "Got such actionable feedback on my case study layout, thank you!",
+          "avatar": "https://i.pravatar.cc/150?img=61"
+        },
+        {
+          "id": 2,
+          "name": "Larasati Dewi",
+          "timeAgo": "1mo ago",
+          "message": "So happy to hear that! We'll run this format again next quarter.",
+          "avatar": "https://i.pravatar.cc/150?img=24"
+        }
+      ]
+    }
+  ],
+
+  "communities": [
+    {
+      "id": 1,
+      "name": "Bandung Go Community",
+      "description": "The premier Go programming community in Bandung — weekly meetups, workshops, and...",
+      "image": "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["Technology", "Programming"],
+      "members": 847,
+      "upcomingEvents": 3,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Ahmad Fauzan",
+          "role": "Staff Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=12"
+        },
+        {
+          "id": 2,
+          "name": "Dina Rahayu",
+          "role": "Backend Lead",
+          "avatar": "https://i.pravatar.cc/100?img=47"
+        },
+        {
+          "id": 3,
+          "name": "Rizky Pratama",
+          "role": "Engineering Manager",
+          "avatar": "https://i.pravatar.cc/100?img=11"
+        },
+        {
+          "id": 4,
+          "name": "Sinta Dewi",
+          "role": "Senior Frontend Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=32"
+        },
+        {
+          "id": 5,
+          "name": "Hendra Wijaya",
+          "role": "DX Lead",
+          "avatar": "https://i.pravatar.cc/100?img=13"
+        },
+        {
+          "id": 6,
+          "name": "Anisa Putri",
+          "role": "Senior PM",
+          "avatar": "https://i.pravatar.cc/100?img=44"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Ahmad Fauzan",
+            "avatar": "https://i.pravatar.cc/100?img=12"
+          },
+          "timeAgo": "1d ago",
+          "message": "Welcome everyone to our community! Excited to have so many new members join this month."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Dina Rahayu",
+            "avatar": "https://i.pravatar.cc/100?img=47"
+          },
+          "timeAgo": "3d ago",
+          "message": "Has anyone tried the new generics features in Go 1.22? Would love to discuss at the next meetup."
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Rizky Pratama",
+            "avatar": "https://i.pravatar.cc/100?img=11"
+          },
+          "timeAgo": "5d ago",
+          "message": "Reminder: workshop on Go concurrency patterns this Saturday. Slots are filling up fast!"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Jakarta AI & ML Club",
+      "description": "Researchers, practitioners, and enthusiasts exploring machine learning, LLMs, and the...",
+      "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["AI", "Technology"],
+      "members": 2341,
+      "upcomingEvents": 5,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Kevin Santoso",
+          "role": "AI Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=68"
+        },
+        {
+          "id": 2,
+          "name": "Amelia Wijaya",
+          "role": "ML Researcher",
+          "avatar": "https://i.pravatar.cc/100?img=45"
+        },
+        {
+          "id": 3,
+          "name": "Reza Firmansyah",
+          "role": "Product Designer",
+          "avatar": "https://i.pravatar.cc/100?img=51"
+        },
+        {
+          "id": 4,
+          "name": "Indira Kusuma",
+          "role": "Data Scientist",
+          "avatar": "https://i.pravatar.cc/100?img=23"
+        },
+        {
+          "id": 5,
+          "name": "Fajar Nugraha",
+          "role": "Machine Learning Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=14"
+        },
+        {
+          "id": 6,
+          "name": "Maya Sari",
+          "role": "AI Product Manager",
+          "avatar": "https://i.pravatar.cc/100?img=25"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Kevin Santoso",
+            "avatar": "https://i.pravatar.cc/100?img=68"
+          },
+          "timeAgo": "2h ago",
+          "message": "Anyone experimenting with fine-tuning smaller open-source LLMs for production? Curious about your setups."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Indira Kusuma",
+            "avatar": "https://i.pravatar.cc/100?img=23"
+          },
+          "timeAgo": "1d ago",
+          "message": "Sharing my notes from last week's talk on RAG pipelines — link in the resources channel."
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Maya Sari",
+            "avatar": "https://i.pravatar.cc/100?img=25"
+          },
+          "timeAgo": "4d ago",
+          "message": "We're looking for speakers for next month's meetup on AI product strategy. DM me if interested!"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Indonesia Frontend Devs",
+      "description": "The largest frontend community in Indonesia. React, Vue, Svelte, performance, accessibility...",
+      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["Technology", "Programming"],
+      "members": 5621,
+      "upcomingEvents": 4,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Nadia Permata",
+          "role": "Senior Frontend Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=49"
+        },
+        {
+          "id": 2,
+          "name": "Fajar Ramadhan",
+          "role": "Frontend Architect",
+          "avatar": "https://i.pravatar.cc/100?img=15"
+        },
+        {
+          "id": 3,
+          "name": "Yoga Pratama",
+          "role": "React Developer",
+          "avatar": "https://i.pravatar.cc/100?img=53"
+        },
+        {
+          "id": 4,
+          "name": "Bimo Hartanto",
+          "role": "Frontend Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=59"
+        },
+        {
+          "id": 5,
+          "name": "Clara Wijaya",
+          "role": "UI Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=44"
+        },
+        {
+          "id": 6,
+          "name": "Dimas Arya",
+          "role": "Web Performance Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=70"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Nadia Permata",
+            "avatar": "https://i.pravatar.cc/100?img=49"
+          },
+          "timeAgo": "6h ago",
+          "message": "React Compiler is finally stable in the latest release — anyone tried migrating a real project yet?"
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Yoga Pratama",
+            "avatar": "https://i.pravatar.cc/100?img=53"
+          },
+          "timeAgo": "2d ago",
+          "message": "Wrote a short guide comparing Vite vs Turbopack for large monorepos. Happy to get feedback."
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Clara Wijaya",
+            "avatar": "https://i.pravatar.cc/100?img=44"
+          },
+          "timeAgo": "3d ago",
+          "message": "Accessibility audit workshop next week — bring your project and we'll go through it together."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Product Minds Indonesia",
+      "description": "Product managers, designers, and builders sharing frameworks, tools, and career...",
+      "image": "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["Business", "Career"],
+      "members": 1203,
+      "upcomingEvents": 2,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Raisa Nurdiana",
+          "role": "Product Manager",
+          "avatar": "https://i.pravatar.cc/100?img=43"
+        },
+        {
+          "id": 2,
+          "name": "Bimo Hartanto",
+          "role": "Product Manager",
+          "avatar": "https://i.pravatar.cc/100?img=59"
+        },
+        {
+          "id": 3,
+          "name": "Clara Situmorang",
+          "role": "Senior Product Manager",
+          "avatar": "https://i.pravatar.cc/100?img=48"
+        },
+        {
+          "id": 4,
+          "name": "Fikri Ramadhan",
+          "role": "Product Designer",
+          "avatar": "https://i.pravatar.cc/100?img=60"
+        },
+        {
+          "id": 5,
+          "name": "Putri Maharani",
+          "role": "UX Researcher",
+          "avatar": "https://i.pravatar.cc/100?img=29"
+        },
+        {
+          "id": 6,
+          "name": "Andi Saputra",
+          "role": "Product Lead",
+          "avatar": "https://i.pravatar.cc/100?img=68"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Raisa Nurdiana",
+            "avatar": "https://i.pravatar.cc/100?img=43"
+          },
+          "timeAgo": "5h ago",
+          "message": "What's your team's favorite framework for prioritizing the roadmap? We're re-evaluating ours."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Fikri Ramadhan",
+            "avatar": "https://i.pravatar.cc/100?img=60"
+          },
+          "timeAgo": "1d ago",
+          "message": "Sharing a case study on how we cut onboarding drop-off by 30% — feedback welcome."
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Andi Saputra",
+            "avatar": "https://i.pravatar.cc/100?img=68"
+          },
+          "timeAgo": "4d ago",
+          "message": "Career panel next month featuring PMs from three different industries. RSVP link coming soon."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Creative Coders Collective",
+      "description": "Design and code intersect here — generative art, design systems, creative development.",
+      "image": "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["Design", "Programming"],
+      "members": 934,
+      "upcomingEvents": 2,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Laras Wening",
+          "role": "Creative Developer",
+          "avatar": "https://i.pravatar.cc/100?img=41"
+        },
+        {
+          "id": 2,
+          "name": "Rafi Ananda",
+          "role": "Creative Technologist",
+          "avatar": "https://i.pravatar.cc/100?img=56"
+        },
+        {
+          "id": 3,
+          "name": "Maya Putri",
+          "role": "Product Designer",
+          "avatar": "https://i.pravatar.cc/100?img=26"
+        },
+        {
+          "id": 4,
+          "name": "Ardi Wijaya",
+          "role": "Generative Artist",
+          "avatar": "https://i.pravatar.cc/100?img=67"
+        },
+        {
+          "id": 5,
+          "name": "Salsa Maharani",
+          "role": "Design Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=35"
+        },
+        {
+          "id": 6,
+          "name": "Rangga Pratama",
+          "role": "Frontend Developer",
+          "avatar": "https://i.pravatar.cc/100?img=52"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Laras Wening",
+            "avatar": "https://i.pravatar.cc/100?img=41"
+          },
+          "timeAgo": "3h ago",
+          "message": "Playing with p5.js and shaders this week — will post a demo in the showcase channel soon."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Ardi Wijaya",
+            "avatar": "https://i.pravatar.cc/100?img=67"
+          },
+          "timeAgo": "2d ago",
+          "message": "Anyone up for a generative art jam this weekend? Thinking a 3-hour build sprint, theme TBD."
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Salsa Maharani",
+            "avatar": "https://i.pravatar.cc/100?img=35"
+          },
+          "timeAgo": "6d ago",
+          "message": "Our design system starter kit is now open source — feedback and contributions welcome."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Startup Founders Circle",
+      "description": "Early-stage founders in Indonesia supporting each other through fundraising, product, and...",
+      "image": "https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["Business"],
+      "members": 789,
+      "upcomingEvents": 3,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Vino Aditama",
+          "role": "Founder & CEO",
+          "avatar": "https://i.pravatar.cc/100?img=69"
+        },
+        {
+          "id": 2,
+          "name": "Melati Sari",
+          "role": "Investment Partner",
+          "avatar": "https://i.pravatar.cc/100?img=25"
+        },
+        {
+          "id": 3,
+          "name": "Arya Wibowo",
+          "role": "Founder & CEO",
+          "avatar": "https://i.pravatar.cc/100?img=13"
+        },
+        {
+          "id": 4,
+          "name": "Putri Handayani",
+          "role": "Startup Founder",
+          "avatar": "https://i.pravatar.cc/100?img=32"
+        },
+        {
+          "id": 5,
+          "name": "Daffa Pratama",
+          "role": "Co-Founder",
+          "avatar": "https://i.pravatar.cc/100?img=61"
+        },
+        {
+          "id": 6,
+          "name": "Nabila Putri",
+          "role": "Startup Advisor",
+          "avatar": "https://i.pravatar.cc/100?img=45"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Vino Aditama",
+            "avatar": "https://i.pravatar.cc/100?img=69"
+          },
+          "timeAgo": "8h ago",
+          "message": "Closed our seed round last week — happy to share lessons learned on the fundraising process."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Melati Sari",
+            "avatar": "https://i.pravatar.cc/100?img=25"
+          },
+          "timeAgo": "2d ago",
+          "message": "Reminder: office hours with investors this Friday. Sign up in the events tab if you want a slot."
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Daffa Pratama",
+            "avatar": "https://i.pravatar.cc/100?img=61"
+          },
+          "timeAgo": "5d ago",
+          "message": "Looking for a technical co-founder for a logistics startup — drop a comment if you're interested."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Data Science ID",
+      "description": "Data scientists and analysts across Indonesia — sharing datasets, papers, and practical ML.",
+      "image": "https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["AI", "Programming"],
+      "members": 1567,
+      "upcomingEvents": 2,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Rizal Maulana",
+          "role": "Data Scientist",
+          "avatar": "https://i.pravatar.cc/100?img=8"
+        },
+        {
+          "id": 2,
+          "name": "Siti Rahayu",
+          "role": "Data Analyst",
+          "avatar": "https://i.pravatar.cc/100?img=47"
+        },
+        {
+          "id": 3,
+          "name": "Ahmad Hidayat",
+          "role": "ML Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=11"
+        },
+        {
+          "id": 4,
+          "name": "Dewi Anggraini",
+          "role": "Data Scientist",
+          "avatar": "https://i.pravatar.cc/100?img=44"
+        },
+        {
+          "id": 5,
+          "name": "Fauzan Akbar",
+          "role": "Data Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=14"
+        },
+        {
+          "id": 6,
+          "name": "Nina Amelia",
+          "role": "Research Scientist",
+          "avatar": "https://i.pravatar.cc/100?img=24"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Rizal Maulana",
+            "avatar": "https://i.pravatar.cc/100?img=8"
+          },
+          "timeAgo": "4h ago",
+          "message": "Sharing a public dataset on Indonesian retail transactions — good for a weekend project."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Dewi Anggraini",
+            "avatar": "https://i.pravatar.cc/100?img=44"
+          },
+          "timeAgo": "1d ago",
+          "message": "Anyone read the latest paper on time-series forecasting with transformers? Thoughts on practicality?"
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Fauzan Akbar",
+            "avatar": "https://i.pravatar.cc/100?img=14"
+          },
+          "timeAgo": "3d ago",
+          "message": "Hosting a beginner-friendly SQL for data analysis session next week, all levels welcome."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Music Tech Community",
+      "description": "Producers, sound engineers, and musicians who love blending technology with music.",
+      "image": "https://images.unsplash.com/photo-1531651008558-ed1740375b39?auto=format&fit=crop&w=1600&q=80",
+      "tags": ["Music"],
+      "members": 445,
+      "upcomingEvents": 1,
+      "memberList": [
+        {
+          "id": 1,
+          "name": "Dimas Aditya",
+          "role": "Music Producer",
+          "avatar": "https://i.pravatar.cc/100?img=12"
+        },
+        {
+          "id": 2,
+          "name": "Laras Wening",
+          "role": "Sound Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=49"
+        },
+        {
+          "id": 3,
+          "name": "Rafi Ananda",
+          "role": "Audio Engineer",
+          "avatar": "https://i.pravatar.cc/100?img=56"
+        },
+        {
+          "id": 4,
+          "name": "Bella Anjani",
+          "role": "Music Producer",
+          "avatar": "https://i.pravatar.cc/100?img=36"
+        },
+        {
+          "id": 5,
+          "name": "Raka Pratama",
+          "role": "Sound Designer",
+          "avatar": "https://i.pravatar.cc/100?img=18"
+        },
+        {
+          "id": 6,
+          "name": "Nadia Sari",
+          "role": "Audio Programmer",
+          "avatar": "https://i.pravatar.cc/100?img=33"
+        }
+      ],
+      "discussions": [
+        {
+          "id": 1,
+          "author": {
+            "name": "Dimas Aditya",
+            "avatar": "https://i.pravatar.cc/100?img=12"
+          },
+          "timeAgo": "7h ago",
+          "message": "Just released a free sample pack made with modular synths — link in the resources channel."
+        },
+        {
+          "id": 2,
+          "author": {
+            "name": "Bella Anjani",
+            "avatar": "https://i.pravatar.cc/100?img=36"
+          },
+          "timeAgo": "2d ago",
+          "message": "Looking for a vocalist to collaborate on a lo-fi EP. Comment or DM if interested!"
+        },
+        {
+          "id": 3,
+          "author": {
+            "name": "Nadia Sari",
+            "avatar": "https://i.pravatar.cc/100?img=33"
+          },
+          "timeAgo": "5d ago",
+          "message": "Workshop on building custom VST plugins with JUCE happening next Saturday."
+        }
+      ]
+    }
+  ],
+  "notification": [
+    {
+      "id": 1,
+      "icon": "Calendar",
+      "iconBg": "bg-orange-100",
+      "iconColor": "text-orange-500",
+      "title": "Go Concurrency Workshop starts in 2 days",
+      "description": "Don't forget — your registered event is on Aug 22 at 09:00 in Bandung.",
+      "time": "2h ago",
+      "unread": true
+    },
+    {
+      "id": 2,
+      "icon": "Bell",
+      "iconBg": "bg-green-100",
+      "iconColor": "text-green-500",
+      "title": "Registration confirmed",
+      "description": "You're registered for Frontend Craft Conference on Oct 12, 2026.",
+      "time": "3h ago",
+      "unread": true
+    },
+    {
+      "id": 3,
+      "icon": "Users",
+      "iconBg": "bg-indigo-100",
+      "iconColor": "text-indigo-500",
+      "title": "New event in Bandung Go Community",
+      "description": "Rizky posted \"Advanced Go Modules Workshop\" — happening Sep 30.",
+      "time": "1d ago",
+      "unread": true
+    },
+    {
+      "id": 4,
+      "icon": "Radio",
+      "iconBg": "bg-orange-100",
+      "iconColor": "text-orange-500",
+      "title": "Update: AI Product Design Summit",
+      "description": "New speaker added: Kevin Lim from Google. Updated schedule posted.",
+      "time": "2d ago",
+      "unread": false
+    },
+    {
+      "id": 5,
+      "icon": "MessageSquare",
+      "iconBg": "bg-purple-100",
+      "iconColor": "text-purple-500",
+      "title": "Reply to your discussion",
+      "description": "Ahmad Fauzan replied to your question in Go Concurrency Workshop.",
+      "time": "3d ago",
+      "unread": false
+    },
+    {
+      "id": 6,
+      "icon": "Users",
+      "iconBg": "bg-indigo-100",
+      "iconColor": "text-indigo-500",
+      "title": "Jakarta AI & ML Club: Member milestone",
+      "description": "Your community just hit 2,000 members! Thanks for being part of it.",
+      "time": "4d ago",
+      "unread": false
+    },
+    {
+      "id": 7,
+      "icon": "Calendar",
+      "iconBg": "bg-orange-100",
+      "iconColor": "text-orange-500",
+      "title": "Product Management Masterclass — 1 week away",
+      "description": "Your saved event is on Sep 18 at 10:00, Online.",
+      "time": "5d ago",
+      "unread": false
+    }
+  ]
+}

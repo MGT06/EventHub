@@ -1,0 +1,77 @@
+import { useState } from "react";
+import { UsersRound, Calendar, Check } from "lucide-react";
+import Modal from "../Modal";
+import { useAuth } from "../../hooks/useAuth";
+import { Link } from "react-router";
+import useJoin from "../../hooks/useJoin";
+
+function CardCommunities({ community }) {
+  const [modal, setModal] = useState(false);
+  const { isInList, addItem, removeItem } = useJoin("joinedCommunities");
+  const { isAuthenticated } = useAuth();
+
+  const alreadyJoined = isInList(community.id);
+  function toggleJoinHandled() {
+    if (alreadyJoined) {
+      removeItem(community.id);
+    } else {
+      addItem({ id: community.id, nameCommunity: community.name });
+    }
+  }
+  return (
+    <div className="rounded-lg border border-gray-300 h-full flex flex-col">
+      <Link to={`/communities/detail/${community.id}`}>
+        <img
+          src={community.image}
+          alt=""
+          className="rounded-t-lg w-full h-44 object-cover"
+        />
+      </Link>
+      <div className="grid gap-3 p-4 grow">
+        <p className="font-semibold">{community.name}</p>
+        <p className="text-xs text-manatee">{community.description}</p>
+
+        <div>
+          {community.tags.map((t, idx) => {
+            return (
+              <span
+                key={idx}
+                className="py-0.5 px-2 text-blue-700 bg-[#3363ff1a] rounded-4xl text-xs mr-3"
+              >
+                {t}
+              </span>
+            );
+          })}
+        </div>
+
+        <div className="flex gap-4">
+          <div className="flex items-center gap-2">
+            <UsersRound width={9} />
+            <p className="text-xs text-manatee">{community.members} members</p>
+          </div>
+          <div className="flex  items-center gap-2">
+            <Calendar width={9} />
+            <p className="text-xs text-manatee">
+              {community.upcomingEvents} upcoming
+            </p>
+          </div>
+        </div>
+
+        <button
+          className={`flex justify-center py-1.5 px-3 rounded-lg text-sm text-white cursor-pointer ${
+            alreadyJoined ? "bg-green-500" : "bg-orange"
+          }`}
+          onClick={() => {
+            isAuthenticated ? toggleJoinHandled() : setModal(true);
+          }}
+        >
+          {alreadyJoined && <Check />}
+          {alreadyJoined ? "Joined" : "Join Community"}
+        </button>
+      </div>
+      {modal && <Modal isClose={() => setModal(false)} />}
+    </div>
+  );
+}
+
+export default CardCommunities;
