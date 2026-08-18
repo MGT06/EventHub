@@ -97,8 +97,15 @@ function Event() {
             placeholder="Search events..."
             className="w-full min-w-0 outline-none"
             onChange={(e) => {
-              searchParams.set("title", `${e.target.value}`);
-              setSearchParams(searchParams);
+              setSearchParams((prevSearchParams) => {
+                const newSearchParam = new URLSearchParams(prevSearchParams);
+                if (e.target.value) {
+                  newSearchParam.set("title", `${e.target.value}`);
+                  return newSearchParam;
+                }
+                newSearchParam.delete("title");
+                return newSearchParam;
+              });
             }}
           />
         </div>
@@ -122,8 +129,17 @@ function Event() {
                 <button
                   key={c}
                   onClick={() => {
-                    searchParams.set("category", c);
-                    setSearchParams(searchParams);
+                    setSearchParams((prevSearchParams) => {
+                      const newSearchParams = new URLSearchParams(
+                        prevSearchParams,
+                      );
+                      if (c !== "All") {
+                        newSearchParams.set("category", c);
+                        return newSearchParams;
+                      }
+                      newSearchParams.delete("category");
+                      return newSearchParams;
+                    });
                   }}
                   className={pillClass(filCategory === c)}
                 >
@@ -142,8 +158,17 @@ function Event() {
                   <button
                     key={l}
                     onClick={() => {
-                      searchParams.set("location", l);
-                      setSearchParams(searchParams);
+                      setSearchParams((prevSearchParams) => {
+                        const newSearchParams = new URLSearchParams(
+                          prevSearchParams,
+                        );
+                        if (l !== "All Locations") {
+                          newSearchParams.set("location", l);
+                          return newSearchParams;
+                        }
+                        newSearchParams.delete("location");
+                        return newSearchParams;
+                      });
                     }}
                     className={pillClass(filLocation === l)}
                   >
@@ -160,8 +185,17 @@ function Event() {
                   <button
                     key={s}
                     onClick={() => {
-                      searchParams.set("sortBy", s);
-                      setSearchParams(searchParams);
+                      setSearchParams((prevSearchParams) => {
+                        const newSearchParams = new URLSearchParams(
+                          prevSearchParams,
+                        );
+                        if (s !== "Upcoming") {
+                          newSearchParams.set("sortBy",s);
+                          return newSearchParams;
+                        }
+                        newSearchParams.delete("sortBy");
+                        return newSearchParams;
+                      });
                     }}
                     className={pillClass(filSort === s)}
                   >

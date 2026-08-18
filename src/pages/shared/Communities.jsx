@@ -72,8 +72,15 @@ function Communities() {
             placeholder="Search communities..."
             className="flex-1 px-3 py-3.5 text-sm text-black outline-none"
             onChange={(e) => {
-              searchParams.set("title", `${e.target.value}`);
-              setSearchParams(searchParams);
+              setSearchParams((prevSearchParams) => {
+                const newSearchParam = new URLSearchParams(prevSearchParams);
+                if (e.target.value) {
+                  newSearchParam.set("title", `${e.target.value}`);
+                  return newSearchParam;
+                }
+                newSearchParam.delete("title");
+                return newSearchParam;
+              });
             }}
           />
         </form>
@@ -85,8 +92,17 @@ function Communities() {
               <span
                 key={s}
                 onClick={() => {
-                  searchParams.set("joinStatus", s);
-                  setSearchParams(searchParams);
+                  setSearchParams((prevSearchParams) => {
+                    const newSearchParams = new URLSearchParams(
+                      prevSearchParams,
+                    );
+                    if (s !== "All") {
+                      newSearchParams.set("joinStatus", s);
+                      return newSearchParams;
+                    }
+                    newSearchParams.delete("joinStatus");
+                    return newSearchParams;
+                  });
                 }}
                 className={pillClass(filJoinStatus === s)}
               >
@@ -99,8 +115,17 @@ function Communities() {
               <span
                 key={c}
                 onClick={() => {
-                  searchParams.set("category", c);
-                  setSearchParams(searchParams);
+                  setSearchParams((prevSearchParams) => {
+                    const newSearchParams = new URLSearchParams(
+                      prevSearchParams,
+                    );
+                    if (c !== "All Categories") {
+                      newSearchParams.set("category", c);
+                      return newSearchParams;
+                    }
+                    newSearchParams.delete("category");
+                    return newSearchParams;
+                  });
                 }}
                 className={pillClass(filCategory === c)}
               >
