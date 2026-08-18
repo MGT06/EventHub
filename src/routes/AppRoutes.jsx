@@ -21,6 +21,7 @@ import CommunitiesProfil from "../components/profileCommponents/CommunitiesProfi
 import SavedList from "../components/SavedList";
 import Notification from "../components/Notification";
 import ProtectedRoute from "./ProtectedRoute";
+import NotFound from "../components/NotFound";
 
 function AppRoutes() {
   return (
@@ -63,6 +64,7 @@ function AppRoutes() {
           </Route>
           <Route path="/notification" element={<Notification />} />
         </Route>
+        <Route path="*" element={<NotFound />}/>
       </Route>
     </Routes>
   );
