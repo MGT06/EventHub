@@ -20,12 +20,17 @@ function CardCommunities({ community }) {
   }
   return (
     <div className="rounded-lg border border-gray-300 h-full flex flex-col">
-      <Link to={`/communities/detail/${community.id}`}>
+      <Link to={`/communities/detail/${community.id}`} className="relative">
         <img
           src={community.image}
           alt=""
           className="rounded-t-lg w-full h-44 object-cover"
         />
+        {alreadyJoined && (
+          <p className="px-4 py-1.5 bg-green-600 absolute rounded-full text-white text-xs top-4 right-4">
+            Joined
+          </p>
+        )}
       </Link>
       <div className="grid gap-3 p-4 grow">
         <p className="font-semibold">{community.name}</p>
