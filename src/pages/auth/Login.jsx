@@ -1,10 +1,11 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 function Login() {
-  const navigate = useNavigate();
   const [error, setError] = useState();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -19,23 +20,10 @@ function Login() {
   });
 
   const onSubmit = (dataInput) => {
-    const dataExist = JSON.parse(localStorage.getItem("dataUser")) || [];
-    for (const dataLocal of dataExist) {
-      if (
-        dataLocal.email === dataInput.email &&
-        dataLocal.password === dataInput.password
-      ) {
-        const dataUser = JSON.parse(localStorage.getItem("dataUser")).find(
-          (data) => data.email === dataInput.email,
-        );
-
-        localStorage.setItem("loggedUser", JSON.stringify(dataUser));
-        navigate("/");
-        return;
-      }
+    if (!login(dataInput)) {
+      setError("Incorrect email or password.");
+      reset({password: ""});
     }
-    setError("Incorrect email or password.");
-    reset();
   };
 
   return (
