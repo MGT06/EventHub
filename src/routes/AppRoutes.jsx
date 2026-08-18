@@ -62,7 +62,7 @@ function AppRoutes() {
             <Route path="communities" element={<CommunitiesProfil />} />
             <Route path="saved" element={<SavedList />} />
           </Route>
-          <Route path=" notification" element={<Notification />} />
+          <Route path="notification" element={<Notification />} />
         </Route>
         <Route path="*" element={<NotFound />}/>
       </Route>

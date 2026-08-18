@@ -18,7 +18,7 @@ const categories = [
 
 function Communities() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isInList } = useJoin("joinedCommunity");
+  const { isInList } = useJoin("joinedCommunities");
 
   const title = searchParams.get("title") ?? "";
   const filJoinStatus = searchParams.get("joinStatus") ?? "All";
