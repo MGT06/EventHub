@@ -14,7 +14,7 @@ function SavedList() {
   return (
     <>
       <section >
-        <div className="grid gap-4 h-screen lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-3">
           {getDataSaved.length === 0 ? (
             <div className="flex flex-col gap-2 justify-center lg:col-start-2  items-center"> 
               <Bookmark  className="text-manatee"/>
