@@ -7,6 +7,7 @@ import {
   Users,
   Bookmark,
   Share2,
+  SendHorizonal,
 } from "lucide-react";
 import CardEvent from "./cardComponents/CardEvent";
 import dummy from "../data/dummy.json";
@@ -168,7 +169,9 @@ function DetailEvent() {
                     ? "border-orange text-orange"
                     : "border-gray-300 text-manatee hover:bg-gray-100"
                 }`}
-                onClick={() => isAuthenticated ? toggleSaveHandled() : setModal(true)}
+                onClick={() =>
+                  isAuthenticated ? toggleSaveHandled() : setModal(true)
+                }
               >
                 <Bookmark
                   size={18}
@@ -261,6 +264,21 @@ function DetailEvent() {
                 </div>
               );
             })}
+            <div className="flex gap-3">
+              <img
+                src="https://i.pravatar.cc/100?img=2"
+                alt="You"
+                className="h-8 w-8 rounded-full"
+              />
+              <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 grow">
+                <input
+                  type="text"
+                  placeholder="Start a discussion..."
+                  className="min-w-0 flex-1 border-none text-sm text-gray-700 placeholder:text-gray-400 outline-none"
+                />
+                <SendHorizonal className="text-orange" />
+              </div>
+            </div>
           </div>
         </div>
         <div className="lg:col-start-1 lg:col-end-5 pt-8 border-t border-gray-200">
