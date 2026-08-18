@@ -2,9 +2,11 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { Eye, EyeClosed } from "lucide-react";
 
 function Login() {
   const [error, setError] = useState();
+  const [openEye, setOpenEye] = useState(false);
   const { login } = useAuth();
   const {
     register,
@@ -22,7 +24,7 @@ function Login() {
   const onSubmit = (dataInput) => {
     if (!login(dataInput)) {
       setError("Incorrect email or password.");
-      reset({password: ""});
+      reset({ password: "" });
     }
   };
 
@@ -96,9 +98,9 @@ function Login() {
               <Link to={"/auth/forgot"}>Forgot paswword?</Link>
             </p>
           </div>
-          <div>
+          <div className="relative">
             <input
-              type="password"
+              type={openEye ? "text" : "password"}
               {...register("password", {
                 required: "Password is required",
               })}
@@ -106,6 +108,17 @@ function Login() {
               placeholder="••••••••"
               className="border w-full border-manatee py-2 px-1 rounded-lg"
             />
+            {openEye ? (
+              <Eye
+                className="absolute top-2.5 right-5"
+                onClick={() => setOpenEye(false)}
+              />
+            ) : (
+              <EyeClosed
+                className="absolute top-2.5 right-5"
+                onClick={() => setOpenEye(true)}
+              />
+            )}
             {errors.password && (
               <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}

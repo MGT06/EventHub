@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { Eye, EyeClosed } from "lucide-react";
 
 function Register() {
+  const [openEye, setOpenEye] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false)
   const [error, setError] = useState({
     typeError: "",
     message: "",
@@ -133,7 +136,7 @@ function Register() {
               <p className="text-red-500 text-xs">{error.message}</p>
             )}
           </div>
-          <div>
+          <div className="relative">
             <label
               htmlFor="password"
               className="font-medium text-sm block mb-1"
@@ -141,7 +144,7 @@ function Register() {
               Password
             </label>
             <input
-              type="password"
+              type={openEye ? "text" : "password"}
               {...register("password", {
                 required: "Password is required",
                 minLength: { value: 8, message: "Must be 8 char" },
@@ -150,16 +153,27 @@ function Register() {
               placeholder="At least 8 characters"
               className="border border-manatee py-2 px-1 rounded-lg w-full"
             />
+            {openEye ? (
+              <Eye
+                className="absolute top-1/2 right-5"
+                onClick={() => setOpenEye(false)}
+              />
+            ) : (
+              <EyeClosed
+                className="absolute top-1/2 right-5"
+                onClick={() => setOpenEye(true)}
+              />
+            )}
             {errors.password && (
               <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="confirm" className="font-medium text-sm block mb-1">
               Confirm Password
             </label>
             <input
-              type="password"
+              type={openConfirm ? "text" : "password"}
               {...register("confirm", {
                 required: "Must be confirm",
               })}
@@ -167,6 +181,17 @@ function Register() {
               placeholder="Re-enter your password"
               className="border border-manatee py-2 px-1 rounded-lg w-full"
             />
+            {openConfirm ? (
+              <Eye
+                className="absolute top-1/2 right-5"
+                onClick={() => setOpenConfirm(false)}
+              />
+            ) : (
+              <EyeClosed
+                className="absolute top-1/2 right-5"
+                onClick={() => setOpenConfirm(true)}
+              />
+            )}
             {errors.confirm && (
               <p className="text-red-500 text-xs">{errors.confirm.message}</p>
             )}
@@ -176,17 +201,21 @@ function Register() {
           </div>
           <div>
             <input
+              id="terms"
               type="checkbox"
               {...register("terms", {
                 required: "The terms must be accepted.",
               })}
               className="align-middle"
             />
-            <p className="text-manatee text-xs inline-block ml-2">
+            <label
+              htmlFor="terms"
+              className="text-manatee text-xs inline-block ml-2"
+            >
               I agree to the{" "}
               <span className="text-orange"> Terms of Service</span> and{" "}
               <span className="text-orange">Privacy Policy</span>
-            </p>
+            </label>
             {errors.terms && (
               <p className="text-red-500 text-xs">{errors.terms.message}</p>
             )}
