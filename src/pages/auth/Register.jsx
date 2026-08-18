@@ -112,7 +112,7 @@ function Register() {
               className="border border-manatee py-2 px-1 rounded-lg w-full"
             />
             {errors.name && (
-              <p className="text-red-500">{errors.name.message}</p>
+              <p className="text-red-500 text-xs">{errors.name.message}</p>
             )}
           </div>
           <div>
@@ -127,10 +127,10 @@ function Register() {
               className="border border-manatee py-2 px-1 rounded-lg w-full"
             />
             {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
+              <p className="text-red-500 text-xs">{errors.email.message}</p>
             )}
             {error.typeError === "email" && (
-              <p className="text-red-500">{error.message}</p>
+              <p className="text-red-500 text-xs">{error.message}</p>
             )}
           </div>
           <div>
@@ -151,7 +151,7 @@ function Register() {
               className="border border-manatee py-2 px-1 rounded-lg w-full"
             />
             {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
+              <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
           </div>
           <div>
@@ -168,10 +168,10 @@ function Register() {
               className="border border-manatee py-2 px-1 rounded-lg w-full"
             />
             {errors.confirm && (
-              <p className="text-red-500">{errors.confirm.message}</p>
+              <p className="text-red-500 text-xs">{errors.confirm.message}</p>
             )}
             {error.typeError === "password" && (
-              <p className="text-red-500">{error.message}</p>
+              <p className="text-red-500 text-xs">{error.message}</p>
             )}
           </div>
           <div>
@@ -188,7 +188,7 @@ function Register() {
               <span className="text-orange">Privacy Policy</span>
             </p>
             {errors.terms && (
-              <p className="text-red-500">{errors.terms.message}</p>
+              <p className="text-red-500 text-xs">{errors.terms.message}</p>
             )}
           </div>
           <button

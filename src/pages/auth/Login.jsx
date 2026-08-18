@@ -97,7 +97,7 @@ function Login() {
               className="border w-full border-manatee py-2 px-1 rounded-lg"
             />
             {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
+              <p className="text-red-500 text-xs">{errors.email.message}</p>
             )}
           </div>
           <div className="flex justify-between items-center">
@@ -119,10 +119,10 @@ function Login() {
               className="border w-full border-manatee py-2 px-1 rounded-lg"
             />
             {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
+              <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
           </div>
-          {error && <p className="text-red-500 ">{error}</p>}
+          {error && <p className="text-red-500 text-xs">{error}</p>}
           <button
             type="submit"
             className="bg-orange py-2 rounded-lg text-white text-sm font-semibold"
