@@ -125,7 +125,7 @@ function CardEvent({ event }) {
               isAuthenticated ? toggleSaveHandled() : setModal(true);
             }}
           >
-            <Bookmark size={18} />
+            <Bookmark size={18} fill={alreadySaved ? "#ff5f22" : "#fff"}/>
           </div>
         </div>
       </div>

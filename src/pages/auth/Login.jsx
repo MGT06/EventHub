@@ -35,9 +35,6 @@ function Login() {
       }
     }
     setError("Incorrect email or password.");
-    setTimeout(() => {
-      setError();
-    }, 2000);
     reset();
   };
 
