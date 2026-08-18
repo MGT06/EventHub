@@ -13,9 +13,12 @@ import dummy from "../data/dummy.json";
 import { useParams, Link } from "react-router";
 import useJoin from "../hooks/useJoin";
 import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
+import Modal from "./Modal";
 
 function DetailEvent() {
   const { id } = useParams();
+  const [modal, setModal] = useState(false);
   const {
     isInList: isJoined,
     addItem: addJoined,
@@ -139,9 +142,9 @@ function DetailEvent() {
             </div>
             <div className="grid gap-2">
               <button
-                className={`py-2 px-4 rounded-lg text-white ${alreadyJoined ? " bg-green-600" : "bg-orange"}`}
+                className={`py-2 px-4 rounded-lg text-white cursor-pointer ${alreadyJoined ? " bg-green-600" : "bg-orange"}`}
                 onClick={() => {
-                  isAuthenticated && joinHandled();
+                  isAuthenticated ? joinHandled() : setModal(true);
                 }}
               >
                 {alreadyJoined ? "Registered" : "Join Event"}
@@ -165,7 +168,7 @@ function DetailEvent() {
                     ? "border-orange text-orange"
                     : "border-gray-300 text-manatee hover:bg-gray-100"
                 }`}
-                onClick={() => isAuthenticated && toggleSaveHandled()}
+                onClick={() => isAuthenticated ? toggleSaveHandled() : setModal(true)}
               >
                 <Bookmark
                   size={18}
@@ -269,6 +272,7 @@ function DetailEvent() {
           </div>
         </div>
       </div>
+      {modal && <Modal isClose={() => setModal(false)} />}
     </section>
   );
 }

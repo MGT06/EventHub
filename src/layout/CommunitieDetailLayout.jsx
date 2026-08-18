@@ -2,13 +2,18 @@ import { UsersRound, Calendar, Check, MoveLeft } from "lucide-react";
 import { Link, NavLink, Outlet, useParams } from "react-router";
 import dummy from "../data/dummy.json";
 import useJoin from "../hooks/useJoin";
+import { useState } from "react";
+import Modal from "../components/Modal";
+import { useAuth } from "../hooks/useAuth";
 
 function CommunitieDetailLayout() {
   const { id } = useParams();
+  const [modal, setModal] = useState(false);
+  const { isAuthenticated } = useAuth();
+
   const dataDetail = dummy.communities.find((detail) => detail.id == id);
 
-  const { isInList, addItem, removeItem } =
-    useJoin("joinedCommunities");
+  const { isInList, addItem, removeItem } = useJoin("joinedCommunities");
 
   const alreadyJoined = isInList(dataDetail.id);
 
@@ -63,8 +68,10 @@ function CommunitieDetailLayout() {
           </div>
           <div>
             <button
-              onClick={toggleJoinHandled}
-              className={`flex items-center w-max justify-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg ${
+              onClick={() => {
+                isAuthenticated ? toggleJoinHandled() : setModal(true);
+              }}
+              className={`flex items-center w-max justify-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg cursor-pointer ${
                 alreadyJoined
                   ? "bg-green-600 text-white hover:bg-green-700"
                   : "bg-orange text-white hover:bg-orange/90"
@@ -76,9 +83,7 @@ function CommunitieDetailLayout() {
                   Joined
                 </>
               ) : (
-                <>
-                  Join Community
-                </>
+                <>Join Community</>
               )}
             </button>
           </div>
@@ -119,11 +124,11 @@ function CommunitieDetailLayout() {
               Discussion
             </NavLink>
           </div>
+          {modal && <Modal isClose={() => setModal(false)} />}
         </div>
         <Outlet context={{ nameCommunity: dataDetail.name }} />
       </section>
     </>
   );
 }
-
 export default CommunitieDetailLayout;
