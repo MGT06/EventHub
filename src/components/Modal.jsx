@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 function Modal({isClose}) {  
   return (
-    <div className={`fixed inset-0 bg-[#00000030] flex justify-center items-center z-10`}>
+    <div className={`fixed inset-0 bg-[#00000030] flex justify-center items-center z-50`}>
       <div className="bg-white rounded-2xl lg:w-2/7">
         <div className="p-6 flex justify-between border-b border-b-gray-200">
           <p className="font-semibold ">Sign in to continue</p>
