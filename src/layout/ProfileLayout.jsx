@@ -10,7 +10,7 @@ function ProfileLayout() {
   const { user } = useAuth();
 
   const { list: events } = useJoin("joinedEvents");
-  const { list: community } = useJoin("joinedCommunity");
+  const { list: community } = useJoin("joinedCommunities");
   const { list: saved } = useJoin("savedEvents");
 
   const tabActive = ({ isActive }) =>
