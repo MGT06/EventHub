@@ -2,11 +2,11 @@ import { useState } from "react";
 import { X } from "lucide-react";
 
 function EditProfileModal({ isClose, initialData, onSave }) {
-  const [fullName, setFullName] = useState(initialData?.name ?? "Alex Kim");
+  const [fullName, setFullName] = useState(initialData?.name);
   const [location, setLocation] = useState(
-    initialData?.location ?? "Bandung, Indonesia",
+    initialData?.location
   );
-  const [bio, setBio] = useState(initialData?.bio ?? "");
+  const [bio, setBio] = useState(initialData?.bio);
 
   function handleSave() {
     onSave?.({ name: fullName, location, bio });
@@ -14,8 +14,8 @@ function EditProfileModal({ isClose, initialData, onSave }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-10 p-0 sm:p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md ">
+    <div className="fixed inset-0 top-20 bg-black/40 flex items-center justify-center z-10 p-0 sm:p-4">
+      <div className="bg-white rounded-2xl mt-5 w-full max-w-md ">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
           <h2 className="font-bold text-lg">Edit Profile</h2>
           <button onClick={isClose} className="cursor-pointer">
@@ -24,7 +24,7 @@ function EditProfileModal({ isClose, initialData, onSave }) {
         </div>
         <div className="px-5 py-5 flex flex-col gap-5">
           <img
-            src={initialData?.avatar ?? "https://i.pravatar.cc/150?img=13"}
+            src={initialData.avatar ?? "https://i.pravatar.cc/150?img=13"}
             alt=""
             className="w-16 h-16 rounded-full self-center bg-gray-200"
           />
