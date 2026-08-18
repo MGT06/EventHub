@@ -41,7 +41,7 @@ function AppRoutes() {
             <Route path=":id" element={<DetailEvent />} />
           </Route>
         </Route>
-        <Route path="/communities">
+        <Route path="communities">
           <Route index element={<Communities />} />
           <Route path="detail">
             <Route path=":id" element={<CommunitieDetailLayout />}>
@@ -52,17 +52,17 @@ function AppRoutes() {
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>
-          <Route path="/my-events" element={<MyEventLayout />}>
+          <Route path="my-events" element={<MyEventLayout />}>
             <Route index element={<UpComingEvent />} />
             <Route path="past" element={<PastEvent />} />
             <Route path="saved" element={<SavedList />} />
           </Route>
-          <Route path="/profile" element={<ProfileLayout />}>
+          <Route path="profile" element={<ProfileLayout />}>
             <Route index element={<EventProfile />} />
             <Route path="communities" element={<CommunitiesProfil />} />
             <Route path="saved" element={<SavedList />} />
           </Route>
-          <Route path="/notification" element={<Notification />} />
+          <Route path=" notification" element={<Notification />} />
         </Route>
         <Route path="*" element={<NotFound />}/>
       </Route>
