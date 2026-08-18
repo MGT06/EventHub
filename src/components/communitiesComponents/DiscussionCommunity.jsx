@@ -26,8 +26,8 @@ function DiscussionCommunity() {
         </div>
       </div>
 
-      {dataCommunity?.discussions.map((discussion) => (
-        <div className="flex gap-3">
+      {dataCommunity?.discussions.map((discussion, idx) => (
+        <div key={idx} className="flex gap-3">
           <img
             src={discussion.author.avatar}
             alt={discussion.author.name}
