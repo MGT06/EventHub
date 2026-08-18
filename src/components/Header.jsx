@@ -39,7 +39,7 @@ function Header() {
     }`;
 
   return (
-    <header className="relative flex justify-between p-3 lg:p-6 items-center bg-gray-100">
+    <header className="sticky top-0 z-50 flex justify-between p-3 lg:p-6 items-center bg-gray-100">
       <div className="flex gap-5 items-center">
         <div>
           <span className="bg-orange rounded-lg px-4 py-2 mr-2 text-white font-bold">
