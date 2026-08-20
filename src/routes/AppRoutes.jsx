@@ -56,7 +56,8 @@ function AppRoutes() {
             </Route>
           </Route>
         </Route>
-        <Route element={<ProtectedRoute />}>
+
+        <Route element={<ProtectedRoute roles={["attendee", "organizer"]} />}>
           <Route path="my-events" element={<MyEventLayout />}>
             <Route index element={<UpComingEvent />} />
             <Route path="past" element={<PastEvent />} />
@@ -69,12 +70,16 @@ function AppRoutes() {
           </Route>
           <Route path="notification" element={<Notification />} />
         </Route>
-        <Route path="dashboard-organizer" element={<DashboardOrganizer />} />
-        <Route path="create-event" element={<LayoutCreateEvent />}>
-          <Route index element={<BasicInformation />} />
-          <Route path="details" element={<DateLocationCapacity />}/>
-          <Route path="speaker-review" element={<SpeakersReview />}/>
+
+        <Route element={<ProtectedRoute roles={["organizer"]} />}>
+          <Route path="dashboard-organizer" element={<DashboardOrganizer />} />
+          <Route path="create-event" element={<LayoutCreateEvent />}>
+            <Route index element={<BasicInformation />} />
+            <Route path="details" element={<DateLocationCapacity />} />
+            <Route path="speaker-review" element={<SpeakersReview />} />
+          </Route>
         </Route>
+
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
