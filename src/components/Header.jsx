@@ -91,7 +91,7 @@ function Header() {
             className={({ isActive }) =>
               `hidden lg:flex items-center py-1.5 px-3 gap-1.5 rounded-lg text-sm font-medium ${isActive ? "text-orange bg-[#ff5f2214]" : "text-manatee hover:bg-[#ff5f2214] hover:text-orange"}`
             }
-            to={"/dashboard"}
+            to={"/dashboard-organizer"}
           >
             <LayoutDashboard width={15} height={15} />
             Dashboard
@@ -205,6 +205,7 @@ function Header() {
 
           {isAuthenticated && role === "organizer" && (
             <NavLink
+              onClick={toggle}
               className={({ isActive }) =>
                 `lg:hidden flex items-center gap-3 px-4 py-2.5 ${
                   isActive
@@ -212,7 +213,7 @@ function Header() {
                     : "text-manatee hover:bg-[#ff5f2214]"
                 }`
               }
-              to={"/dashboard"}
+              to={"/dashboard-organizer"}
             >
               <LayoutDashboard width={15} height={15} />
               Dashboard

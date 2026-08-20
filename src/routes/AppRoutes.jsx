@@ -22,7 +22,7 @@ import SavedList from "../components/SavedList";
 import Notification from "../components/Notification";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFound from "../components/NotFound";
-import Dashboard from "../pages/organizer/Dashboard";
+import DashboardOrganizer from "../pages/organizer/DashboardOrganizer";
 import LayoutCreateEvent from "../layout/LayoutCreateEvent";
 import BasicInformation from "../components/OrganizerComponents/BasicInformation";
 import DateLocationCapacity from "../components/OrganizerComponents/DateLocationCapacity";
@@ -69,7 +69,7 @@ function AppRoutes() {
           </Route>
           <Route path="notification" element={<Notification />} />
         </Route>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard-organizer" element={<DashboardOrganizer />} />
         <Route path="create-event" element={<LayoutCreateEvent />}>
           <Route index element={<BasicInformation />} />
           <Route path="details" element={<DateLocationCapacity />}/>
