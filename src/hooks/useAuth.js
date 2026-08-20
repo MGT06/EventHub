@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
+const organizer = {
+  name: import.meta.env.VITE_ORGANIZER_NAME,
+  email: import.meta.env.VITE_ORGANIZER_EMAIL,
+  password: import.meta.env.VITE_ORGANIZER_PASSWORD,
+  access: import.meta.env.VITE_ORGANIZER_ACCESS,
+};
+
 export function useAuth() {
   const navigate = useNavigate();
   const [user, setUser] = useState(() => {
@@ -10,6 +17,14 @@ export function useAuth() {
 
   const login = (dataInput) => {
     const dataExist = JSON.parse(localStorage.getItem("dataUser")) || [];
+    if (
+      dataInput.email === organizer.email &&
+      dataInput.password === organizer.password
+    ) {
+      localStorage.setItem("loggedUser", JSON.stringify(organizer));
+      navigate("/");
+      return true;
+    }
     for (const dataLocal of dataExist) {
       if (
         dataLocal.email === dataInput.email &&
@@ -23,8 +38,8 @@ export function useAuth() {
         navigate("/");
         return;
       }
-      return false
     }
+    return false;
   };
 
   const logout = () => {
