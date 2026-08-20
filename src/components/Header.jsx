@@ -11,13 +11,14 @@ import {
   User,
   LogOut,
   LogIn,
+  LayoutDashboard,
 } from "lucide-react";
 import { NavLink, Link } from "react-router";
 import dina from "../assets/dina.jpg";
 import { useAuth } from "../hooks/useAuth";
 
 function Header() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, role, user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen((prev) => !prev);
@@ -35,7 +36,9 @@ function Header() {
 
   const mobileNavClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-2.5 ${
-      isActive ? "text-orange bg-[#ff5f2214]" : "text-manatee hover:bg-hover"
+      isActive
+        ? "text-orange bg-[#ff5f2214]"
+        : "text-manatee hover:bg-[#ff5f2214]"
     }`;
 
   return (
@@ -81,6 +84,18 @@ function Header() {
           <p className="hidden lg:block text-sm text-manatee">
             Browsing as guest
           </p>
+        )}
+
+        {isAuthenticated && role === "organizer" && (
+          <NavLink
+            className={({ isActive }) =>
+              `hidden lg:flex items-center py-1.5 px-3 gap-1.5 rounded-lg text-sm font-medium ${isActive ? "text-orange bg-[#ff5f2214]" : "text-manatee hover:bg-[#ff5f2214] hover:text-orange"}`
+            }
+            to={"/dashboard"}
+          >
+            <LayoutDashboard width={15} height={15} />
+            Dashboard
+          </NavLink>
         )}
 
         {isAuthenticated && (
@@ -145,7 +160,11 @@ function Header() {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"/event"} onClick={toggle} className={mobileNavClass}>
+              <NavLink
+                to={"/event"}
+                onClick={toggle}
+                className={mobileNavClass}
+              >
                 <Compass size={18} /> Events
               </NavLink>
             </li>
@@ -160,35 +179,54 @@ function Header() {
             </li>
 
             {isAuthenticated && (
-              <li>
-                <NavLink
-                  to={"/my-events"}
-                  onClick={toggle}
-                  className={mobileNavClass}
-                >
-                  <Calendar size={18} /> My Events
-                </NavLink>
-              </li>
+              <>
+                <li>
+                  <NavLink
+                    to={"/my-events"}
+                    onClick={toggle}
+                    className={mobileNavClass}
+                  >
+                    <Calendar size={18} /> My Events
+                  </NavLink>
+                </li>
+              </>
             )}
           </ul>
 
+          {isAuthenticated && (
+            <NavLink
+              to={"/profile"}
+              onClick={toggle}
+              className={mobileNavClass}
+            >
+              <User size={18} /> My Profile
+            </NavLink>
+          )}
+
+          {isAuthenticated && role === "organizer" && (
+            <NavLink
+              className={({ isActive }) =>
+                `lg:hidden flex items-center gap-3 px-4 py-2.5 ${
+                  isActive
+                    ? "text-orange bg-[#ff5f2214]"
+                    : "text-manatee hover:bg-[#ff5f2214]"
+                }`
+              }
+              to={"/dashboard"}
+            >
+              <LayoutDashboard width={15} height={15} />
+              Dashboard
+            </NavLink>
+          )}
+
           <div className="py-2 border-t border-gray-200 lg:border-t-0">
             {isAuthenticated ? (
-              <>
-                <NavLink
-                  to={"/profile"}
-                  onClick={toggle}
-                  className={mobileNavClass}
-                >
-                  <User size={18} /> My Profile
-                </NavLink>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-3 px-4 py-2.5 text-red-500 w-full hover:bg-hover text-left"
-                >
-                  <LogOut size={18} /> Sign Out
-                </button>
-              </>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-4 py-2.5 text-red-500 w-full hover:bg-hover text-left"
+              >
+                <LogOut size={18} /> Sign Out
+              </button>
             ) : (
               <Link
                 to={"/auth/login"}

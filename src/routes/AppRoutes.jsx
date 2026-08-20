@@ -5,7 +5,7 @@ import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import AuthLayout from "../layout/AuthLayout";
 import Explore from "../pages/shared/Explore";
-import Event  from "../pages/shared/Event";
+import Event from "../pages/shared/Event";
 import DetailEvent from "../components/DetailEvent";
 import Communities from "../pages/shared/Communities";
 import CommunitieDetailLayout from "../layout/CommunitieDetailLayout";
@@ -22,6 +22,11 @@ import SavedList from "../components/SavedList";
 import Notification from "../components/Notification";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFound from "../components/NotFound";
+import Dashboard from "../pages/organizer/Dashboard";
+import LayoutCreateEvent from "../layout/LayoutCreateEvent";
+import BasicInformation from "../components/OrganizerComponents/BasicInformation";
+import DateLocationCapacity from "../components/OrganizerComponents/DateLocationCapacity";
+import SpeakersReview from "../components/OrganizerComponents/SpeakersReview";
 
 function AppRoutes() {
   return (
@@ -64,7 +69,13 @@ function AppRoutes() {
           </Route>
           <Route path="notification" element={<Notification />} />
         </Route>
-        <Route path="*" element={<NotFound />}/>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="create-event" element={<LayoutCreateEvent />}>
+          <Route index element={<BasicInformation />} />
+          <Route path="details" element={<DateLocationCapacity />}/>
+          <Route path="speaker-review" element={<SpeakersReview />}/>
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
