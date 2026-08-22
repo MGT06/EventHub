@@ -21,6 +21,8 @@ function Header() {
   const { isAuthenticated, role, user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log(role)
+
   const toggle = () => setIsOpen((prev) => !prev);
   const handleLogout = () => {
     toggle();
@@ -86,12 +88,12 @@ function Header() {
           </p>
         )}
 
-        {isAuthenticated && role === "organizer" && (
+        {isAuthenticated && role === "organizer" || role === "admin" && (
           <NavLink
             className={({ isActive }) =>
               `hidden lg:flex items-center py-1.5 px-3 gap-1.5 rounded-lg text-sm font-medium ${isActive ? "text-orange bg-[#ff5f2214]" : "text-manatee hover:bg-[#ff5f2214] hover:text-orange"}`
             }
-            to={"/dashboard-organizer"}
+            to={role === "organizer" ? "/dashboard-organizer" : "/dashboard-admin"}
           >
             <LayoutDashboard width={15} height={15} />
             Dashboard
@@ -203,7 +205,7 @@ function Header() {
             </NavLink>
           )}
 
-          {isAuthenticated && role === "organizer" && (
+          {isAuthenticated && role === "organizer" || role === "admin" && (
             <NavLink
               onClick={toggle}
               className={({ isActive }) =>

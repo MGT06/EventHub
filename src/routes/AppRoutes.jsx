@@ -27,6 +27,7 @@ import LayoutCreateEvent from "../layout/LayoutCreateEvent";
 import BasicInformation from "../components/OrganizerComponents/BasicInformation";
 import DateLocationCapacity from "../components/OrganizerComponents/DateLocationCapacity";
 import SpeakersReview from "../components/OrganizerComponents/SpeakersReview";
+import DashboardAdmin from "../pages/admin/DashboardAdmin";
 
 function AppRoutes() {
   return (
@@ -78,6 +79,10 @@ function AppRoutes() {
             <Route path="details" element={<DateLocationCapacity />} />
             <Route path="speaker-review" element={<SpeakersReview />} />
           </Route>
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["admin"]} />}>
+          <Route path="dashboard-admin" element={<DashboardAdmin />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

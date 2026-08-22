@@ -20,7 +20,7 @@ import { Link } from "react-router";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-// Data hardcode sesuai gambar
+
 const labels = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"];
 const values = [21, 38, 34, 56, 29, 48];
 
@@ -38,7 +38,7 @@ const dataChart = {
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false, // ✅ ini kuncinya — biar chart ngikutin ukuran container, bukan rasio tetap
+  maintainAspectRatio: false, 
   plugins: {
     legend: { display: false },
   },

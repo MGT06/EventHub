@@ -8,6 +8,13 @@ const organizer = {
   access: import.meta.env.VITE_ORGANIZER_ACCESS,
 };
 
+const admin = {
+  name: import.meta.env.VITE_ADMIN_NAME,
+  email: import.meta.env.VITE_ADMIN_EMAIL,
+  password: import.meta.env.VITE_ADMIN_PASSWORD,
+  access: import.meta.env.VITE_ADMIN_ACCESS,
+};
+
 export function useAuth() {
   const navigate = useNavigate();
   const [user, setUser] = useState(() => {
@@ -22,6 +29,14 @@ export function useAuth() {
       dataInput.password === organizer.password
     ) {
       localStorage.setItem("loggedUser", JSON.stringify(organizer));
+      navigate("/");
+      return true;
+    }
+    if (
+      dataInput.email === admin.email &&
+      dataInput.password === admin.password
+    ) {
+      localStorage.setItem("loggedUser", JSON.stringify(admin));
       navigate("/");
       return true;
     }
