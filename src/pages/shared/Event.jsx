@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ListSortDescendingIcon, Search } from "lucide-react";
 import CardEvent from "../../components/cardComponents/CardEvent";
-import dummy from "../../data/dummy.json";
 import { useSearchParams } from "react-router";
+import { useSelector } from "react-redux";
 
 const categories = [
   "All",
@@ -32,6 +32,7 @@ const sortOptions = [
 function Event() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filterOpen, setFilterOpen] = useState(false);
+  const { dataEvent } = useSelector(state => state.eventState)
 
   const title = searchParams.get("title") ?? "";
   const filCategory = searchParams.get("category") ?? "All";
@@ -68,7 +69,7 @@ function Event() {
   }
 
   const filteredEvents = sortEvents(
-    dummy.event
+    dataEvent
       .filter((e) => e.status !== "ended")
       .filter((dataFilter) =>
         dataFilter.title.toLowerCase().includes(title.toLowerCase()),
@@ -190,7 +191,7 @@ function Event() {
                           prevSearchParams,
                         );
                         if (s !== "Upcoming") {
-                          newSearchParams.set("sortBy",s);
+                          newSearchParams.set("sortBy", s);
                           return newSearchParams;
                         }
                         newSearchParams.delete("sortBy");

@@ -1,13 +1,15 @@
 import CardEvent from "../cardComponents/CardEvent";
-import dummy from "../../data/dummy.json";
 import { useOutletContext } from "react-router";
+import { useSelector } from "react-redux";
 
 function EventCommunityList() {
   const { nameCommunity } = useOutletContext();
-  const haveEvent = dummy.event.filter(
+  const { dataEvent } = useSelector((state) => state.eventState);
+
+  const haveEvent = dataEvent.filter(
     (data) => data.organizer.community == nameCommunity,
   );
-
+  
   return (
     <div className="pt-6">
       <p className="font-semibold text-sm text-manatee">UPCOMING</p>

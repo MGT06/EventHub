@@ -6,31 +6,24 @@ import { Link } from "react-router";
 import useJoin from "../../hooks/useJoin";
 
 function CardEvent({ event }) {
-  const { isAuthenticated } = useAuth();
-  const { isInList: isJoined, addItem: addJoined } = useJoin("joinedEvents");
-  const {
-    isInList: isSaved,
-    addItem: addSaved,
-    removeItem: removeSaved,
-  } = useJoin("savedEvents");
+  const { isAuthenticated, userActive } = useAuth();
+  const { isJoined, addJoined, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
-  const alreadyJoined = isJoined(event.id);
-  const alreadySaved = isSaved(event.id);
+  const alreadyJoined = isJoined(userActive?.email, event.attendees);
+  const alreadySaved = isSaved(userActive?.email, event.userSaved);
 
-  function toggleSaveHandled() {
-    if (alreadySaved) {
-      removeSaved(event.id);
-    } else {
-      addSaved({ id: event.id, titleEvent: event.title });
-    }
+  function saveHandled() {
+    addSaved(event.id, userActive.email)
   }
 
   function joinHandled() {
-    addJoined({ id: event.id, titleEvent: event.title });
+    addJoined("event", event.id, userActive.email);
   }
 
-  const percentage = Math.trunc((event.attendees / event.capacity) * 100);
+  const percentage = Math.trunc(
+    (event.attendees.length / event.capacity) * 100,
+  );
   const barColor =
     event.status === "ended"
       ? "bg-gray-400"
@@ -77,13 +70,15 @@ function CardEvent({ event }) {
           <div className="flex items-center gap-2">
             <UsersRound width={9} />
             <p className="text-xs text-manatee">
-              {event.attendees} / {event.capacity} attendees
+              {event.attendees.length} / {event.capacity} attendees
             </p>
           </div>
         </div>
         <div>
           <div className="flex justify-between">
-            <p className="text-xs text-manatee">{event.attendees} attendees</p>
+            <p className="text-xs text-manatee">
+              {event.attendees.length} attendees
+            </p>
             <p className="text-xs text-manatee">{event.capacity} capacity</p>
           </div>
         </div>
@@ -118,14 +113,13 @@ function CardEvent({ event }) {
             className={`p-1.5 rounded-lg border cursor-pointer text-manatee ${
               event.status === "ended"
                 ? "cursor-not-allowed"
-                : alreadySaved
-                  && "text-orange"                
+                : alreadySaved && "text-orange"
             }`}
             onClick={() => {
-              isAuthenticated ? toggleSaveHandled() : setModal(true);
+              isAuthenticated ? saveHandled() : setModal(true);
             }}
           >
-            <Bookmark size={18} fill={alreadySaved ? "#ff5f22" : "#fff"}/>
+            <Bookmark size={18} fill={alreadySaved ? "#ff5f22" : "#fff"} />
           </div>
         </div>
       </div>

@@ -3,6 +3,9 @@ import { persistReducer, persistStore } from "redux-persist";
 
 import signUpReducer from "./slices/signUpSlices.js"
 import signInReducer from "./slices/signInSlices.js"
+import eventReducer from "./slices/eventSlices.js"
+import communityReducer from "./slices/communitySlices.js"
+
 
 const storage = {
   getItem: (key) => {
@@ -28,7 +31,9 @@ const persistSignInConfig = {
 const store = configureStore({
     reducer: {
         dataUserState: persistReducer(persistSignUpConfig, signUpReducer),
-        loggedUserState: persistReducer(persistSignInConfig, signInReducer)
+        loggedUserState: persistReducer(persistSignInConfig, signInReducer),
+        eventState: eventReducer,
+        communityState: communityReducer
     }
 })
 

@@ -9,32 +9,24 @@ import {
   Share2,
   SendHorizonal,
 } from "lucide-react";
-import CardEvent from "./cardComponents/CardEvent";
-import dummy from "../data/dummy.json";
-import { useParams, Link } from "react-router";
-import useJoin from "../hooks/useJoin";
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams, Link } from "react-router";
+import CardEvent from "./cardComponents/CardEvent";
+import useJoin from "../hooks/useJoin";
 import Modal from "./Modal";
 
 function DetailEvent() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const {
-    isInList: isJoined,
-    addItem: addJoined,
-    removeItem: removeJoined,
-  } = useJoin("joinedEvents");
-  const {
-    isInList: isSaved,
-    addItem: addSaved,
-    removeItem: removeSaved,
-  } = useJoin("savedEvents");
-  const { isAuthenticated } = useAuth();
+  const { isJoined, addJoined, addSaved, isSaved, removeJoin } = useJoin("joinedEvents");
+  const { isAuthenticated, userActive } = useAuth();
+  const { dataEvent } = useSelector((state) => state.eventState);
 
-  const dataDetail = dummy.event.find((detail) => detail.id == id);
+  const dataDetail = dataEvent.find((detail) => detail.id == id);
 
-  const getRelatedEvents = dummy.event
+  const getRelatedEvents = dataEvent
     .filter(
       (e) =>
         e.id !== dataDetail.id &&
@@ -43,23 +35,19 @@ function DetailEvent() {
     )
     .slice(0, 3);
 
+  const alreadyJoined = isJoined(userActive, dataDetail.attendees);
+  const alreadySaved = isSaved(userActive, dataDetail.userSaved);
+
+  function saveHandled() {
+    addSaved(id, userActive.email);
+  }
+
   function joinHandled() {
-    addJoined({ id: dataDetail.id, titleEvent: dataDetail.title });
+    addJoined("event", dataDetail.id, userActive.email);
   }
-
-  function toggleSaveHandled() {
-    if (alreadySaved) {
-      removeSaved(dataDetail.id);
-    } else {
-      addSaved({ id: dataDetail.id, titleEvent: dataDetail.title });
-    }
-  }
-
-  const alreadyJoined = isJoined(dataDetail.id);
-  const alreadySaved = isSaved(dataDetail.id);
 
   const percentage = Math.trunc(
-    (dataDetail.attendees / dataDetail.capacity) * 100,
+    (dataDetail.attendees.length / dataDetail.capacity) * 100,
   );
   const barColor =
     dataDetail.status === "full"
@@ -123,13 +111,13 @@ function DetailEvent() {
               <Users size={16} className="shrink-0" />
               <span>
                 {percentage}% full ·{" "}
-                {dataDetail.capacity - dataDetail.attendees} spots left
+                {dataDetail.capacity - dataDetail.attendees.length} spots left
               </span>
             </div>
 
             <div className="flex justify-between">
               <p className="text-xs text-manatee">
-                {dataDetail.attendees} attendees
+                {dataDetail.attendees.length} attendees
               </p>
               <p className="text-xs text-manatee">
                 {dataDetail.capacity} capacity
@@ -154,7 +142,7 @@ function DetailEvent() {
                 <button
                   className="py-2 px-4 rounded-lg bg-gray-100 border border-gray-300 "
                   onClick={() => {
-                    removeJoined(dataDetail.id);
+                    removeJoin(dataDetail.id, userActive.email);
                   }}
                 >
                   Cancel Registered
@@ -170,7 +158,7 @@ function DetailEvent() {
                     : "border-gray-300 text-manatee hover:bg-gray-100"
                 }`}
                 onClick={() =>
-                  isAuthenticated ? toggleSaveHandled() : setModal(true)
+                  isAuthenticated ? saveHandled() : setModal(true)
                 }
               >
                 <Bookmark

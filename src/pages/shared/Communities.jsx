@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
-import CardCommunities from "../../components/cardComponents/CardCommunities";
-import dummy from "../../data/dummy.json";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
+import CardCommunities from "../../components/cardComponents/CardCommunities";
 import useJoin from "../../hooks/useJoin";
 
 const joinStatusOptions = ["All", "Joined", "Not Joined"];
@@ -18,7 +18,8 @@ const categories = [
 
 function Communities() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isInList } = useJoin("joinedCommunities");
+  const { isJoined } = useJoin("joinedCommunities");
+  const { dataCommunity } = useSelector((state) => state.communityState);
 
   const title = searchParams.get("title") ?? "";
   const filJoinStatus = searchParams.get("joinStatus") ?? "All";
@@ -29,10 +30,10 @@ function Communities() {
 
     switch (joinStatus) {
       case "Joined":
-        return sortedCommunities.filter((c) => isInList(c.id));
+        return sortedCommunities.filter((c) => isJoined(c.id));
 
       case "Not Joined":
-        return sortedCommunities.filter((c) => !isInList(c.id));
+        return sortedCommunities.filter((c) => !isJoined(c.id));
 
       default:
         return sortedCommunities;
@@ -40,7 +41,7 @@ function Communities() {
   }
 
   const filteredCommunities = sortCommunities(
-    dummy.communities
+    dataCommunity
       .filter((c) => c.name.toLowerCase().includes(title.toLowerCase()))
       .filter(
         (c) => filCategory === "All Categories" || c.tags.includes(filCategory),

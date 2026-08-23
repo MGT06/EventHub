@@ -9,7 +9,8 @@
       "startTime": "09:00",
       "endTime": "17:00 WIB",
       "location": "Bandung",
-      "attendees": 48,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 100,
       "status": "open",
       "description": "A deep-dive workshop into Go concurrency patterns — goroutines, channels, select statements, and real-world use cases. Suitable for intermediate Go developers ready to write production-grade concurrent code. We'll cover common pitfalls, race conditions, and how to use the sync package effectively. Bring your laptop and be ready to write a lot of code.\n\nWe'll build three mini-projects throughout the day: a rate limiter, a worker pool, and a concurrent web scraper.",
@@ -63,7 +64,8 @@
       "startTime": "08:30",
       "endTime": "16:30 WIB",
       "location": "Jakarta",
-      "attendees": 234,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 300,
       "status": "open",
       "description": "A full-day summit exploring the intersection of AI and product design. Learn how leading product teams in Indonesia are integrating AI features into their design workflows — from prompt-driven prototyping to designing trustworthy AI interactions.\n\nSessions include hands-on workshops with AI design tools, panel discussions with senior product designers, and networking opportunities with the region's top design talent.",
@@ -110,7 +112,8 @@
       "startTime": "09:00",
       "endTime": "17:30 WIB",
       "location": "Bandung",
-      "attendees": 167,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 200,
       "status": "open",
       "description": "A conference dedicated to the craft of frontend engineering — performance, accessibility, component architecture, and the tools shaping modern web development. Talks cover React, Vue, and framework-agnostic patterns for building resilient user interfaces at scale.\n\nExpect deep technical talks, live demos, and an open Q&A with speakers from Indonesia's largest tech companies.",
@@ -157,7 +160,8 @@
       "startTime": "10:00",
       "endTime": "13:00 WIB",
       "location": "Online Event",
-      "attendees": 89,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 150,
       "status": "open",
       "description": "An online masterclass for aspiring and early-career product managers. Learn frameworks for prioritization, stakeholder management, and roadmap planning used by senior PMs at top Indonesian tech companies.\n\nThe session includes a live case study workshop where participants build a mini product roadmap and receive feedback from experienced mentors.",
@@ -204,7 +208,8 @@
       "startTime": "13:00",
       "endTime": "18:00 WIB",
       "location": "Surabaya",
-      "attendees": 45,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 60,
       "status": "open",
       "description": "A hands-on bootcamp for musicians and producers looking to level up their production skills. Covers sound design, mixing fundamentals, and arrangement techniques using industry-standard DAWs.\n\nParticipants will leave with a finished track produced during the session, plus feedback from professional sound engineers.",
@@ -251,7 +256,8 @@
       "startTime": "18:30",
       "endTime": "21:00 WIB",
       "location": "Jakarta",
-      "attendees": 120,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 120,
       "status": "full",
       "description": "An evening where early-stage founders pitch their startups to a panel of investors and industry mentors. Watch live pitches, network with the Jakarta startup ecosystem, and get insights into what investors are looking for in 2026.\n\nLimited seats available. Selected founders will get 5 minutes to pitch, followed by live Q&A from the judging panel.",
@@ -298,7 +304,8 @@
       "startTime": "09:00",
       "endTime": "15:00 WIB",
       "location": "Jakarta",
-      "attendees": 95,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 95,
       "status": "ended",
       "description": "A workshop that already took place, covering React rendering internals, memoization strategies, and profiling tools to diagnose slow components in production apps.\n\nAttendees worked through real-world case studies of optimizing large React dashboards, including virtualization and code-splitting techniques.",
@@ -345,7 +352,8 @@
       "startTime": "18:00",
       "endTime": "20:30 WIB",
       "location": "Yogyakarta",
-      "attendees": 40,
+      "attendees": [],
+      "userSaved": [],
       "capacity": 40,
       "status": "ended",
       "description": "A past event where junior and aspiring designers got live, one-on-one portfolio feedback from senior product designers working at top Indonesian tech companies.\n\nThe session also included a short talk on structuring a portfolio for career switchers moving into UI/UX from other fields.",
@@ -392,7 +400,7 @@
       "description": "The premier Go programming community in Bandung — weekly meetups, workshops, and...",
       "image": "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&w=1600&q=80",
       "tags": ["Technology", "Programming"],
-      "members": 847,
+      "members": [],
       "upcomingEvents": 3,
       "memberList": [
         {
@@ -468,7 +476,7 @@
       "description": "Researchers, practitioners, and enthusiasts exploring machine learning, LLMs, and the...",
       "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=80",
       "tags": ["AI", "Technology"],
-      "members": 2341,
+      "members": [],
       "upcomingEvents": 5,
       "memberList": [
         {
@@ -544,7 +552,7 @@
       "description": "The largest frontend community in Indonesia. React, Vue, Svelte, performance, accessibility...",
       "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=80",
       "tags": ["Technology", "Programming"],
-      "members": 5621,
+      "members": [],
       "upcomingEvents": 4,
       "memberList": [
         {
@@ -620,7 +628,7 @@
       "description": "Product managers, designers, and builders sharing frameworks, tools, and career...",
       "image": "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1600&q=80",
       "tags": ["Business", "Career"],
-      "members": 1203,
+      "members": [],
       "upcomingEvents": 2,
       "memberList": [
         {
@@ -696,7 +704,7 @@
       "description": "Design and code intersect here — generative art, design systems, creative development.",
       "image": "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?auto=format&fit=crop&w=1600&q=80",
       "tags": ["Design", "Programming"],
-      "members": 934,
+      "members": [],
       "upcomingEvents": 2,
       "memberList": [
         {
@@ -772,7 +780,7 @@
       "description": "Early-stage founders in Indonesia supporting each other through fundraising, product, and...",
       "image": "https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=1600&q=80",
       "tags": ["Business"],
-      "members": 789,
+      "members": [],
       "upcomingEvents": 3,
       "memberList": [
         {
@@ -848,7 +856,7 @@
       "description": "Data scientists and analysts across Indonesia — sharing datasets, papers, and practical ML.",
       "image": "https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1600&q=80",
       "tags": ["AI", "Programming"],
-      "members": 1567,
+      "members": [],
       "upcomingEvents": 2,
       "memberList": [
         {
@@ -924,7 +932,7 @@
       "description": "Producers, sound engineers, and musicians who love blending technology with music.",
       "image": "https://images.unsplash.com/photo-1531651008558-ed1740375b39?auto=format&fit=crop&w=1600&q=80",
       "tags": ["Music"],
-      "members": 445,
+      "members": [],
       "upcomingEvents": 1,
       "memberList": [
         {

@@ -2,8 +2,12 @@ import { Sparkles, Search } from "lucide-react";
 import CardEvent from "../../components/cardComponents/CardEvent";
 import CardCommunities from "../../components/cardComponents/CardCommunities";
 import dummy from "../../data/dummy.json";
+import { useSelector } from "react-redux";
+
 
 function Explore() {
+  const { dataEvent } = useSelector((state) => state.eventState);
+
   return (
     <>
       <section className="relative bg-black overflow-hidden">
@@ -50,7 +54,7 @@ function Explore() {
       <section className="py-5 px-4 lg:py-10 lg:px-13">
         <h3 className="font-bold text-lg">Discover events that interest you</h3>
         <div className="grid gap-4 lg:grid-cols-3 pt-5">
-          {dummy.event
+          {dataEvent
             .filter((e) => e.status !== "ended")
             .map((e) => (
               <CardEvent key={e.id} event={e} />

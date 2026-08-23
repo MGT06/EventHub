@@ -1,28 +1,26 @@
 import { UsersRound, Calendar, Check, MoveLeft } from "lucide-react";
 import { Link, NavLink, Outlet, useParams } from "react-router";
-import dummy from "../data/dummy.json";
 import useJoin from "../hooks/useJoin";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import { useAuth } from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 function CommunitieDetailLayout() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userActive } = useAuth();
 
-  const dataDetail = dummy.communities.find((detail) => detail.id == id);
+  const { dataCommunity } = useSelector((state) => state.communityState);
 
-  const { isInList, addItem, removeItem } = useJoin("joinedCommunities");
+  const dataDetail = dataCommunity.find((detail) => detail.id == id);
 
-  const alreadyJoined = isInList(dataDetail.id);
+  const { isJoined, addJoined } = useJoin("joinedCommunities");
 
-  function toggleJoinHandled() {
-    if (alreadyJoined) {
-      removeItem(dataDetail.id);
-    } else {
-      addItem({ id: dataDetail.id, nameCommunity: dataDetail.name });
-    }
+  const alreadyJoined = isJoined(userActive.email, dataDetail.members);
+
+  function joinHandled() {
+    addJoined("community", dataDetail.id, userActive.email);
   }
 
   const tabActive = ({ isActive }) =>
@@ -55,7 +53,7 @@ function CommunitieDetailLayout() {
               <div className="flex items-center gap-1.5">
                 <UsersRound size={14} className="text-white/80" />
                 <p className="text-xs text-white/80">
-                  {dataDetail.members} members
+                  {dataDetail.members.length} members
                 </p>
               </div>
               <div className="flex items-center gap-1.5">
@@ -69,7 +67,7 @@ function CommunitieDetailLayout() {
           <div>
             <button
               onClick={() => {
-                isAuthenticated ? toggleJoinHandled() : setModal(true);
+                isAuthenticated ? joinHandled() : setModal(true);
               }}
               className={`flex items-center w-max justify-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg cursor-pointer ${
                 alreadyJoined

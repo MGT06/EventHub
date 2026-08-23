@@ -5,7 +5,7 @@ const initialState = {
   isPending: false,
   isFulfilled: false,
   isRejected: false,
-  error: "",
+  error: null,
 };
 
 export const registerThunk = createAsyncThunk(
@@ -32,43 +32,14 @@ export const registerThunk = createAsyncThunk(
 const signUpSlices = createSlice({
   name: "dataUser",
   initialState,
-  reducers: {
-    // signUp: (prev, { payload }) => {
-    //   for (const dataLocal of prev.dataUser) {
-    //     if (dataLocal.email === payload.email) {
-    //       return {
-    //         ...prev,
-    //         error: "Email is exist",
-    //       };
-    //     }
-    //   }
-    //   if (payload.password !== payload.confirm) {
-    //     return {
-    //       ...prev,
-    //       error: "Password do not match",
-    //     };
-    //   }
-    //   return {
-    //     ...prev,
-    //     dataUser: [
-    //       ...prev.dataUser,
-    //       {
-    //         ...payload,
-    //         access: "attendee",
-    //       },
-    //     ],
-    //   };
-    // },
-    // isSuccess: (prev) => {
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     return builder.addAsyncThunk(registerThunk, {
       pending: (state) => {
         state.isPending = true;
         state.isFulfilled = false;
         state.isRejected = false;
-        state.error = "";
+        state.error = null;
       },
       fulfilled: (state, { payload }) => {
         state.dataUser.push(payload);

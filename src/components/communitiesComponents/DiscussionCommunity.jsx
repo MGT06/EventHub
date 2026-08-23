@@ -1,10 +1,12 @@
 import { SendHorizonal } from "lucide-react";
-import dummy from "../../data/dummy.json";
 import { useOutletContext } from "react-router";
+import { useSelector } from "react-redux";
 
 function DiscussionCommunity() {
   const { nameCommunity } = useOutletContext();
-  const dataCommunity = dummy.communities.find(
+  const { dataCommunity } = useSelector((state) => state.communityState);
+
+  const dataCommunities = dataCommunity.find(
     (data) => data.name == nameCommunity,
   );
 
@@ -26,7 +28,7 @@ function DiscussionCommunity() {
         </div>
       </div>
 
-      {dataCommunity?.discussions.map((discussion, idx) => (
+      {dataCommunities.discussions.map((discussion, idx) => (
         <div key={idx} className="flex gap-3">
           <img
             src={discussion.author.avatar}

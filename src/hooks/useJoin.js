@@ -1,14 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "./useAuth";
 import { getAllUsers } from "../utils/dataUser";
+import { useDispatch } from "react-redux";
+import {
+  joinEventThunk,
+  savedEventThunk,
+  unjoinEventThunk,
+} from "../redux/slices/eventSlices";
+import { joinCommunityThunk } from "../redux/slices/communitySlices";
 
 function useJoin(targetList) {
   const { user } = useAuth();
+  const dispatch = useDispatch();
   const currentUserEmail = user?.email;
-  
-  function saveAllUsers(users) {
-    localStorage.setItem("dataUser", JSON.stringify(users));
-  }
 
   const fetchUserList = useCallback(
     (email) => {
@@ -31,51 +35,53 @@ function useJoin(targetList) {
     })();
   }, [currentUserEmail, fetchUserList]);
 
-  const updateUserStorage = (updateFn) => {
-    if (!currentUserEmail) return null;
+  const addJoined = (type, id, email) => {
+    const thunkObj = {
+      event: joinEventThunk,
+      community: joinCommunityThunk
+    }
 
-    const allUsers = getAllUsers();
-    const userIndex = allUsers.findIndex((u) => u.email === currentUserEmail);
-    if (userIndex === -1) return null;
+    const selectThunk = thunkObj[type]
 
-    const currentList = allUsers[userIndex][targetList] || [];
-    const updatedList = updateFn(currentList);
-
-    if (updatedList === null) return currentList;
-
-    allUsers[userIndex] = {
-      ...allUsers[userIndex],
-      [targetList]: updatedList,
-    };
-    saveAllUsers(allUsers);
-    setJoinedItems(updatedList);
-    return updatedList;
+    dispatch(
+      selectThunk({
+        id,
+        email,
+      }),
+    );
   };
 
-  const addItem = (itemToAdd) =>
-    updateUserStorage((currentList) => { 
-      const isAlreadyAdded = currentList.some(
-        (item) => String(item.id ?? item) === String(itemToAdd.id ?? itemToAdd),
-      );
-      if (isAlreadyAdded) return null;
-      return [...currentList, itemToAdd];
-    });
-
-  const removeItem = (itemIdToRemove) =>
-    updateUserStorage((currentList) =>
-      currentList.filter(
-        (item) => String(item.id ?? item) !== String(itemIdToRemove),
-      ),
+  const addSaved = (idEvent, email) => {
+    dispatch(
+      savedEventThunk({
+        id: idEvent,
+        email,
+      }),
     );
+  };
 
-  const isInList = (itemId) =>
-    joinedItems.some((item) => String(item.id ?? item) === String(itemId));
+  const removeJoin = (idEvent, email) => {
+    dispatch(
+      unjoinEventThunk({
+        id: idEvent,
+        email,
+      }),
+    );
+  };
+
+  const isJoined = (userActive, eventAttendees) =>
+    eventAttendees?.includes(userActive);
+
+  const isSaved = (userActive, eventSaved) =>
+    eventSaved?.includes(userActive);
 
   return {
     list: joinedItems,
-    addItem,
-    removeItem,
-    isInList,
+    addJoined,
+    addSaved,
+    removeJoin,
+    isJoined,
+    isSaved,
   };
 }
 

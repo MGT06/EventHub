@@ -7,16 +7,13 @@ import useJoin from "../../hooks/useJoin";
 
 function CardCommunities({ community }) {
   const [modal, setModal] = useState(false);
-  const { isInList, addItem, removeItem } = useJoin("joinedCommunities");
-  const { isAuthenticated } = useAuth();
+  const { isJoined, addJoined } = useJoin("joinedCommunities");
+  const { isAuthenticated, userActive } = useAuth();
 
-  const alreadyJoined = isInList(community.id);
-  function toggleJoinHandled() {
-    if (alreadyJoined) {
-      removeItem(community.id);
-    } else {
-      addItem({ id: community.id, nameCommunity: community.name });
-    }
+  const alreadyJoined = isJoined(userActive?.email, community.members);
+  
+  function joinHandled() {
+    addJoined("community", community.id, userActive.email);
   }
   return (
     <div className="rounded-lg border border-gray-300 h-full flex flex-col">
@@ -52,12 +49,12 @@ function CardCommunities({ community }) {
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
             <UsersRound width={9} />
-            <p className="text-xs text-manatee">{community.members} members</p>
+            <p className="text-xs text-manatee">{community.members.length}{' '}members</p>
           </div>
           <div className="flex  items-center gap-2">
             <Calendar width={9} />
             <p className="text-xs text-manatee">
-              {community.upcomingEvents} upcoming
+              {community.upcomingEvents}{' '}upcoming
             </p>
           </div>
         </div>
@@ -67,7 +64,7 @@ function CardCommunities({ community }) {
             alreadyJoined ? "bg-green-500" : "bg-orange"
           }`}
           onClick={() => {
-            isAuthenticated ? toggleJoinHandled() : setModal(true);
+            isAuthenticated ? joinHandled() : setModal(true);
           }}
         >
           {alreadyJoined && <Check />}
