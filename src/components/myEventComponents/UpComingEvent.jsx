@@ -1,24 +1,20 @@
-import useJoin from "../../hooks/useJoin";
-import dummy from "../../data/dummy.json";
 import CardEvent from "../cardComponents/CardEvent";
 import { Bookmark } from "lucide-react";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
+import { useAuth } from "../../hooks/useAuth";
 
 function UpComingEvent() {
-  const { list } = useJoin("joinedEvents");
-  console.log(list);
+   const { userActive } = useAuth();
+   const { dataEvent } = useSelector(state => state.eventState)
+   const events = dataEvent.filter((ele) => ele.attendees?.includes(userActive.email))
 
-  const getDataEvent = list.map((join) => {
-    return dummy.event.find((event) => event.id === join.id);
-  });
-
-  console.log(getDataEvent);
   return (
     <>
       <section>
         <div className="grid gap-4 lg:grid-cols-3">
-          {getDataEvent ? (
-            getDataEvent.map((event) => {
+          {events ? (
+            events.map((event) => {
               return <CardEvent key={event.id} event={event} />;
             })
           ) : (

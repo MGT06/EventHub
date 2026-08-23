@@ -2,16 +2,21 @@ import { MapPin, Calendar, Pencil } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import EditProfileModal from "../components/EditProfileModal";
 import { useState } from "react";
-import useJoin from "../hooks/useJoin";
 import { useAuth } from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 function ProfileLayout() {
   const [editOpen, setEditOpen] = useState(false);
-  const { user } = useAuth();
+  const { userActive } = useAuth();
 
-  const { list: events } = useJoin("joinedEvents");
-  const { list: community } = useJoin("joinedCommunities");
-  const { list: saved } = useJoin("savedEvents");
+  const { dataEvent } = useSelector(state => state.eventState)
+  const { dataCommunity } = useSelector(state => state.communityState)
+
+  const events = dataEvent.filter((ele) => ele.attendees?.includes(userActive.email))
+  const saved = dataEvent.filter((ele) => ele.userSaved?.includes(userActive.email))
+  const community = dataCommunity.filter((ele) => ele.members?.includes(userActive.email))
+
+
 
   const tabActive = ({ isActive }) =>
     `text-sm px-4 py-2.5 font-medium ${
@@ -33,8 +38,8 @@ function ProfileLayout() {
           </div>
           <div className="grid gap-3 flex-1 lg:grid-cols-7">
             <div>
-              <h2 className="font-bold text-xl capitalize">{user.name}</h2>
-              <p className="text-manatee text-sm">{user.email}</p>
+              <h2 className="font-bold text-xl capitalize">{userActive.name}</h2>
+              <p className="text-manatee text-sm">{userActive.email}</p>
             </div>
 
             <button
@@ -61,7 +66,7 @@ function ProfileLayout() {
               </div>
 
               <span className="py-1 px-3 rounded-full text-xs font-medium w-max bg-orange-100 text-orange capitalize">
-                {user.access}
+                {userActive.access}
               </span>
 
               <p className="text-sm text-gray-700">
@@ -100,7 +105,7 @@ function ProfileLayout() {
           <EditProfileModal
             isClose={() => setEditOpen(false)}
             initialData={{
-              name: user.name,
+              name: userActive.name,
               location: "Bandung, Indonesia",
               bio: "Backend engineer & community builder...",
               avatar: "https://i.pravatar.cc/150?img=13",

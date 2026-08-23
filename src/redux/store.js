@@ -27,13 +27,21 @@ const persistSignInConfig = {
     key: "loggedUser",
     storage
 }
+const persistEventConfig = {
+    key: "joinEvent",
+    storage
+}
+const persistCommunityConfig = {
+    key: "joinCommunity",
+    storage
+}
 
 const store = configureStore({
     reducer: {
         dataUserState: persistReducer(persistSignUpConfig, signUpReducer),
         loggedUserState: persistReducer(persistSignInConfig, signInReducer),
-        eventState: eventReducer,
-        communityState: communityReducer
+        eventState: persistReducer(persistEventConfig ,eventReducer),
+        communityState: persistReducer(persistCommunityConfig, communityReducer)
     }
 })
 

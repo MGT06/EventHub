@@ -1,17 +1,8 @@
-import useJoin from "../../hooks/useJoin";
-import dummy from "../../data/dummy.json";
+
 import PastEvent from "../myEventComponents/PastEvent";
 import UpComingEvent from "../myEventComponents/UpComingEvent";
 
 function EventProfile() {
-  const { list } = useJoin("joinedEvents");
-  console.log(list);
-
-  const getDataEvent = (list ?? []).map((join) => {
-    return dummy.event.find((event) => event.id === join.id);
-  });
-
-  console.log(getDataEvent);
   return (
     <>
       <section>

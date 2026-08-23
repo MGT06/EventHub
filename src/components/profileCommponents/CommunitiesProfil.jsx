@@ -1,22 +1,20 @@
-import useJoin from "../../hooks/useJoin";
-import dummy from "../../data/dummy.json";
 import CardCommunities from "../cardComponents/CardCommunities";
+import { useAuth } from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 function CommunitiesProfil() {
-  const { list } = useJoin("joinedCommunities");
-
-  const getDataCommunity = list.map((join) => {
-    return dummy.communities.find((community) => community.id === join.id);
-  });
-
-  console.log(list)
+    const { userActive } = useAuth();
+  
+    const { dataCommunity } = useSelector(state => state.communityState)
+  
+    const community = dataCommunity.filter((ele) => ele.members?.includes(userActive.email))
 
   return (
     <>
       <section>
         <div>
           <div className="grid gap-4 lg:grid-cols-3">
-            {getDataCommunity.map((community) => {
+            {community.map((community) => {
               return <CardCommunities key={community.id} community={community} />;
             })}
           </div>

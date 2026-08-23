@@ -1,9 +1,19 @@
 import { NavLink, Outlet } from "react-router";
-import useJoin from "../hooks/useJoin";
+import { useAuth } from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 function MyEventLayout() {
-  const { list: events } = useJoin("joinedEvents");
-  const { list: saved } = useJoin("savedEvents");
+  const { userActive } = useAuth();
+
+  const { dataEvent } = useSelector((state) => state.eventState);
+
+  const events = dataEvent.filter((ele) =>
+    ele.attendees?.includes(userActive.email),
+  );
+  const saved = dataEvent.filter((ele) =>
+    ele.userSaved?.includes(userActive.email),
+  );
+
   const tabActive = ({ isActive }) =>
     `text-sm px-4 py-2.5 font-medium ${
       isActive
