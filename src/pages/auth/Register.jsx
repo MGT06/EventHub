@@ -2,57 +2,28 @@ import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 function Register() {
   const [openEye, setOpenEye] = useState(false);
-  const [openConfirm, setOpenConfirm] = useState(false)
-  const [error, setError] = useState({
-    typeError: "",
-    message: "",
-  });
+  const [openConfirm, setOpenConfirm] = useState(false);
   const navigate = useNavigate();
+  const { error } = useSelector((state) => state.dataUserState);
+  const { signUp } = useAuth();
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirm: "",
-      terms: "",
-    },
-  });
+  } = useForm();
 
-  const onSubmit = (data) => {
-    const dataExist = JSON.parse(localStorage.getItem("dataUser")) || [];
-    for (const dataLocal of dataExist) {
-      if (dataLocal.email === data.email) {
-        setError({
-          typeError: "email",
-          message: "Email is exist",
-        });
-        return;
-      }
+  const onSubmit = async (dataInput) => {
+    try {
+      await signUp(dataInput);
+      navigate("/auth/login")
+    } catch (e) {
+      return e
     }
-
-    if (data.password !== data.confirm) {
-      setError({
-        typeError: "password",
-        message: "Password do not match",
-      });
-      return;
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    const { confirm, ...newData } = data;
-    dataExist.push({ ...newData, access: "attendee" });
-    localStorage.setItem("dataUser", `${JSON.stringify(dataExist)}`);
-    navigate("/auth/login");
-
-    reset();
   };
 
   return (
@@ -132,7 +103,7 @@ function Register() {
             {errors.email && (
               <p className="text-red-500 text-xs">{errors.email.message}</p>
             )}
-            {error.typeError === "email" && (
+            {error?.typeError === "email" && (
               <p className="text-red-500 text-xs">{error.message}</p>
             )}
           </div>
@@ -195,7 +166,7 @@ function Register() {
             {errors.confirm && (
               <p className="text-red-500 text-xs">{errors.confirm.message}</p>
             )}
-            {error.typeError === "password" && (
+            {error?.typeError === "password" && (
               <p className="text-red-500 text-xs">{error.message}</p>
             )}
           </div>

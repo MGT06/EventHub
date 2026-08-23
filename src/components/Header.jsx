@@ -18,10 +18,9 @@ import dina from "../assets/dina.jpg";
 import { useAuth } from "../hooks/useAuth";
 
 function Header() {
-  const { isAuthenticated, role, user, logout } = useAuth();
+  const { isAuthenticated, role, userActive, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(role)
 
   const toggle = () => setIsOpen((prev) => !prev);
   const handleLogout = () => {
@@ -145,8 +144,8 @@ function Header() {
             <div className="flex items-center gap-3 p-4 border-b border-gray-200">
               <img src={dina} alt="" className="rounded-full h-10 w-10" />
               <div>
-                <p className="font-semibold text-sm capitalize">{user?.name}</p>
-                <p className="text-xs text-manatee">{user?.email}</p>
+                <p className="font-semibold text-sm capitalize">{userActive?.name}</p>
+                <p className="text-xs text-manatee">{userActive?.email}</p>
               </div>
             </div>
           ) : (

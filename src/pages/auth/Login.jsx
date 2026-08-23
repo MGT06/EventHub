@@ -1,13 +1,15 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Eye, EyeClosed } from "lucide-react";
+import { useSelector } from "react-redux";
 
 function Login() {
-  const [error, setError] = useState();
   const [openEye, setOpenEye] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
+  const { error } = useSelector((state) => state.loggedUserState);
   const {
     register,
     handleSubmit,
@@ -18,13 +20,15 @@ function Login() {
       email: "",
       password: "",
     },
-    mode: "onChange",
   });
 
-  const onSubmit = (dataInput) => {
-    if (!login(dataInput)) {
-      setError("Incorrect email or password.");
+  const onSubmit = async (dataInput) => {
+    try {
+      await login(dataInput);
+      navigate("/")
       reset({ password: "" });
+    } catch (e) {
+      return e;
     }
   };
 
