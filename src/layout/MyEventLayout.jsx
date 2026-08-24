@@ -6,10 +6,12 @@ function MyEventLayout() {
   const { userActive } = useAuth();
 
   const { dataEvent } = useSelector((state) => state.eventState);
-
-  const events = dataEvent.filter((ele) =>
-    ele.attendees?.includes(userActive.email),
+  console.log(userActive);
+  const events = dataEvent.filter(
+    (ele) =>
+      ele.status !== "ended" && ele.attendees?.includes(userActive.email),
   );
+  console.log(events)
   const saved = dataEvent.filter((ele) =>
     ele.userSaved?.includes(userActive.email),
   );

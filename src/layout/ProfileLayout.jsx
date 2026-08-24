@@ -30,9 +30,9 @@ function ProfileLayout() {
         <div className=" flex gap-4">
           <div className="relative h-max w-max">
             <img
-              src="https://i.pravatar.cc/150?img=13"
+              src={userActive.profile && userActive.profile}
               alt=""
-              className="w-10 h-10 rounded-full bg-gray-200"
+              className="w-20 h-20 rounded-2xl object-cover bg-gray-200"
             />
             <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full" />
           </div>
@@ -54,7 +54,7 @@ function ProfileLayout() {
                 <div className="flex items-center gap-1 w-max">
                   <MapPin size={14} className="text-manatee" />
                   <span className="text-manatee text-xs">
-                    Bandung, Indonesia
+                    {userActive.location}
                   </span>
                 </div>
                 <div className="flex items-center gap-1 w-max">
@@ -70,8 +70,7 @@ function ProfileLayout() {
               </span>
 
               <p className="text-sm text-gray-700">
-                Backend engineer & community builder. Passionate about Go,
-                distributed systems, and connecting people through events.
+                {userActive.bio}
               </p>
             </div>
           </div>

@@ -1,15 +1,44 @@
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Camera } from "lucide-react";
+import { useDropzone } from "react-dropzone";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { editUser } from "../redux/slices/signUpSlices";
 
-function EditProfileModal({ isClose, initialData, onSave }) {
-  const [fullName, setFullName] = useState(initialData?.name);
-  const [location, setLocation] = useState(
-    initialData?.location
-  );
-  const [bio, setBio] = useState(initialData?.bio);
+function EditProfileModal({ isClose }) {
+  const { userActive } = useAuth();
+  const dispatch = useDispatch();
+  const [avatar, setAvatar] = useState(null);
 
-  function handleSave() {
-    onSave?.({ name: fullName, location, bio });
+  const {
+    register,
+    handleSubmit
+  } = useForm();
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      if (!file) return;
+      setAvatar(URL.createObjectURL(file));
+    },
+    accept: {
+      "image/png": [".png"],
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/webp": [".webp"],
+    },
+    maxFiles: 1,
+    multiple: false,
+  });
+
+  function handleSave(dataInput) {
+    dispatch(
+      editUser({
+        email: userActive.email,
+        ...dataInput,
+        profile: avatar
+      }),
+    );
     isClose();
   }
 
@@ -22,62 +51,78 @@ function EditProfileModal({ isClose, initialData, onSave }) {
             <X className="text-manatee" size={20} />
           </button>
         </div>
-        <div className="px-5 py-5 flex flex-col gap-5">
-          <img
-            src={initialData.avatar ?? "https://i.pravatar.cc/150?img=13"}
-            alt=""
-            className="w-16 h-16 rounded-full self-center bg-gray-200"
-          />
+        <form>
+          <div className="px-5 py-5 flex flex-col gap-5">
+            <div
+              {...getRootProps()}
+              className="relative self-center w-20 h-20 rounded-2xl cursor-pointer group"
+            >
+              <input {...getInputProps()} />
+              <img
+                src={userActive.profile? userActive.profile : avatar}
+                alt="Profile"
+                className={`w-20 h-20 rounded-2xl bg-gray-200 object-cover ${
+                  isDragActive && "opacity-50"
+                }`}
+              />
+              <div className="absolute inset-0 rounded-2xl bg-black/0 group-hover:bg-black/30 flex items-center justify-center transition">
+                <Camera
+                  className="text-white opacity-0 group-hover:opacity-100 transition"
+                  size={18}
+                />
+              </div>
+            </div>
 
-          <div>
-            <label className="text-sm font-medium block mb-1.5">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
-            />
-          </div>
+            <div>
+              <label className="text-sm font-medium block mb-1.5">
+                Full Name
+              </label>
+              <input
+                type="text"
+                {...register("name")}
+                defaultValue={userActive.name}
+                className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
+              />
+            </div>
 
-          <div>
-            <label className="text-sm font-medium block mb-1.5">
-              Location
-            </label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
-            />
-          </div>
+            <div>
+              <label className="text-sm font-medium block mb-1.5">
+                Location
+              </label>
+              <input
+                type="text"
+                defaultValue={userActive?.location}
+                {...register("location")}
+                className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
+              />
+            </div>
 
-          <div>
-            <label className="text-sm font-medium block mb-1.5">Bio</label>
-            <textarea
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="Tell the community a little about yourself..."
-              rows={4}
-              className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm resize-none"
-            />
+            <div>
+              <label className="text-sm font-medium block mb-1.5">Bio</label>
+              <textarea
+                {...register("bio")}
+                defaultValue={userActive?.bio}
+                placeholder="Tell the community a little about yourself..."
+                rows={4}
+                className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm resize-none"
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex justify-end gap-2 px-5 py-4 border-t border-gray-200">
-          <button
-            onClick={isClose}
-            className="py-2 px-4 rounded-lg bg-gray-100 text-sm font-medium"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            className="py-2 px-4 rounded-lg bg-orange text-white text-sm font-medium"
-          >
-            Save Changes
-          </button>
-        </div>
+          <div className="flex justify-end gap-2 px-5 py-4 border-t border-gray-200">
+            <button
+              onClick={isClose}
+              className="py-2 px-4 rounded-lg bg-gray-100 text-sm font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit(handleSave)}
+              className="py-2 px-4 rounded-lg bg-orange text-white text-sm font-medium"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

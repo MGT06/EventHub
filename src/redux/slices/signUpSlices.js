@@ -32,7 +32,23 @@ export const registerThunk = createAsyncThunk(
 const signUpSlices = createSlice({
   name: "dataUser",
   initialState,
-  reducers: {},
+  reducers: {
+    editUser: (prev, { payload }) => {
+      const { email, ...newPayload } = payload;
+      return {
+        ...prev,
+        dataUser: prev.dataUser.map((ele) => {
+          if (ele.email === email) {
+            return {
+              ...ele,
+              ...newPayload,
+            };
+          }
+          return ele;
+        }),
+      };
+    },
+  },
   extraReducers: (builder) => {
     return builder.addAsyncThunk(registerThunk, {
       pending: (state) => {
@@ -54,5 +70,7 @@ const signUpSlices = createSlice({
     });
   },
 });
+
+export const { editUser } = signUpSlices.actions;
 
 export default signUpSlices.reducer;

@@ -27,6 +27,7 @@ export const getEventThunk = createAsyncThunk(
       const { dataEvent } = getState().eventState;
       if (dataEvent.length > 0) return false;
     },
+    dispatchConditionRejection: false,
   },
 );
 
