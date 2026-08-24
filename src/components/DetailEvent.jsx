@@ -35,8 +35,8 @@ function DetailEvent() {
     )
     .slice(0, 3);
 
-  const alreadyJoined = isJoined(userActive, dataDetail.attendees);
-  const alreadySaved = isSaved(userActive, dataDetail.userSaved);
+  const alreadyJoined = isJoined(userActive.email, dataDetail.attendees);
+  const alreadySaved = isSaved(userActive.email, dataDetail.userSaved);
 
   function saveHandled() {
     addSaved(id, userActive.email);

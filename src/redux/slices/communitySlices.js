@@ -22,6 +22,12 @@ export const getCommunityThunk = createAsyncThunk(
       return rejectWithValue(e.message);
     }
   },
+  {
+    condition: (_, { getState }) => {
+      const { dataCommunity } = getState().communityState;
+      if (dataCommunity.length > 0) return false;
+    },
+  },
 );
 
 export const joinCommunityThunk = createAsyncThunk(
@@ -29,11 +35,14 @@ export const joinCommunityThunk = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     try {
       const { dataCommunity } = getState().communityState;
+
       const newData = dataCommunity.map((ele) => {
+        if (ele.id !== payload.id) return ele;
+
         if (ele.members.includes(payload.email)) {
           return {
             ...ele,
-            members: ele.members.filter((saved) => saved !== payload.email),
+            members: ele.members.filter((join) => join !== payload.email),
           };
         }
 

@@ -22,6 +22,12 @@ export const getEventThunk = createAsyncThunk(
       return rejectWithValue(e.message);
     }
   },
+  {
+    condition: (_, { getState }) => {
+      const { dataEvent } = getState().eventState;
+      if (dataEvent.length > 0) return false;
+    },
+  },
 );
 
 export const joinEventThunk = createAsyncThunk(
@@ -55,13 +61,12 @@ export const unjoinEventThunk = createAsyncThunk(
     try {
       const { dataEvent } = getState().eventState;
       const newData = dataEvent.map((ele) => {
-        if (ele.attendees.includes(payload.email)) {
-          return {
-            ...ele,
-            attendees: ele.attendees.filter((saved) => saved !== payload.email),
-          };
-        }
-        return ele;
+        if (ele.id !== payload.id) return ele;
+
+        return {
+          ...ele,
+          attendees: ele.attendees.filter((join) => join !== payload.email),
+        };
       });
       const result = await new Promise((resolve) => {
         setTimeout(() => {
@@ -81,6 +86,7 @@ export const savedEventThunk = createAsyncThunk(
     try {
       const { dataEvent } = getState().eventState;
       const newData = dataEvent.map((ele) => {
+        if (ele.id !== payload.id) return ele;
         if (ele.userSaved.includes(payload.email)) {
           return {
             ...ele,
