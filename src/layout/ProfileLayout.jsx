@@ -9,14 +9,21 @@ function ProfileLayout() {
   const [editOpen, setEditOpen] = useState(false);
   const { userActive } = useAuth();
 
-  const { dataEvent } = useSelector(state => state.eventState)
-  const { dataCommunity } = useSelector(state => state.communityState)
+  const { dataUser } = useSelector((state) => state.dataUserState);
+  const getPhoto = dataUser.find((data) => data.email === userActive.email);
 
-  const events = dataEvent.filter((ele) => ele.attendees?.includes(userActive.email))
-  const saved = dataEvent.filter((ele) => ele.userSaved?.includes(userActive.email))
-  const community = dataCommunity.filter((ele) => ele.members?.includes(userActive.email))
+  const { dataEvent } = useSelector((state) => state.eventState);
+  const { dataCommunity } = useSelector((state) => state.communityState);
 
-
+  const events = dataEvent.filter((ele) =>
+    ele.attendees?.includes(userActive.email),
+  );
+  const saved = dataEvent.filter((ele) =>
+    ele.userSaved?.includes(userActive.email),
+  );
+  const community = dataCommunity.filter((ele) =>
+    ele.members?.includes(userActive.email),
+  );
 
   const tabActive = ({ isActive }) =>
     `text-sm px-4 py-2.5 font-medium ${
@@ -28,17 +35,23 @@ function ProfileLayout() {
     <>
       <section className="py-8 px-4 lg:px-61">
         <div className=" flex gap-4">
-          <div className="relative h-max w-max">
+          <div className="relative w-20 h-20 bg-orange rounded-2xl">
+            {getPhoto.profile ? 
             <img
-              src={userActive.profile && userActive.profile}
+              src={getPhoto.profile && getPhoto.profile}
               alt=""
-              className="w-20 h-20 rounded-2xl object-cover bg-gray-200"
+              className="w-full rounded-2xl h-full object-cover bg-gray-200"
             />
+              :
+              <span className="text-3xl w-full h-full flex items-center justify-center capitalize text-white">{userActive.email.charAt(0)}</span>
+          }
             <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full" />
           </div>
           <div className="grid gap-3 flex-1 lg:grid-cols-7">
             <div>
-              <h2 className="font-bold text-xl capitalize">{userActive.name}</h2>
+              <h2 className="font-bold text-xl capitalize">
+                {userActive.name}
+              </h2>
               <p className="text-manatee text-sm">{userActive.email}</p>
             </div>
 
@@ -69,9 +82,7 @@ function ProfileLayout() {
                 {userActive.access}
               </span>
 
-              <p className="text-sm text-gray-700">
-                {userActive.bio}
-              </p>
+              <p className="text-sm text-gray-700">{userActive.bio}</p>
             </div>
           </div>
         </div>

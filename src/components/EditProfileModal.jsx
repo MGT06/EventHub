@@ -1,42 +1,27 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { X, Camera } from "lucide-react";
-import { useDropzone } from "react-dropzone";
+// import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editUser } from "../redux/slices/signUpSlices";
 
 function EditProfileModal({ isClose }) {
   const { userActive } = useAuth();
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(null);
+  const {dataUser} = useSelector(state => state.dataUserState)
+  const getPhoto = dataUser.find((data) => data.email === userActive.email)
 
-  const {
-    register,
-    handleSubmit
-  } = useForm();
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      if (!file) return;
-      setAvatar(URL.createObjectURL(file));
-    },
-    accept: {
-      "image/png": [".png"],
-      "image/jpeg": [".jpg", ".jpeg"],
-      "image/webp": [".webp"],
-    },
-    maxFiles: 1,
-    multiple: false,
-  });
+  const { register, handleSubmit } = useForm();
+  const fileInputRef = useRef(null);
 
   function handleSave(dataInput) {
     dispatch(
       editUser({
         email: userActive.email,
         ...dataInput,
-        profile: avatar
+        profile: avatar,
       }),
     );
     isClose();
@@ -54,16 +39,25 @@ function EditProfileModal({ isClose }) {
         <form>
           <div className="px-5 py-5 flex flex-col gap-5">
             <div
-              {...getRootProps()}
               className="relative self-center w-20 h-20 rounded-2xl cursor-pointer group"
+              onClick={() => fileInputRef.current.click()}
             >
-              <input {...getInputProps()} />
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setAvatar(URL.createObjectURL(file));
+                  }
+                }}
+                className="hidden"
+              />
               <img
-                src={userActive.profile? userActive.profile : avatar}
+                src={getPhoto.profile ? getPhoto.profile : avatar}
                 alt="Profile"
-                className={`w-20 h-20 rounded-2xl bg-gray-200 object-cover ${
-                  isDragActive && "opacity-50"
-                }`}
+                className="w-20 h-20 rounded-2xl bg-gray-200 object-cover"
               />
               <div className="absolute inset-0 rounded-2xl bg-black/0 group-hover:bg-black/30 flex items-center justify-center transition">
                 <Camera
