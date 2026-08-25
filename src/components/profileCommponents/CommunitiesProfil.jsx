@@ -14,9 +14,9 @@ function CommunitiesProfil() {
       <section>
         <div>
           <div className="grid gap-4 lg:grid-cols-3">
-            {community.map((community) => {
-              return <CardCommunities key={community.id} community={community} />;
-            })}
+            {community.length > 0 ? community.map((community) => {
+              return <CardCommunities key={community.id} community={community} />
+            }) : <p>Data Community Tidak Ada</p>}
           </div>
         </div>
       </section>
