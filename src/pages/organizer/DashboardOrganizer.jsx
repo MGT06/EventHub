@@ -128,7 +128,27 @@ function DashboardOrganizer() {
                           {data.capacity} Capacity
                         </p>
                       </div>
-                      <div></div>
+                      <div className="w-full bg-gray-200 rounded-full h-1.5 my-2">
+                        <div
+                          className={`h-1.5 rounded-full ${
+                            data.status === "ended"
+                              ? "bg-gray-400"
+                              : data.status === "full"
+                                ? "bg-red-500"
+                                : Math.trunc(
+                                      (data.attendees.length / data.capacity) *
+                                        100,
+                                    ) < 80
+                                  ? "bg-green-500"
+                                  : "bg-yellow-500"
+                          }`}
+                          style={{
+                            width: `${Math.trunc(
+                              (data.attendees.length / data.capacity) * 100,
+                            )}%`,
+                          }}
+                        />
+                      </div>
                     </div>
                     <div className="flex gap-3">
                       <button className="flex gap-2 px-3 py-1.5 items-center border border-gray-300 rounded-lg">
@@ -185,7 +205,9 @@ function DashboardOrganizer() {
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                       <div className="grow">
                         <p className="font-medium text-xs">{data.title}</p>
-                        <p className="text-manatee text-[10px]">{data.eventDate}</p>
+                        <p className="text-manatee text-[10px]">
+                          {data.eventDate}
+                        </p>
                       </div>
                       <p className="text-manatee text-xs">
                         {data.attendees.length}/{data.capacity}
