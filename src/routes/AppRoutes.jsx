@@ -27,7 +27,11 @@ import LayoutCreateEvent from "../layout/LayoutCreateEvent";
 import BasicInformation from "../components/OrganizerComponents/BasicInformation";
 import DateLocationCapacity from "../components/OrganizerComponents/DateLocationCapacity";
 import SpeakersReview from "../components/OrganizerComponents/SpeakersReview";
-import DashboardAdmin from "../pages/admin/DashboardAdmin";
+import DashboardAdminLayout from "../layout/DashboardAdminLayout";
+import OverviewAdmin from "../components/AdminComponents/OverviewAdmin";
+import UsersAdmin from "../components/AdminComponents/UsersAdmin";
+import EventAdmin from "../components/AdminComponents/EventAdmin";
+import CommunityAdmin from "../components/AdminComponents/CommunityAdmin";
 
 function AppRoutes() {
   return (
@@ -82,7 +86,12 @@ function AppRoutes() {
         </Route>
 
         <Route element={<ProtectedRoute roles={["admin"]} />}>
-          <Route path="dashboard-admin" element={<DashboardAdmin />} />
+          <Route path="dashboard-admin" element={<DashboardAdminLayout />}>
+              <Route index element={<OverviewAdmin />} />
+              <Route path="users" element={<UsersAdmin />}/>
+              <Route path="event" element={<EventAdmin />}/>
+              <Route path="community" element={<CommunityAdmin />}/>
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFound />} />

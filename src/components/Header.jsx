@@ -14,13 +14,15 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { NavLink, Link } from "react-router";
-import dina from "../assets/dina.jpg";
 import { useAuth } from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 function Header() {
   const { isAuthenticated, role, userActive, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
+  const { dataUser } = useSelector((state) => state.dataUserState);
+  const getphoto = dataUser.find((data) => data.email === userActive.email);
 
   const toggle = () => setIsOpen((prev) => !prev);
   const handleLogout = () => {
@@ -87,12 +89,14 @@ function Header() {
           </p>
         )}
 
-        {isAuthenticated && role === "organizer" || role === "admin" && (
+        {isAuthenticated && (role === "organizer" || role === "admin") && (
           <NavLink
             className={({ isActive }) =>
               `hidden lg:flex items-center py-1.5 px-3 gap-1.5 rounded-lg text-sm font-medium ${isActive ? "text-orange bg-[#ff5f2214]" : "text-manatee hover:bg-[#ff5f2214] hover:text-orange"}`
             }
-            to={role === "organizer" ? "/dashboard-organizer" : "/dashboard-admin"}
+            to={
+              role === "organizer" ? "/dashboard-organizer" : "/dashboard-admin"
+            }
           >
             <LayoutDashboard width={15} height={15} />
             Dashboard
@@ -114,12 +118,18 @@ function Header() {
 
         {isAuthenticated ? (
           <>
-            <img
-              src={dina}
-              alt=""
-              className="hidden lg:block rounded-full h-8 w-8 cursor-pointer"
-              onClick={toggle}
-            />
+            {getphoto?.profile ? (
+              <img
+                src={getphoto.profile}
+                alt=""
+                className="hidden lg:block rounded-full object-cover h-8 w-8 cursor-pointer"
+                onClick={toggle}
+              />
+            ) : (
+              <div onClick={toggle} className="hidden lg:flex items-center justify-center rounded-full h-8 w-8 cursor-pointer bg-orange text-white capitalize">
+                {userActive.email.charAt(0)}
+              </div>
+            )}
             <button onClick={toggle} className="lg:hidden text-black">
               {isOpen ? <X /> : <Menu />}
             </button>
@@ -142,9 +152,17 @@ function Header() {
         <div className="absolute top-full right-3 lg:right-6 mt-2 w-64 bg-white rounded-xl border border-gray-200 shadow-lg z-50">
           {isAuthenticated ? (
             <div className="flex items-center gap-3 p-4 border-b border-gray-200">
-              <img src={dina} alt="" className="rounded-full h-10 w-10" />
+              {getphoto?.profile ? (
+                <img src={getphoto.profile} alt="" className="rounded-full object-cover h-10 w-10" />
+              ) : (
+                <div className="hidden lg:flex items-center justify-center bg-orange text-white rounded-full h-8 w-8 cursor-pointer capitalize">
+                  {userActive.email.charAt(0)}
+                </div>
+              )}
               <div>
-                <p className="font-semibold text-sm capitalize">{userActive?.name}</p>
+                <p className="font-semibold text-sm capitalize">
+                  {userActive?.name}
+                </p>
                 <p className="text-xs text-manatee">{userActive?.email}</p>
               </div>
             </div>
@@ -204,7 +222,7 @@ function Header() {
             </NavLink>
           )}
 
-          {isAuthenticated && role === "organizer" || role === "admin" && (
+          {isAuthenticated && (role === "organizer" || role === "admin") && (
             <NavLink
               onClick={toggle}
               className={({ isActive }) =>
@@ -214,7 +232,11 @@ function Header() {
                     : "text-manatee hover:bg-[#ff5f2214]"
                 }`
               }
-              to={"/dashboard-organizer"}
+              to={
+                role === "organizer"
+                  ? "/dashboard-organizer"
+                  : "/dashboard-admin"
+              }
             >
               <LayoutDashboard width={15} height={15} />
               Dashboard
