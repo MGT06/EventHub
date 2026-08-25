@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Bell,
   Moon,
@@ -12,14 +12,23 @@ import {
   LogOut,
   LogIn,
   LayoutDashboard,
+  Sun,
 } from "lucide-react";
 import { NavLink, Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { useSelector } from "react-redux";
+import ThemeContext from "../context/themeContext";
 
 function Header() {
   const { isAuthenticated, role, userActive, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  if (theme) {
+    console.log("Mode Gelap");
+  } else {
+    console.log("Mode Terang");
+  }
 
   const { dataUser } = useSelector((state) => state.dataUserState);
   const getphoto = dataUser.find((data) => data.email === userActive.email);
@@ -71,7 +80,7 @@ function Header() {
                 Communities
               </NavLink>
             </li>
-            {isAuthenticated && (
+            {isAuthenticated && role === "attendee" && (
               <li>
                 <NavLink to={"/my-events"} className={desktopNavClass}>
                   My Events
@@ -114,7 +123,7 @@ function Header() {
           </div>
         )}
 
-        <Moon />
+        <div onClick={() => toggleTheme()}>{theme ? <Sun /> : <Moon />}</div>
 
         {isAuthenticated ? (
           <>
@@ -126,7 +135,10 @@ function Header() {
                 onClick={toggle}
               />
             ) : (
-              <div onClick={toggle} className="hidden lg:flex items-center justify-center rounded-full h-8 w-8 cursor-pointer bg-orange text-white capitalize">
+              <div
+                onClick={toggle}
+                className="hidden lg:flex items-center justify-center rounded-full h-8 w-8 cursor-pointer bg-orange text-white capitalize"
+              >
                 {userActive.email.charAt(0)}
               </div>
             )}
@@ -153,7 +165,11 @@ function Header() {
           {isAuthenticated ? (
             <div className="flex items-center gap-3 p-4 border-b border-gray-200">
               {getphoto?.profile ? (
-                <img src={getphoto.profile} alt="" className="rounded-full object-cover h-10 w-10" />
+                <img
+                  src={getphoto.profile}
+                  alt=""
+                  className="rounded-full object-cover h-10 w-10"
+                />
               ) : (
                 <div className="flex items-center justify-center bg-orange text-white rounded-full h-8 w-8 cursor-pointer capitalize">
                   {userActive.email.charAt(0)}
@@ -197,7 +213,7 @@ function Header() {
               </NavLink>
             </li>
 
-            {isAuthenticated && (
+            {isAuthenticated && role === "attendee" && (
               <>
                 <li>
                   <NavLink
