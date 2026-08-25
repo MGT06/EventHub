@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 
 function ProfileLayout() {
   const [editOpen, setEditOpen] = useState(false);
-  const { userActive } = useAuth();
-
+  const { userActive, role } = useAuth();
   const { dataUser } = useSelector((state) => state.dataUserState);
   const getPhoto = dataUser.find((data) => data.email === userActive.email);
 
@@ -36,7 +35,7 @@ function ProfileLayout() {
       <section className="py-8 px-4 lg:px-61">
         <div className=" flex gap-4">
           <div className="relative w-20 h-20 bg-orange rounded-2xl">
-            {getPhoto.profile ? 
+            {getPhoto?.profile ? 
             <img
               src={getPhoto.profile && getPhoto.profile}
               alt=""
@@ -56,7 +55,7 @@ function ProfileLayout() {
             </div>
 
             <button
-              onClick={() => setEditOpen(true)}
+              onClick={() => role === "attendee" && setEditOpen(true)}
               className="py-1.5 px-3 rounded-lg border border-gray-300 w-max flex items-center gap-2 text-sm font-medium lg:col-start-7 "
             >
               <Pencil size={16} /> Edit Profile
