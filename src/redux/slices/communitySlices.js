@@ -26,7 +26,7 @@ export const getCommunityThunk = createAsyncThunk(
     condition: (_, { getState }) => {
       const { dataCommunity } = getState().communityState;
       if (dataCommunity.length > 0) return false;
-    },dispatchConditionRejection: true
+    }
   },
 );
 

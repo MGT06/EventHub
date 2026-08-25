@@ -6,7 +6,7 @@ import { Link } from "react-router";
 import useJoin from "../../hooks/useJoin";
 
 function CardEvent({ event }) {
-  const { isAuthenticated, userActive } = useAuth();
+  const { isAuthenticated, userActive, role } = useAuth();
   const { isJoined, addJoined, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
@@ -14,12 +14,15 @@ function CardEvent({ event }) {
   const alreadySaved = isSaved(userActive?.email, event.userSaved);
 
   function saveHandled() {
-    addSaved(event.id, userActive.email)
+    addSaved(event.id, userActive.email);
   }
 
   function joinHandled() {
     addJoined("event", event.id, userActive.email);
   }
+
+  const disabled =
+    event.status === "ended" || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc(
     (event.attendees.length / event.capacity) * 100,
@@ -38,12 +41,12 @@ function CardEvent({ event }) {
       <Link to={`/event/detail/${event.id}`}>
         <div className="relative overflow-hidden">
           <img
-            src={event.image}
+            src={event.coverImage}
             alt={event.title}
             className="rounded-t-lg w-full object-cover "
           />
           <div className="absolute bottom-3 left-2  ">
-            {event.tags.map((t, idx) => {
+            {event.category.map((t, idx) => {
               return (
                 <span
                   key={idx}
@@ -61,7 +64,7 @@ function CardEvent({ event }) {
         <div>
           <div className="flex items-center gap-2">
             <Calendar width={9} />
-            <p className="text-xs text-manatee">{event.date}</p>
+            <p className="text-xs text-manatee">{event.eventDate}</p>
           </div>
           <div className="flex items-center gap-2">
             <MapPin width={9} />
@@ -93,29 +96,31 @@ function CardEvent({ event }) {
             disabled={event.status === "full" || alreadyJoined}
             className={`py-1.5 col-span-5 rounded-lg cursor-pointer grow ${
               event.status === "full" || event.status === "ended"
-                ? "bg-gray-200 text-gray-600 cursor-not-allowed "
+                ? "bg-gray-200 text-gray-600"
                 : alreadyJoined
                   ? "bg-green-500 text-white  flex justify-center"
                   : "bg-orange text-white"
             }`}
             onClick={() => {
+              if (disabled) return;
               isAuthenticated ? joinHandled() : setModal(true);
             }}
           >
             {alreadyJoined && <Check />}
             {event.status === "full"
               ? "Full"
-              : alreadyJoined
-                ? "Joined"
-                : "Join Event"}
+              : event.status === "ended"
+                ? "Ended"
+                : alreadyJoined
+                  ? "Joined"
+                  : "Join Event"}
           </button>
           <div
             className={`p-1.5 rounded-lg border cursor-pointer text-manatee ${
-              event.status === "ended"
-                ? "cursor-not-allowed"
-                : alreadySaved && "text-orange"
+              alreadySaved && "text-orange"
             }`}
             onClick={() => {
+              if (disabled) return;
               isAuthenticated ? saveHandled() : setModal(true);
             }}
           >

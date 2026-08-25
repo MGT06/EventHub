@@ -31,7 +31,7 @@ function DetailEvent() {
       (e) =>
         e.id !== dataDetail.id &&
         e.status !== "ended" &&
-        e.tags.some((tag) => dataDetail.tags.includes(tag)),
+        e.category.some((tag) => dataDetail.category.includes(tag)),
     )
     .slice(0, 3);
 
@@ -66,13 +66,13 @@ function DetailEvent() {
       </div>
       <div className="py-6 px-4 lg:px-16 xl:px-29 grid gap-6 lg:gap-8 grid-cols-1 lg:grid-cols-6">
         <img
-          src={dataDetail.image}
+          src={dataDetail.coverImage}
           alt=""
           className="rounded-xl w-full lg:col-start-1 lg:col-end-5"
         />
         <div className="lg:col-start-1 lg:col-end-5">
           <div className="flex flex-wrap gap-2 mb-3">
-            {dataDetail.tags.map((t, idx) => {
+            {dataDetail.category.map((t, idx) => {
               return (
                 <span
                   key={idx}
@@ -93,7 +93,7 @@ function DetailEvent() {
             <div className="grid gap-2 pb-3 border-b border-b-gray-200">
               <div className="flex items-center gap-2 text-sm">
                 <Calendar size={16} className="text-manatee shrink-0" />
-                <span>{dataDetail.date}</span>
+                <span>{dataDetail.eventDate}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Clock size={16} className="text-manatee shrink-0" />
@@ -183,16 +183,16 @@ function DetailEvent() {
             <p className="font-semibold text-xs text-manatee">ORGANIZED BY</p>
             <div className="flex gap-3 items-center">
               <img
-                src={dataDetail.organizer.avatar}
+                src={dataDetail.organizer?.avatar}
                 alt=""
                 className="rounded-full w-8 h-8"
               />
               <div>
                 <p className="font-semibold text-sm">
-                  {dataDetail.organizer.name}
+                  {dataDetail.organizer?.name}
                 </p>
                 <p className="text-xs text-blue-400">
-                  {dataDetail.organizer.community}
+                  {dataDetail.organizer?.community}
                 </p>
               </div>
             </div>
@@ -230,11 +230,11 @@ function DetailEvent() {
             <MessageSquare width={18} />
             <p className="font-semibold text-lg">Discussion</p>
             <p className="text-manatee text-sm">
-              ({dataDetail.discussions.length})
+              ({dataDetail.discussions ? dataDetail.discussions.length : "Tidak ada discussion"})
             </p>
           </div>
           <div className="grid gap-3 mt-4">
-            {dataDetail.discussions.map((dis) => {
+            {dataDetail.discussions?.map((dis) => {
               return (
                 <div key={dis.id} className="flex gap-3">
                   <img

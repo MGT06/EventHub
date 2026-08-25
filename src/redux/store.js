@@ -1,11 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
-
-import signUpReducer from "./slices/signUpSlices.js"
-import signInReducer from "./slices/signInSlices.js"
-import eventReducer from "./slices/eventSlices.js"
-import communityReducer from "./slices/communitySlices.js"
-
+import signUpReducer from "./slices/signUpSlices.js";
+import signInReducer from "./slices/signInSlices.js";
+import eventReducer from "./slices/eventSlices.js";
+import communityReducer from "./slices/communitySlices.js";
+import createEventReducer from "./slices/createEventSlices.js";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
 
 const storage = {
   getItem: (key) => {
@@ -20,31 +28,38 @@ const storage = {
 };
 
 const persistSignUpConfig = {
-    key: "dataUser",
-    storage
-}
+  key: "dataUser",
+  storage,
+};
 const persistSignInConfig = {
-    key: "loggedUser",
-    storage
-}
+  key: "loggedUser",
+  storage,
+};
 const persistEventConfig = {
-    key: "joinEvent",
-    storage
-}
+  key: "joinEvent",
+  storage,
+};
 const persistCommunityConfig = {
-    key: "joinCommunity",
-    storage
-}
+  key: "joinCommunity",
+  storage,
+};
 
 const store = configureStore({
-    reducer: {
-        dataUserState: persistReducer(persistSignUpConfig, signUpReducer),
-        loggedUserState: persistReducer(persistSignInConfig, signInReducer),
-        eventState: persistReducer(persistEventConfig ,eventReducer),
-        communityState: persistReducer(persistCommunityConfig, communityReducer)
-    }
-})
+  reducer: {
+    dataUserState: persistReducer(persistSignUpConfig, signUpReducer),
+    loggedUserState: persistReducer(persistSignInConfig, signInReducer),
+    eventState: persistReducer(persistEventConfig, eventReducer),
+    communityState: persistReducer(persistCommunityConfig, communityReducer),
+    createEventState: createEventReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
 
-export default store
+export default store;

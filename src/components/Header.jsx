@@ -155,7 +155,7 @@ function Header() {
               {getphoto?.profile ? (
                 <img src={getphoto.profile} alt="" className="rounded-full object-cover h-10 w-10" />
               ) : (
-                <div className="hidden lg:flex items-center justify-center bg-orange text-white rounded-full h-8 w-8 cursor-pointer capitalize">
+                <div className="flex items-center justify-center bg-orange text-white rounded-full h-8 w-8 cursor-pointer capitalize">
                   {userActive.email.charAt(0)}
                 </div>
               )}

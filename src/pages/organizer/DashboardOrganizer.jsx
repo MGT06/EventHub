@@ -7,7 +7,6 @@ import {
   TrendingUp,
   UserRound,
 } from "lucide-react";
-import dummy from "../../data/dummy.json";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -17,9 +16,9 @@ import {
   Tooltip,
 } from "chart.js";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
-
 
 const labels = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"];
 const values = [21, 38, 34, 56, 29, 48];
@@ -38,7 +37,7 @@ const dataChart = {
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false, 
+  maintainAspectRatio: false,
   plugins: {
     legend: { display: false },
   },
@@ -48,6 +47,7 @@ const options = {
 };
 
 function DashboardOrganizer() {
+  const { dataEvent } = useSelector((state) => state.eventState);
   return (
     <section className="py-8 px-4 lg:px-29.5">
       <div>
@@ -98,14 +98,14 @@ function DashboardOrganizer() {
         <h3 className="font-semibold text-lg ">Your Events</h3>
         <div className="mt-4 lg:flex gap-6">
           <div className="grid gap-3 h-max lg:grow">
-            {dummy.event.slice(0, 2).map((data) => {
+            {dataEvent.slice(0, 2).map((data) => {
               return (
                 <div
                   key={data.id}
                   className="rounded-xl border border-gray-300 p-4 flex gap-4"
                 >
                   <img
-                    src={data.image}
+                    src={data.coverImage}
                     alt=""
                     className="w-20 h-16 rounded-lg"
                   />
@@ -113,7 +113,7 @@ function DashboardOrganizer() {
                     <div>
                       <p className="text-sm font-semibold">{data.title}</p>
                       <p className="text-xs text-manatee mt-1">
-                        {data.date} · {data.location}
+                        {data.eventDate} · {data.location}
                       </p>
                     </div>
                     <span className="py-0.5 px-2 w-max text-xs font-medium h-max bg-green-500/20 rounded-full">
@@ -122,7 +122,7 @@ function DashboardOrganizer() {
                     <div>
                       <div className="flex justify-between">
                         <p className="text-manatee text-xs">
-                          {data.attendees} Atendees
+                          {data.attendees.length} Atendees
                         </p>
                         <p className="text-manatee text-xs">
                           {data.capacity} Capacity
@@ -176,7 +176,7 @@ function DashboardOrganizer() {
             <div className="border border-gray-300 rounded-xl p-5">
               <p className="font-semibold text-sm">Upcoming Events</p>
               <div className="grid gap-3 mt-3 ">
-                {dummy.event.slice(0, 2).map((data) => {
+                {dataEvent.slice(0, 2).map((data) => {
                   return (
                     <div
                       key={data.id}
@@ -185,10 +185,10 @@ function DashboardOrganizer() {
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                       <div className="grow">
                         <p className="font-medium text-xs">{data.title}</p>
-                        <p className="text-manatee text-[10px]">{data.date}</p>
+                        <p className="text-manatee text-[10px]">{data.eventDate}</p>
                       </div>
                       <p className="text-manatee text-xs">
-                        {data.attendees}/{data.capacity}
+                        {data.attendees.length}/{data.capacity}
                       </p>
                     </div>
                   );
@@ -197,6 +197,9 @@ function DashboardOrganizer() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="fixed bottom-10 right-10 w-12 h-12 bg-orange flex justify-center items-center rounded-full text-white">
+        <Plus />
       </div>
     </section>
   );

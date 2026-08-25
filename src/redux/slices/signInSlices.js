@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  loggedUser: "",
+  loggedUser: null,
   isPending: false,
   isFulfilled: false,
   isRejected: false,
@@ -30,11 +30,11 @@ export const loginThunk = createAsyncThunk(
       payload.email === organizer.email &&
       payload.password === organizer.password
     ) {
-      return payload.email;
+      return organizer
     }
 
     if (payload.email === admin.email && payload.password === admin.password) {
-      return payload.email;
+      return admin;
     }
 
     for (const dataLocal of dataUser) {
@@ -42,7 +42,7 @@ export const loginThunk = createAsyncThunk(
         dataLocal.email === payload.email &&
         dataLocal.password === payload.password
       ) {
-        return payload.email;
+        return  dataUser.find((data) => data.email === payload.email);
       }
     }
 

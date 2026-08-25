@@ -27,7 +27,29 @@ export const getEventThunk = createAsyncThunk(
       const { dataEvent } = getState().eventState;
       if (dataEvent.length > 0) return false;
     },
-    dispatchConditionRejection: false,
+  },
+);
+
+export const createEventThunk = createAsyncThunk(
+  "create_event",
+  async (payload, { getState, rejectWithValue }) => {
+    try {
+      const { dataEvent } = getState().eventState;
+      const payloadWithId = {
+        id: dataEvent[dataEvent.length - 1].id + 1,
+        ...payload
+      }
+      const result = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            ...payloadWithId,
+          });
+        }, 1000);
+      });
+      return result;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
   },
 );
 
@@ -130,6 +152,24 @@ const eventSlices = createSlice({
         },
         fulfilled: (state, { payload }) => {
           state.dataEvent = payload;
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      })
+      .addAsyncThunk(createEventThunk, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.dataEvent.push(payload);
           state.isPending = false;
           state.isFulfilled = true;
         },
