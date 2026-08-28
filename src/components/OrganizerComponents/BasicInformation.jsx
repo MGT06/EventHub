@@ -33,7 +33,12 @@ function BasicInformation() {
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (!file) return;
-      setPreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+        console.log(reader);
+      };
+      reader.readAsDataURL(file)
     },
     accept: {
       "image/png": [".png"],

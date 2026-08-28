@@ -66,7 +66,7 @@ function ProfileLayout() {
                 <div className="flex items-center gap-1 w-max">
                   <MapPin size={14} className="text-manatee" />
                   <span className="text-manatee text-xs">
-                    {userActive.location}
+                    {userActive.location ? userActive.location : "Set Location"}
                   </span>
                 </div>
                 <div className="flex items-center gap-1 w-max">
@@ -81,7 +81,7 @@ function ProfileLayout() {
                 {userActive.access}
               </span>
 
-              <p className="text-sm text-gray-700">{userActive.bio}</p>
+              <p className="text-sm text-gray-700">{userActive.bio ? userActive.bio : "Please set your bio"}</p>
             </div>
           </div>
         </div>

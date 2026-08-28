@@ -49,7 +49,12 @@ function EditProfileModal({ isClose }) {
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
-                    setAvatar(URL.createObjectURL(file));
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                      setAvatar(reader.result);
+                      console.log(reader)
+                    }
+                    reader.readAsDataURL(file)
                   }
                 }}
                 className="hidden"
