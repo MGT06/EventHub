@@ -7,8 +7,8 @@ function EventAdmin() {
     <div className="mt-3 grid gap-4">
       {dataEvent.map((ele) => {
         return (
-          <div className="grid grid-cols-[auto_2fr_auto_auto] items-center py-3 px-4 rounded-xl border border-gray-300">
-            <img src={ele.image} alt="" className="w-12 h-12 rounded-lg mr-2" />
+          <div key={ele.id} className="grid grid-cols-[auto_2fr_auto_auto] items-center py-3 px-4 rounded-xl border border-gray-300">
+            <img src={ele.coverImage} alt="" className="w-12 h-12 rounded-lg mr-2" />
             <div>
               <p className="font-medium text-sm">{ele.title}</p>
               <p className="text-xs text-manatee">{ele.date} · {ele.location}</p>
