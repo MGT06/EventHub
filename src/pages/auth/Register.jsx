@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function Register() {
   const [openEye, setOpenEye] = useState(false);
@@ -19,10 +20,17 @@ function Register() {
 
   const onSubmit = async (dataInput) => {
     try {
-      await signUp(dataInput);
-      navigate("/auth/login")
+      await toast.promise(signUp(dataInput), {
+        pending: "Proses register",
+        success: "Register success",
+        error: error.message
+      }, {
+        autoClose: 2000,
+      });
+      
+      navigate("/auth/login");
     } catch (e) {
-      return e
+      return e;
     }
   };
 

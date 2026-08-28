@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Eye, EyeClosed } from "lucide-react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function Login() {
   const [openEye, setOpenEye] = useState(false);
@@ -24,10 +25,17 @@ function Login() {
 
   const onSubmit = async (dataInput) => {
     try {
-      await login(dataInput);
+      await toast.promise(login(dataInput), {
+        pending: "Proses login",
+        success: "Login success",
+        error: error
+      }, {
+        autoClose: 2000,
+        position: "bottom-right"
+      })
       navigate("/")
-      reset({ password: "" });
     } catch (e) {
+      reset({ password: "" });
       return e;
     }
   };

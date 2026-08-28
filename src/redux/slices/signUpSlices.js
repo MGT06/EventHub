@@ -25,7 +25,12 @@ export const registerThunk = createAsyncThunk(
         message: "Password do not match",
       });
 
-    return { ...payload, access: "attendee" };
+    const result = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ ...payload, access: "attendee" })
+      }, 2000)
+    })
+    return result;
   },
 );
 

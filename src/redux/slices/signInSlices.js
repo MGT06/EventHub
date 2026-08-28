@@ -30,11 +30,21 @@ export const loginThunk = createAsyncThunk(
       payload.email === organizer.email &&
       payload.password === organizer.password
     ) {
-      return organizer
+      const result = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(organizer)
+        }, 2000)
+      })
+      return result
     }
 
     if (payload.email === admin.email && payload.password === admin.password) {
-      return admin;
+      const result = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(admin)
+        }, 2000)
+      })
+      return result
     }
 
     for (const dataLocal of dataUser) {
@@ -42,7 +52,12 @@ export const loginThunk = createAsyncThunk(
         dataLocal.email === payload.email &&
         dataLocal.password === payload.password
       ) {
-        return  dataUser.find((data) => data.email === payload.email);
+        const result = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(dataUser.find((data) => data.email === payload.email))
+          }, 2000)
+        })
+        return result
       }
     }
 
@@ -63,7 +78,7 @@ const signInSlices = createSlice({
   },
   extraReducers: (builder) => {
     return builder.addAsyncThunk(loginThunk, {
-       pending: (state) => {
+      pending: (state) => {
         state.isPending = true;
         state.isFulfilled = false;
         state.isRejected = false;
