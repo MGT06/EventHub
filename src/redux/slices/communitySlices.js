@@ -45,14 +45,10 @@ export const joinCommunityThunk = createAsyncThunk(
             members: ele.members.filter((join) => join !== payload.email),
           };
         }
-
-        if (ele.id === payload.id) {
-          return {
-            ...ele,
-            members: [...ele.members, payload.email],
-          };
-        }
-        return ele;
+        return {
+          ...ele,
+          members: [...ele.members, payload.email],
+        };
       });
       const result = await new Promise((resolve) => {
         setTimeout(() => {

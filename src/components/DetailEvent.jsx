@@ -16,11 +16,13 @@ import { useParams, Link } from "react-router";
 import CardEvent from "./cardComponents/CardEvent";
 import useJoin from "../hooks/useJoin";
 import Modal from "./Modal";
+import { toast } from "react-toastify";
 
 function DetailEvent() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isJoined, addJoined, addSaved, isSaved, removeJoin } = useJoin("joinedEvents");
+  const { isJoined, addJoined, addSaved, isSaved, removeJoin } =
+    useJoin("joinedEvents");
   const { isAuthenticated, userActive } = useAuth();
   const { dataEvent } = useSelector((state) => state.eventState);
 
@@ -39,11 +41,48 @@ function DetailEvent() {
   const alreadySaved = isSaved(userActive.email, dataDetail.userSaved);
 
   function saveHandled() {
-    addSaved(id, userActive.email);
+    toast.promise(
+      addSaved(dataDetail.id, userActive.email),
+      {
+        pending: "Save procces",
+        success: "Save success",
+        error: "Save failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
   }
 
   function joinHandled() {
-    addJoined("event", dataDetail.id, userActive.email);
+    toast.promise(
+      addJoined("event", dataDetail.id, userActive.email),
+      {
+        pending: "Save procces",
+        success: "Save success",
+        error: "Save failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
+  }
+
+  function unJoin() {
+    toast.promise(
+      removeJoin(dataDetail.id, userActive.email),
+      {
+        pending: "Unjoin procces",
+        success: "Unjoin success",
+        error: "Unjoin failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
   }
 
   const percentage = Math.trunc(
@@ -140,9 +179,9 @@ function DetailEvent() {
               </button>
               {alreadyJoined && (
                 <button
-                  className="py-2 px-4 rounded-lg bg-gray-100 border border-gray-300 "
+                  className="py-2 px-4 rounded-lg bg-gray-100 border border-gray-300 cursor-pointer"
                   onClick={() => {
-                    removeJoin(dataDetail.id, userActive.email);
+                    unJoin();
                   }}
                 >
                   Cancel Registered
@@ -230,7 +269,11 @@ function DetailEvent() {
             <MessageSquare width={18} />
             <p className="font-semibold text-lg">Discussion</p>
             <p className="text-manatee text-sm">
-              ({dataDetail.discussions ? dataDetail.discussions.length : "Tidak ada discussion"})
+              (
+              {dataDetail.discussions
+                ? dataDetail.discussions.length
+                : "Tidak ada discussion"}
+              )
             </p>
           </div>
           <div className="grid gap-3 mt-4">

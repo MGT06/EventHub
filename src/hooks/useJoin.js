@@ -17,30 +17,30 @@ function useJoin() {
 
     const selectThunk = thunkObj[type]
 
-    dispatch(
+    return dispatch(
       selectThunk({
         id,
         email,
       }),
-    );
+    ).unwrap();
   };
 
   const addSaved = (idEvent, email) => {
-    dispatch(
+    return dispatch(
       savedEventThunk({
         id: idEvent,
         email,
       }),
-    );
+    ).unwrap();
   };
 
   const removeJoin = (idEvent, email) => {
-    dispatch(
+    return dispatch(
       unjoinEventThunk({
         id: idEvent,
         email,
       }),
-    );
+    ).unwrap();
   };
 
   const isJoined = (userActive, listUserJoin) =>

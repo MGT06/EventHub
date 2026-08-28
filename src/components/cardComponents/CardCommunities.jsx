@@ -4,6 +4,7 @@ import Modal from "../Modal";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router";
 import useJoin from "../../hooks/useJoin";
+import { toast } from "react-toastify";
 
 function CardCommunities({ community }) {
   const [modal, setModal] = useState(false);
@@ -11,9 +12,20 @@ function CardCommunities({ community }) {
   const { isAuthenticated, userActive } = useAuth();
 
   const alreadyJoined = isJoined(userActive?.email, community.members);
-  
+
   function joinHandled() {
-    addJoined("community", community.id, userActive.email);
+    toast.promise(
+      addJoined("community", community.id, userActive.email),
+      {
+        pending: "Join procces",
+        success: "Join success",
+        error: "Join failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
   }
   return (
     <div className="rounded-lg border border-gray-300 h-full flex flex-col">
@@ -49,12 +61,14 @@ function CardCommunities({ community }) {
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
             <UsersRound width={9} />
-            <p className="text-xs text-manatee">{community.members.length}{' '}members</p>
+            <p className="text-xs text-manatee">
+              {community.members.length} members
+            </p>
           </div>
           <div className="flex  items-center gap-2">
             <Calendar width={9} />
             <p className="text-xs text-manatee">
-              {community.upcomingEvents}{' '}upcoming
+              {community.upcomingEvents} upcoming
             </p>
           </div>
         </div>

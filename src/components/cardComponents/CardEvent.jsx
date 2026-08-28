@@ -4,21 +4,44 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router";
 import useJoin from "../../hooks/useJoin";
+import { toast } from "react-toastify";
 
 function CardEvent({ event }) {
   const { isAuthenticated, userActive, role } = useAuth();
   const { isJoined, addJoined, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
-  const alreadyJoined = isJoined(userActive?.email, event.attendees);
-  const alreadySaved = isSaved(userActive?.email, event.userSaved);
+  const alreadyJoined = isJoined(userActive.email, event.attendees);
+  const alreadySaved = isSaved(userActive.email, event.userSaved);
 
   function saveHandled() {
-    addSaved(event.id, userActive.email);
+    toast.promise(
+      addSaved(event.id, userActive.email),
+      {
+        pending: "Save procces",
+        success: "Save success",
+        error: "Save failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
   }
 
   function joinHandled() {
-    addJoined("event", event.id, userActive.email);
+    toast.promise(
+      addJoined("event", event.id, userActive.email),
+      {
+        pending: "Join procces",
+        success: "Join success",
+        error: "Join failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
   }
 
   const disabled =

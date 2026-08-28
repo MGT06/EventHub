@@ -5,6 +5,7 @@ import { useState } from "react";
 import Modal from "../components/Modal";
 import { useAuth } from "../hooks/useAuth";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function CommunitieDetailLayout() {
   const { id } = useParams();
@@ -20,7 +21,18 @@ function CommunitieDetailLayout() {
   const alreadyJoined = isJoined(userActive.email, dataDetail.members);
 
   function joinHandled() {
-    addJoined("community", dataDetail.id, userActive.email);
+    toast.promise(
+      addJoined("community", dataDetail.id, userActive.email),
+      {
+        pending: "Join procces",
+        success: "Join success",
+        error: "Join failed",
+      },
+      {
+        autoClose: 2000,
+        position: "bottom-right",
+      },
+    );
   }
 
   const tabActive = ({ isActive }) =>

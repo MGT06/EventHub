@@ -117,13 +117,10 @@ export const savedEventThunk = createAsyncThunk(
           };
         }
 
-        if (ele.id === payload.id) {
-          return {
-            ...ele,
-            userSaved: [...ele.userSaved, payload.email],
-          };
-        }
-        return ele;
+        return {
+          ...ele,
+          userSaved: [...ele.userSaved, payload.email],
+        };
       });
       const result = await new Promise((resolve) => {
         setTimeout(() => {
