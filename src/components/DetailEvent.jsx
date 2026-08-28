@@ -205,7 +205,7 @@ function DetailEvent() {
         <div className="lg:col-start-1 lg:col-end-5">
           <p className="font-semibold text-lg">Speakers</p>
           <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2">
-            {dataDetail.speakers.map((speak, idx) => {
+            {dataDetail?.speakers.map((speak, idx) => {
               return (
                 <div
                   key={idx}

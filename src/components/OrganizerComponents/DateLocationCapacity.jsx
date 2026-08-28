@@ -69,13 +69,13 @@ function DateLocationCapacity() {
         </div>
         <div className="grid gap-2">
           <label className="font-medium text-sm">Event Format</label>
-          <div className="flex gap-2">
+          <div className="flex gap-2 bg-gray-100 rounded-lg w-max">
             <button
               type="button"
               onClick={() => setValue("format", "in-person")}
-              className={`flex items-center gap-1.5 py-2 px-4 rounded-lg text-sm font-medium ${
+              className={`flex items-center gap-1.5 py-2 px-4 my-1 ml-1 rounded-lg text-sm font-medium ${
                 selectFormat === "in-person"
-                  ? "bg-orange text-white"
+                  ? "bg-white text-black"
                   : "text-manatee hover:bg-gray-100"
               }`}
             >
@@ -84,9 +84,9 @@ function DateLocationCapacity() {
             <button
               type="button"
               onClick={() => setValue("format", "online")}
-              className={`flex items-center gap-1.5 py-2 px-4 rounded-lg text-sm font-medium ${
+              className={`flex items-center gap-1.5 py-2 px-4 mr-1 my-2 rounded-lg text-sm font-medium ${
                 selectFormat === "online"
-                  ? "bg-orange text-white"
+                  ? "bg-white text-black"
                   : "text-manatee hover:bg-gray-100"
               }`}
             >

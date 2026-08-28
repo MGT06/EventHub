@@ -24,12 +24,6 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  if (theme) {
-    console.log("Mode Gelap");
-  } else {
-    console.log("Mode Terang");
-  }
-
   const { dataUser } = useSelector((state) => state.dataUserState);
   const getphoto = dataUser.find((data) => data.email === userActive.email);
 
