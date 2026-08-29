@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router";
 import CardEvent from "./cardComponents/CardEvent";
 import useJoin from "../hooks/useJoin";
-import Modal from "./Modal";
+import ModalGuest from "./modal/ModalGuest";
 import { toast } from "react-toastify";
 
 function DetailEvent() {
@@ -321,7 +321,7 @@ function DetailEvent() {
           </div>
         </div>
       </div>
-      {modal && <Modal isClose={() => setModal(false)} />}
+      {modal && <ModalGuest isClose={() => setModal(false)} />}
     </section>
   );
 }

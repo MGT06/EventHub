@@ -1,5 +1,5 @@
 import { Bookmark, Calendar, Check, MapPin, UsersRound } from "lucide-react";
-import Modal from "../Modal";
+import ModalGuest from "../modal/ModalGuest";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router";
@@ -151,7 +151,7 @@ function CardEvent({ event }) {
           </div>
         </div>
       </div>
-      {modal && <Modal isClose={() => setModal(false)} />}
+      {modal && <ModalGuest isClose={() => setModal(false)} />}
     </div>
   );
 }

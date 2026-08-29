@@ -2,7 +2,7 @@ import { UsersRound, Calendar, Check, MoveLeft } from "lucide-react";
 import { Link, NavLink, Outlet, useParams } from "react-router";
 import useJoin from "../hooks/useJoin";
 import { useState } from "react";
-import Modal from "../components/Modal";
+import ModalGuest from "../components/modal/ModalGuest";
 import { useAuth } from "../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -134,7 +134,7 @@ function CommunitieDetailLayout() {
               Discussion
             </NavLink>
           </div>
-          {modal && <Modal isClose={() => setModal(false)} />}
+          {modal && <ModalGuest isClose={() => setModal(false)} />}
         </div>
         <Outlet context={{ nameCommunity: dataDetail.name }} />
       </section>

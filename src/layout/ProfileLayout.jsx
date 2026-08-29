@@ -1,6 +1,6 @@
 import { MapPin, Calendar, Pencil } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
-import EditProfileModal from "../components/EditProfileModal";
+import EditProfileModal from "../components/modal/EditProfileModal";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useSelector } from "react-redux";

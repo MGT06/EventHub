@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UsersRound, Calendar, Check } from "lucide-react";
-import Modal from "../Modal";
+import ModalGuest from "../modal/ModalGuest";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router";
 import useJoin from "../../hooks/useJoin";
@@ -85,7 +85,7 @@ function CardCommunities({ community }) {
           {alreadyJoined ? "Joined" : "Join Community"}
         </button>
       </div>
-      {modal && <Modal isClose={() => setModal(false)} />}
+      {modal && <ModalGuest isClose={() => setModal(false)} />}
     </div>
   );
 }
