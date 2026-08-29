@@ -32,6 +32,7 @@ import OverviewAdmin from "../components/AdminComponents/OverviewAdmin";
 import UsersAdmin from "../components/AdminComponents/UsersAdmin";
 import EventAdmin from "../components/AdminComponents/EventAdmin";
 import CommunityAdmin from "../components/AdminComponents/CommunityAdmin";
+import ChangePassword from "../components/ChangePassword";
 
 function AppRoutes() {
   return (
@@ -41,6 +42,7 @@ function AppRoutes() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="forgot" element={<ForgotPassword />} />
+        <Route path="change-password" element={<ChangePassword />} />
       </Route>
 
       <Route path="/" element={<MainLayout />}>

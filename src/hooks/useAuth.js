@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { registerThunk } from "../redux/slices/signUpSlices.js";
+import { changePasswordThunk, registerThunk } from "../redux/slices/signUpSlices.js";
 import { loginThunk, logout as signOut } from "../redux/slices/signInSlices.js";
 
 export function useAuth() {
@@ -18,6 +18,10 @@ export function useAuth() {
     return dispatch(registerThunk(dataInput)).unwrap();
   };
 
+  const changePassword = (dataInput) => {
+    return dispatch(changePasswordThunk(dataInput)).unwrap()
+  }
+
 
   return {
     userActive: loggedUser,
@@ -26,5 +30,6 @@ export function useAuth() {
     signUp,
     login,
     logout,
+    changePassword
   };
 }

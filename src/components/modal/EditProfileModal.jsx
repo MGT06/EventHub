@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { X, Camera } from "lucide-react";
-// import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,8 +9,8 @@ function EditProfileModal({ isClose }) {
   const { userActive } = useAuth();
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(null);
-  const {dataUser} = useSelector(state => state.dataUserState)
-  const getPhoto = dataUser.find((data) => data.email === userActive.email)
+  const { dataUser } = useSelector((state) => state.dataUserState);
+  const getPhoto = dataUser.find((data) => data.email === userActive.email);
 
   const { register, handleSubmit } = useForm();
   const fileInputRef = useRef(null);
@@ -26,7 +25,7 @@ function EditProfileModal({ isClose }) {
     );
     isClose();
   }
-
+  console.log(avatar);
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-100 p-0 sm:p-4">
       <div className="bg-white rounded-2xl mt-5 w-full max-w-md ">
@@ -39,7 +38,7 @@ function EditProfileModal({ isClose }) {
         <form>
           <div className="px-5 py-5 flex flex-col gap-5">
             <div
-              className="relative self-center w-20 h-20 rounded-2xl cursor-pointer group"
+              className="relative self-center w-20 h-20 bg-orange rounded-2xl cursor-pointer group"
               onClick={() => fileInputRef.current.click()}
             >
               <input
@@ -49,21 +48,26 @@ function EditProfileModal({ isClose }) {
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
-                    const reader = new FileReader()
+                    const reader = new FileReader();
                     reader.onloadend = () => {
                       setAvatar(reader.result);
-                      console.log(reader)
-                    }
-                    reader.readAsDataURL(file)
+                    };
+                    reader.readAsDataURL(file);
                   }
                 }}
                 className="hidden"
               />
-              <img
-                src={getPhoto.profile ? getPhoto.profile : avatar}
-                alt="Profile"
-                className="w-20 h-20 rounded-2xl bg-gray-200 object-cover"
-              />
+              {avatar || getPhoto.profile ? (
+                <img
+                  src={avatar || getPhoto.profile}
+                  alt="Profile"
+                  className="w-20 h-20 rounded-2xl bg-gray-200 object-cover"
+                />
+              ) : (
+                <span className="text-3xl w-full h-full flex items-center justify-center capitalize text-white">
+                  {userActive.email.charAt(0)}
+                </span>
+              )}
               <div className="absolute inset-0 rounded-2xl bg-black/0 group-hover:bg-black/30 flex items-center justify-center transition">
                 <Camera
                   className="text-white opacity-0 group-hover:opacity-100 transition"

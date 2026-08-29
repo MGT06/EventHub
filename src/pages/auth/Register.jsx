@@ -23,7 +23,7 @@ function Register() {
       await toast.promise(signUp(dataInput), {
         pending: "Proses register",
         success: "Register success",
-        error: error.message
+        error: "Register fail"
       }, {
         autoClose: 2000,
       });

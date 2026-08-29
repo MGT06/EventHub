@@ -34,6 +34,34 @@ export const registerThunk = createAsyncThunk(
   },
 );
 
+export const changePasswordThunk = createAsyncThunk(
+  "change-password",
+  (payload, { getState, rejectWithValue }) => {
+    const { dataUser } = getState().dataUserState;
+    if (payload.password !== payload.confirm)
+      return rejectWithValue({
+        typeError: "password",
+        message: "Password do not match",
+      });
+
+    const { email, ...newPayload } = payload;
+    const result = dataUser.map(ele => {
+      if (ele.email === email) {
+        return {
+          ...ele,
+          ...newPayload,
+        };
+      }
+      return ele;
+    })
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(result)
+      }, 2000)
+    })
+  }
+)
+
 const signUpSlices = createSlice({
   name: "dataUser",
   initialState,
@@ -64,6 +92,23 @@ const signUpSlices = createSlice({
       },
       fulfilled: (state, { payload }) => {
         state.dataUser.push(payload);
+        state.isPending = false;
+        state.isFulfilled = true;
+      },
+      rejected: (state, { payload }) => {
+        state.isPending = false;
+        state.isRejected = true;
+        state.error = payload;
+      },
+    }).addAsyncThunk(changePasswordThunk, {
+      pending: (state) => {
+        state.isPending = true;
+        state.isFulfilled = false;
+        state.isRejected = false;
+        state.error = null;
+      },
+      fulfilled: (state, { payload }) => {
+        state.dataUser = payload;
         state.isPending = false;
         state.isFulfilled = true;
       },

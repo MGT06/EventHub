@@ -1,21 +1,26 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
-import { Check } from "lucide-react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 function ForgotPassword() {
-  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+  const { dataUser } = useSelector((state) => state.dataUserState);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues
   } = useForm();
 
-  let handleSuccess = () => {
-    setSuccess("true"); 
+  let handleChange = (dataInput) => {
+    const dataUserToChange = dataUser.find(
+      (data) => data.email === dataInput.email,
+    );
+    if (!dataUserToChange) return;
+
+    navigate("/auth/change-password", { state: dataUserToChange.email });
   };
-  return !success ? (
+
+  return (
     <article className="h-screen px-4 py-11 lg:grow">
       <div className="flex flex-col gap-5 justify-center h-full lg:mx-60">
         <div className="lg:hidden">
@@ -30,7 +35,7 @@ function ForgotPassword() {
             Enter your email and we'll send a link.
           </p>
         </div>
-        <form className="grid gap-3" onSubmit={handleSubmit(handleSuccess)}>
+        <form className="grid gap-3" onSubmit={handleSubmit(handleChange)}>
           <label htmlFor="email" className="font-medium text-sm">
             Email
           </label>
@@ -55,22 +60,6 @@ function ForgotPassword() {
         </form>
       </div>
     </article>
-  ) : (
-    <div className="flex flex-col items-center justify-center text-center gap-4 grow">
-      <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-        <Check className="w-7 h-7 text-green-600" strokeWidth={3} />
-      </div>
-
-      <h2 className="text-2xl font-bold">Check your email</h2>
-
-      <p className="text-sm text-manatee">
-        We sent a reset link to <span className="font-semibold text-black">{getValues("email")}</span>
-      </p>
-
-      <Link to="/auth/login" className="text-orange text-sm font-medium mt-2">
-        Back to sign in
-      </Link>
-    </div>
   );
 }
 

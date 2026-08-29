@@ -1,12 +1,14 @@
-import { MapPin, Calendar, Pencil } from "lucide-react";
+import { MapPin, Calendar, Pencil, Lock } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import EditProfileModal from "../components/modal/EditProfileModal";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useSelector } from "react-redux";
+import ChangePasswordModal from "../components/modal/ModalChangePassword";
 
 function ProfileLayout() {
-  const [editOpen, setEditOpen] = useState(false);
+  const [ isEditOpen, setIsEditOpen ] = useState(false);
+  const [ isChangeOpen, setIsChangeOpen ] = useState(false);
   const { userActive, role } = useAuth();
   const { dataUser } = useSelector((state) => state.dataUserState);
   const getPhoto = dataUser.find((data) => data.email === userActive.email);
@@ -34,16 +36,18 @@ function ProfileLayout() {
     <>
       <section className="py-8 px-4 lg:px-61">
         <div className=" flex gap-4">
-          <div className="relative w-20 h-20 bg-orange rounded-2xl">
-            {getPhoto?.profile ? 
-            <img
-              src={getPhoto.profile && getPhoto.profile}
-              alt=""
-              className="w-full rounded-2xl h-full object-cover bg-gray-200"
-            />
-              :
-              <span className="text-3xl w-full h-full flex items-center justify-center capitalize text-white">{userActive.email.charAt(0)}</span>
-          }
+          <div className="w-20 h-20 bg-orange rounded-2xl">
+            {getPhoto?.profile ? (
+              <img
+                src={getPhoto.profile}
+                alt=""
+                className="w-full rounded-2xl h-full object-cover bg-gray-200"
+              />
+            ) : (
+              <span className="text-3xl w-full h-full flex items-center justify-center capitalize text-white">
+                {userActive.email.charAt(0)}
+              </span>
+            )}
             <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full" />
           </div>
           <div className="grid gap-3 flex-1 lg:grid-cols-7">
@@ -55,13 +59,20 @@ function ProfileLayout() {
             </div>
 
             <button
-              onClick={() => role === "attendee" && setEditOpen(true)}
+              onClick={() => role === "attendee" && setIsEditOpen(true)}
               className="py-1.5 px-3 rounded-lg border border-gray-300 w-max flex items-center gap-2 text-sm font-medium lg:col-start-7 "
             >
               <Pencil size={16} /> Edit Profile
             </button>
 
-            <div className="lg:col-span-3 flex flex-col gap-2">
+            <button
+              onClick={() => role === "attendee" && setIsChangeOpen(true)}
+              className="py-1.5 px-3 rounded-lg border border-gray-300 w-max h-max flex items-center gap-2 text-sm font-medium lg:col-start-7 "
+            >
+              <Lock size={16} /> Change Password
+            </button>
+
+            <div className="lg:col-span-3 lg:row-start-2 flex flex-col gap-2">
               <div className="flex gap-3 col-start-2">
                 <div className="flex items-center gap-1 w-max">
                   <MapPin size={14} className="text-manatee" />
@@ -81,7 +92,9 @@ function ProfileLayout() {
                 {userActive.access}
               </span>
 
-              <p className="text-sm text-gray-700">{userActive.bio ? userActive.bio : "Please set your bio"}</p>
+              <p className="text-sm text-gray-700">
+                {userActive.bio ? userActive.bio : "Please set your bio"}
+              </p>
             </div>
           </div>
         </div>
@@ -110,18 +123,8 @@ function ProfileLayout() {
             Saved
           </NavLink>
         </div>
-        {editOpen && (
-          <EditProfileModal
-            isClose={() => setEditOpen(false)}
-            initialData={{
-              name: userActive.name,
-              location: "Bandung, Indonesia",
-              bio: "Backend engineer & community builder...",
-              avatar: "https://i.pravatar.cc/150?img=13",
-            }}
-            onSave={(data) => console.log("saved:", data)}
-          />
-        )}
+        {isEditOpen && <EditProfileModal isClose={() => setIsEditOpen(false)} />}
+        {isChangeOpen && <ChangePasswordModal isClose={() => setIsChangeOpen(false)} />}
       </section>
       <section className="pb-5 px-4 lg:px-61">
         <Outlet />

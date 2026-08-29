@@ -28,7 +28,7 @@ function Login() {
       await toast.promise(login(dataInput), {
         pending: "Proses login",
         success: "Login success",
-        error: error
+        error: "Login fail"
       }, {
         autoClose: 2000,
         position: "bottom-right"
