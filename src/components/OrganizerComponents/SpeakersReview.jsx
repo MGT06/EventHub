@@ -220,7 +220,9 @@ function SpeakersReview() {
                     avatar: "",
                     name: userActive.name,
                     community
-                  }
+                  },
+                  userSaved: [],
+                  status: "open"
                 }),
               );
               dispatch(resetState());

@@ -11,8 +11,8 @@ function CardEvent({ event }) {
   const { isJoined, addJoined, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
-  const alreadyJoined = isJoined(userActive.email, event.attendees);
-  const alreadySaved = isSaved(userActive.email, event.userSaved);
+  const alreadyJoined = isJoined(userActive?.email, event.attendees);
+  const alreadySaved = isSaved(userActive?.email, event.userSaved);
 
   function saveHandled() {
     toast.promise(
