@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
 import CardCommunities from "../../components/cardComponents/CardCommunities";
 import useJoin from "../../hooks/useJoin";
+import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 const joinStatusOptions = ["All", "Joined", "Not Joined"];
 const categories = [
@@ -18,8 +20,10 @@ const categories = [
 
 function Communities() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isJoined } = useJoin("joinedCommunities");
+  const { isJoined } = useJoin();
+  const [idTimeout, setIdTimeout] = useState(0);
   const { dataCommunity } = useSelector((state) => state.communityState);
+  const { userActive } = useAuth()
 
   const title = searchParams.get("title") ?? "";
   const filJoinStatus = searchParams.get("joinStatus") ?? "All";
@@ -30,10 +34,10 @@ function Communities() {
 
     switch (joinStatus) {
       case "Joined":
-        return sortedCommunities.filter((c) => isJoined(c.id));
+        return sortedCommunities.filter((c) => isJoined(userActive.email, c.members));
 
       case "Not Joined":
-        return sortedCommunities.filter((c) => !isJoined(c.id));
+        return sortedCommunities.filter((c) => !isJoined(userActive.email, c.members));
 
       default:
         return sortedCommunities;
@@ -73,15 +77,22 @@ function Communities() {
             placeholder="Search communities..."
             className="flex-1 px-3 py-3.5 text-sm text-black outline-none"
             onChange={(e) => {
-              setSearchParams((prevSearchParams) => {
-                const newSearchParam = new URLSearchParams(prevSearchParams);
-                if (e.target.value) {
-                  newSearchParam.set("title", `${e.target.value}`);
-                  return newSearchParam;
-                }
-                newSearchParam.delete("title");
-                return newSearchParam;
-              });
+              clearTimeout(idTimeout);
+              setIdTimeout(
+                setTimeout(() => {
+                  setSearchParams((prevSearchParams) => {
+                    const newSearchParam = new URLSearchParams(
+                      prevSearchParams,
+                    );
+                    if (e.target.value) {
+                      newSearchParam.set("title", `${e.target.value}`);
+                      return newSearchParam;
+                    }
+                    newSearchParam.delete("title");
+                    return newSearchParam;
+                  });
+                }, 1000),
+              );
             }}
           />
         </form>

@@ -32,7 +32,8 @@ const sortOptions = [
 function Event() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filterOpen, setFilterOpen] = useState(false);
-  const { dataEvent } = useSelector(state => state.eventState)
+  const [idTimeout, setIdTimeout] = useState(0);
+  const { dataEvent } = useSelector((state) => state.eventState);
 
   const title = searchParams.get("title") ?? "";
   const filCategory = searchParams.get("category") ?? "All";
@@ -98,15 +99,22 @@ function Event() {
             placeholder="Search events..."
             className="w-full min-w-0 outline-none"
             onChange={(e) => {
-              setSearchParams((prevSearchParams) => {
-                const newSearchParam = new URLSearchParams(prevSearchParams);
-                if (e.target.value) {
-                  newSearchParam.set("title", `${e.target.value}`);
-                  return newSearchParam;
-                }
-                newSearchParam.delete("title");
-                return newSearchParam;
-              });
+              clearTimeout(idTimeout);
+              setIdTimeout(
+                setTimeout(() => {
+                  setSearchParams((prevSearchParams) => {
+                    const newSearchParam = new URLSearchParams(
+                      prevSearchParams,
+                    );
+                    if (e.target.value) {
+                      newSearchParam.set("title", `${e.target.value}`);
+                      return newSearchParam;
+                    }
+                    newSearchParam.delete("title");
+                    return newSearchParam;
+                  });
+                }, 1000),
+              );
             }}
           />
         </div>

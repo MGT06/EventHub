@@ -3,11 +3,12 @@ import CardEvent from "../../components/cardComponents/CardEvent";
 import CardCommunities from "../../components/cardComponents/CardCommunities";
 import { useSelector } from "react-redux";
 
-
 function Explore() {
-  const { dataEvent } = useSelector((state) => state.eventState);
-  const { dataCommunity } = useSelector((state) => state.communityState);
-  
+  const { dataEvent, isPending } = useSelector((state) => state.eventState);
+  const { dataCommunity, isPending: isPendingCommunity } = useSelector(
+    (state) => state.communityState,
+  );
+
   return (
     <>
       <section className="relative bg-black overflow-hidden">
@@ -54,19 +55,76 @@ function Explore() {
       <section className="py-5 px-4 lg:py-10 lg:px-13">
         <h3 className="font-bold text-lg">Discover events that interest you</h3>
         <div className="grid gap-4 lg:grid-cols-3 pt-5">
-          {dataEvent &&
+          {isPending ? (
+            <div className="text-center lg:col-start-2" role="status">
+              <svg
+                className="mx-auto size-20 animate-spin text-indigo-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+
+              <p class="mt-4 font-medium text-gray-700">Loading...</p>
+            </div>
+          ) : (
             dataEvent
               .filter((e) => e.status !== "ended")
-              .map((e) => <CardEvent key={e.id} event={e} />)}
+              .map((e) => <CardEvent key={e.id} event={e} />)
+          )}
         </div>
       </section>
 
       <section className="py-5 px-4 lg:py-10 lg:px-13">
         <h3 className="font-bold text-lg">Popular Communities</h3>
         <div className="pt-5 grid gap-4 lg:grid-cols-4">
-          {dataCommunity.slice(0, 4).map((c) => (
-            <CardCommunities key={c.id} community={c} />
-          ))}
+          {isPendingCommunity ? (
+            <div class="text-center lg:col-span-2 lg:col-start-2" role="status">
+              <svg
+                className="mx-auto size-20 animate-spin text-indigo-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+
+              <p class="mt-4 font-medium text-gray-700">Loading...</p>
+            </div>
+          ) : (
+            dataCommunity
+              .slice(0, 4)
+              .map((c) => <CardCommunities key={c.id} community={c} />)
+          )}
         </div>
       </section>
       <section className="py-5 px-4 lg:py-10 lg:px-13">
