@@ -1,14 +1,15 @@
 import { MoveLeft } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router";
+import { resetState } from "../redux/slices/eventSlices";
 
 function LayoutCreateEvent() {
-  const { step } = useSelector((state) => state.createEventState);
-
+  const { step } = useSelector((state) => state.eventState.createEvent);
+  const dispatch  = useDispatch()
   return (
     <>
       <div className="py-3 px-4 flex items-center gap-4 border-b border-gray-300 lg:px-65.5">
-        <Link to={"/dashboard-organizer"}>
+        <Link to={"/dashboard-organizer"} onClick={() => dispatch(resetState())}>
           <div className="text-manatee flex text-sm gap-1.5">
             <MoveLeft width={16} />
             <p>Back</p>

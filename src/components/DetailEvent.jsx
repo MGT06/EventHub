@@ -219,7 +219,7 @@ function DetailEvent() {
             </div>
           </div>
           <div className="grid gap-2 p-4 border border-gray-300 rounded-xl">
-            <p className="font-semibold text-xs text-manatee">ORGANIZED BY</p>
+            <p className="font-semibold text-xs text-manatee h-max">ORGANIZED BY</p>
             <div className="flex gap-3 items-center">
               <img
                 src={dataDetail.organizer?.avatar}
@@ -253,7 +253,7 @@ function DetailEvent() {
                   <img
                     src={speak.avatar}
                     alt=""
-                    className="rounded-full w-8 h-8"
+                    className="rounded-full w-8 h-8 object-cover"
                   />
                   <div>
                     <p className="font-semibold text-sm">{speak.name}</p>

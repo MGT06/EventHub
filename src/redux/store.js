@@ -3,7 +3,6 @@ import signUpReducer from "./slices/signUpSlices.js";
 import signInReducer from "./slices/signInSlices.js";
 import eventReducer from "./slices/eventSlices.js";
 import communityReducer from "./slices/communitySlices.js";
-import createEventReducer from "./slices/createEventSlices.js";
 import {
   FLUSH,
   PAUSE,
@@ -38,6 +37,7 @@ const persistSignInConfig = {
 const persistEventConfig = {
   key: "joinEvent",
   storage,
+  blacklist: ['createEvent']
 };
 const persistCommunityConfig = {
   key: "joinCommunity",
@@ -50,7 +50,6 @@ const store = configureStore({
     loggedUserState: persistReducer(persistSignInConfig, signInReducer),
     eventState: persistReducer(persistEventConfig, eventReducer),
     communityState: persistReducer(persistCommunityConfig, communityReducer),
-    createEventState: createEventReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

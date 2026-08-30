@@ -9,7 +9,7 @@ import {
   removeCategory,
   setBasic,
   setCategory,
-} from "../../redux/slices/createEventSlices";
+} from "../../redux/slices/eventSlices";
 
 const categories = [
   "Technology",
@@ -25,7 +25,7 @@ function BasicInformation() {
   const [preview, setPreview] = useState();
 
   const { dataCommunity } = useSelector((state) => state.communityState);
-  const { basic } = useSelector((state) => state.createEventState);
+  const { basic } = useSelector((state) => state.eventState.createEvent);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
@@ -55,6 +55,7 @@ function BasicInformation() {
         coverImage: preview,
       }),
     );
+    console.log(dataInput.community)
     dispatch(nextStep());
     navigate("details");
   };
@@ -80,9 +81,9 @@ function BasicInformation() {
           >
             <input {...getInputProps()} />
 
-            {preview ? (
+            {preview || basic.coverImage ? (
               <img
-                src={preview}
+                src={preview || basic.coverImage}
                 alt="Preview"
                 className="h-full w-full  rounded-xl"
               />
@@ -107,6 +108,7 @@ function BasicInformation() {
             type="text"
             id="title"
             {...register("title", { required: true })}
+            defaultValue={basic.title}
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
             placeholder="Go Concurrency Workshop"
           />
@@ -117,7 +119,8 @@ function BasicInformation() {
           </label>
           <textarea
             id="desc"
-            {...register("desc", { required: true })}
+            {...register("description", { required: true })}
+            defaultValue={basic.description}
             rows="5"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
             placeholder="What will attendees learn or experience?"
@@ -174,7 +177,7 @@ function BasicInformation() {
             {...register("community")}
             id="desc"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
-            defaultValue={"community"}
+            defaultValue={basic.community ? basic.community : "community" }
           >
             <option value="community" disabled className="text-sm w-max">
               No community

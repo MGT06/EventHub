@@ -25,7 +25,6 @@ function EditProfileModal({ isClose }) {
     );
     isClose();
   }
-  console.log(avatar);
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-100 p-0 sm:p-4">
       <div className="bg-white rounded-2xl mt-5 w-full max-w-md ">

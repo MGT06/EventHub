@@ -1,21 +1,47 @@
-import { Check, Plus, X } from "lucide-react";
+import { Check, Plus, X, Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
+import { useRef, useState } from "react";
 import {
+  prevStep,
   removeSpeakers,
   resetState,
   setSpeakers,
-} from "../../redux/slices/createEventSlices";
+} from "../../redux/slices/eventSlices";
 import { createEventThunk } from "../../redux/slices/eventSlices";
+import { useAuth } from "../../hooks/useAuth";
 
 function SpeakersReview() {
   const dispatch = useDispatch();
   const { register, resetField, getValues } = useForm();
   const { basic, dateLocation, speakers, attendees } = useSelector(
-    (state) => state.createEventState,
+    (state) => state.eventState.createEvent,
   );
-  const navigate = useNavigate()
+  const { userActive } = useAuth();
+  const navigate = useNavigate();
+  const [speakerAvatar, setSpeakerAvatar] = useState("");
+  const fileInputRef = useRef(null);
+
+  const handleAddSpeaker = (e) => {
+    e.preventDefault();
+    const name = getValues("speakers");
+    const role = getValues("role");
+
+    if (!name) return;
+
+    dispatch(
+      setSpeakers({
+        name,
+        role: role || "",
+        avatar: speakerAvatar,
+      }),
+    );
+
+    resetField("speakers");
+    resetField("role");
+    setSpeakerAvatar("");
+  };
 
   return (
     <div>
@@ -29,47 +55,100 @@ function SpeakersReview() {
         <label htmlFor="speakers" className="font-medium text-sm">
           Speakers (optional)
         </label>
-        <div className="flex gap-2">
-          <input
-            type="speakers"
-            id="text"
-            {...register("speakers")}
-            className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg grow"
-            placeholder="Speaker name and title"
-          />
+
+        <div className="flex gap-2 items-start">
+          <div
+            className="w-11 h-11 rounded-full bg-gray-200 cursor-pointer"
+            onClick={() => fileInputRef.current.click()}
+          >
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setSpeakerAvatar(reader.result);
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+              className="hidden"
+            />
+            {speakerAvatar ? (
+              <img
+                src={speakerAvatar}
+                alt="Speaker"
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <Camera size={16} className="text-manatee" />
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-2 grow">
+            <input
+              type="text"
+              id="text"
+              {...register("speakers")}
+              className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg w-full"
+              placeholder="Speaker name"
+            />
+            <input
+              type="text"
+              {...register("role")}
+              className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg w-full"
+              placeholder="Speaker title/role (e.g. CEO, Founder)"
+            />
+          </div>
+
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(setSpeakers({
-                name:getValues("speakers"),
-                role: "",
-                avatar: ""
-              }));
-              resetField("speakers");
-            }}
-            className="py-2 px-4 border border-gray-300 rounded-lg font-medium text-sm"
+            onClick={handleAddSpeaker}
+            className="py-2 px-4 border border-gray-300 rounded-lg font-medium text-sm shrink-0"
           >
             Add
           </button>
         </div>
-        <div className="flex gap-2 flex-wrap">
+
+        <div className="flex gap-2 flex-wrap mt-2">
           {speakers.length > 0 &&
             speakers.map((ele, idx) => {
               return (
                 <div
                   key={idx}
-                  className="flex items-center py-1 px-3 rounded-full bg-gray-200 w-max"
+                  className="flex items-center gap-2 py-1 px-3 rounded-full bg-gray-200 w-max"
                 >
-                  <span className="text-sm">{ele.name}</span>
+                  <div className="w-6 h-6 rounded-full bg-gray-300 overflow-hidden shrink-0">
+                    {ele.avatar && (
+                      <img
+                        src={ele.avatar}
+                        alt={ele.name}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="leading-tight">
+                    <span className="text-sm block">{ele.name}</span>
+                    {ele.role && (
+                      <span className="text-xs text-manatee block">
+                        {ele.role}
+                      </span>
+                    )}
+                  </div>
                   <X
                     width={20}
-                    className="text-manatee"
+                    className="text-manatee cursor-pointer"
                     onClick={() => dispatch(removeSpeakers(ele.name))}
                   />
                 </div>
               );
             })}
         </div>
+
         <div className="rounded-xl border border-gray-300 mt-6 px-4 py-1.5">
           <div className="flex justify-between items-center py-3 border-b border-b-gray-300">
             <p className="font-medium text-manatee text-xs">Event</p>
@@ -119,17 +198,33 @@ function SpeakersReview() {
           </div>
         </div>
         <div className="mt-8 pt-6 border-t border-t-gray-300 flex justify-between">
-          <Link to={"/create-event/details"}>
+          <Link
+            to={"/create-event/details"}
+            onClick={() => dispatch(prevStep())}
+          >
             <button className=" py-2 px-4 text-black rounded-lg">Back</button>
           </Link>
           <button
             type="submit"
             className="flex gap-2 py-2 px-4 text-white bg-green-500 rounded-lg"
             onClick={(e) => {
-              e.preventDefault()
-              dispatch(createEventThunk({...basic, ...dateLocation,  speakers: speakers, attendees: attendees }))
-              dispatch(resetState())
-              navigate("/dashboard-organizer")
+              e.preventDefault();
+              const {community, ...newBasic} = basic
+              dispatch(
+                createEventThunk({
+                  ...newBasic,
+                  ...dateLocation,
+                  speakers: speakers,
+                  attendees: attendees,
+                  organizer: {
+                    avatar: "",
+                    name: userActive.name,
+                    community
+                  }
+                }),
+              );
+              dispatch(resetState());
+              navigate("/dashboard-organizer");
             }}
           >
             <Check /> Publish Event

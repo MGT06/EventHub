@@ -1,18 +1,20 @@
 import { Laptop, MapPin, MoveRight } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import {
   nextStep,
+  prevStep,
   setDateLocation,
-} from "../../redux/slices/createEventSlices";
+} from "../../redux/slices/eventSlices";
 
 function DateLocationCapacity() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { dateLocation } = useSelector((state) => state.eventState.createEvent);
   const { register, handleSubmit, control, setValue } = useForm({
     defaultValues: {
-      format: "in-person",
+      format: dateLocation.format ? dateLocation.format : "in-person",
     },
   });
 
@@ -39,7 +41,8 @@ function DateLocationCapacity() {
           <input
             type="date"
             id="date"
-            {...register("eventDate")}
+            {...register("eventDate", {required: true})}
+            defaultValue={dateLocation.eventDate}
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
           />
         </div>
@@ -50,7 +53,8 @@ function DateLocationCapacity() {
             </label>
             <input
               type="time"
-              {...register("startTime")}
+              {...register("startTime", {required: true})}
+              defaultValue={dateLocation.startTime}
               id="start"
               className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
             />
@@ -61,7 +65,8 @@ function DateLocationCapacity() {
             </label>
             <input
               type="time"
-              {...register("endTime")}
+              {...register("endTime", {required: true})}
+              defaultValue={dateLocation.endTime}
               id="end"
               className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
             />
@@ -100,7 +105,8 @@ function DateLocationCapacity() {
           </label>
           <input
             type="text"
-            {...register("location")}
+            {...register("location", {required: true})}
+            defaultValue={dateLocation.location}
             id="location"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
             placeholder="Legenda Wisata"
@@ -112,14 +118,15 @@ function DateLocationCapacity() {
           </label>
           <input
             type="number"
-            {...register("capacity")}
+            {...register("capacity", {required: true})}
+            defaultValue={dateLocation.capacity}
             id="capacity"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
             placeholder="100"
           />
         </div>
         <div className="mt-8 pt-6 border-t border-t-gray-300 flex justify-between">
-          <Link to={"/create-event"}>
+          <Link to={"/create-event"} onClick={() => dispatch(prevStep())}>
             <button className=" py-2 px-4 text-black rounded-lg">Back</button>
           </Link>
           <button

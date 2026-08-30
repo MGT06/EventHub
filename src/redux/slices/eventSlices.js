@@ -2,6 +2,31 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   dataEvent: [],
+  createEvent: {
+    step: 1,
+    basic: {
+      coverImage: "",
+      title: "",
+      description: "",
+      category: [],
+      community: "",
+    },
+    dateLocation: {
+      eventDate: "",
+      startTime: "",
+      endTime: "",
+      format: "",
+      location: "",
+      capacity: "",
+    },
+    organizer: {
+      avatar: "",
+      name: "",
+      community: ""
+    },
+    speakers: [],
+    attendees: [],
+  },
   isPending: false,
   isFulfilled: false,
   isRejected: false,
@@ -137,7 +162,108 @@ export const savedEventThunk = createAsyncThunk(
 const eventSlices = createSlice({
   name: "joinedEvent",
   initialState,
-  reducers: {},
+  reducers: {
+    nextStep: (prev) => {
+      if (prev.createEvent.step < 3) {
+        return {
+          ...prev,
+          createEvent: {
+            ...prev.createEvent,
+            step: prev.createEvent.step + 1,
+          },
+        };
+      }
+      return prev;
+    },
+    prevStep: (prev) => {
+      if (prev.createEvent.step > 1) {
+        return {
+          ...prev,
+          createEvent: {
+            ...prev.createEvent,
+            step: prev.createEvent.step - 1,
+          },
+        };
+      }
+      return prev;
+    },
+    setBasic: (prev, { payload }) => {
+      return {
+        ...prev,
+        createEvent: {
+          ...prev.createEvent,
+          basic: {
+            ...prev.createEvent.basic,
+            ...payload,
+          },
+        },
+      };
+    },
+    setDateLocation: (prev, { payload }) => {
+      return {
+        ...prev,
+        createEvent: {
+          ...prev.createEvent,
+          dateLocation: {
+            ...prev.createEvent.dateLocation,
+            ...payload,
+          },
+        },
+      };
+    },
+    setSpeakers: (prev, { payload }) => {
+      return {
+        ...prev,
+        createEvent: {
+          ...prev.createEvent,
+          speakers: [...prev.createEvent.speakers, payload],
+        },
+      };
+    },
+    removeSpeakers: (prev, { payload }) => {
+      return {
+        ...prev,
+        createEvent: {
+          ...prev.createEvent,
+          speakers: prev.createEvent.speakers.filter(
+            (ele) => ele.name !== payload,
+          ),
+        },
+      };
+    },
+    setCategory: (prev, { payload }) => {
+      return {
+        ...prev,
+        createEvent: {
+          ...prev.createEvent,
+          basic: {
+            ...prev.createEvent.basic,
+            category: [...prev.createEvent.basic.category, payload],
+          },
+        },
+      };
+    },
+    removeCategory: (prev, { payload }) => {
+      return {
+        ...prev,
+        createEvent: {
+          ...prev.createEvent,
+          basic: {
+            ...prev.createEvent.basic,
+            category: prev.createEvent.basic.category.filter(
+              (ele) => ele !== payload,
+            ),
+          },
+        },
+      };
+    },
+    resetState: (prev) => {
+      return {
+        ...prev,
+        createEvent: initialState.createEvent,
+      };
+    },
+  },
   extraReducers: (builder) => {
     return builder
       .addAsyncThunk(getEventThunk, {
@@ -232,5 +358,17 @@ const eventSlices = createSlice({
       });
   },
 });
+
+export const {
+  nextStep,
+  prevStep,
+  setBasic,
+  setDateLocation,
+  setSpeakers,
+  removeSpeakers,
+  setCategory,
+  removeCategory,
+  resetState
+} = eventSlices.actions;
 
 export default eventSlices.reducer;
