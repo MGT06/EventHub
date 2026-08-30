@@ -17,6 +17,7 @@ import {
 } from "chart.js";
 import { Link } from "react-router";
 import { useSelector } from "react-redux";
+import { useAuth } from "../../hooks/useAuth";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -47,7 +48,12 @@ const options = {
 };
 
 function DashboardOrganizer() {
+  const { userActive } = useAuth();
   const { dataEvent } = useSelector((state) => state.eventState);
+  const organizerData = dataEvent.filter(
+    (data) => data.organizer.name === userActive.name,
+  );
+
   return (
     <section className="py-8 px-4 lg:px-29.5">
       <div>
@@ -55,10 +61,13 @@ function DashboardOrganizer() {
         <p className="text-sm text-manatee mt-0.5">
           Manage your events and track performance.
         </p>
-        <button className="flex py-2 px-4 bg-orange gap-2 rounded-lg text-white text-sm font-medium items-center mt-5">
-          <Plus width={20} />
-          <p className="">Create Event</p>
-        </button>
+        <Link
+          to={"/create-event"}
+          className="flex py-2 px-4 w-max bg-orange gap-2 rounded-lg text-white text-sm font-medium items-center mt-5"
+        >
+          <Plus width={16} />
+          <p>Create Event</p>
+        </Link>
       </div>
       <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div className="rounded-xl p-5 border border-gray-300 ">
@@ -66,7 +75,7 @@ function DashboardOrganizer() {
             <p className="font-medium text-manatee text-xs">TOTAL EVENTS</p>
             <Calendar width={16} className="text-manatee" />
           </div>
-          <p className="mt-3 font-bold text-2xl">2</p>
+          <p className="mt-3 font-bold text-2xl">{organizerData.length}</p>
           <p className="text-manatee text-xs">All time</p>
         </div>
         <div className="rounded-xl p-5 border border-gray-300">
@@ -98,7 +107,7 @@ function DashboardOrganizer() {
         <h3 className="font-semibold text-lg ">Your Events</h3>
         <div className="mt-4 lg:flex gap-6">
           <div className="grid gap-3 h-max lg:grow">
-            {dataEvent.slice(0, 2).map((data) => {
+            {organizerData.map((data) => {
               return (
                 <div
                   key={data.id}
@@ -107,7 +116,7 @@ function DashboardOrganizer() {
                   <img
                     src={data.coverImage}
                     alt=""
-                    className="w-20 h-16 rounded-lg"
+                    className="w-20 h-16 rounded-lg object-cover"
                   />
                   <div className="grow grid gap-3">
                     <div>
@@ -165,8 +174,8 @@ function DashboardOrganizer() {
               );
             })}
           </div>
-          <div className="grid gap-4">
-            <div className="p-5 rounded-xl border border-gray-300">
+          <div className="flex flex-col gap-4">
+            <div className="p-5 rounded-xl border border-gray-300 h-max">
               <div className="flex gap-2 items-center">
                 <ChartNoAxesColumn width={16} />
                 <p className="font-semibold text-sm">
@@ -177,7 +186,7 @@ function DashboardOrganizer() {
                 <Bar data={dataChart} options={options} />
               </div>
             </div>
-            <div className="border border-gray-300 rounded-xl p-5">
+            <div className="border border-gray-300 rounded-xl p-5 h-max">
               <p className="font-semibold text-sm">Quick Actions</p>
               <div className="grid gap-3 mt-3 ">
                 <Link
@@ -193,10 +202,10 @@ function DashboardOrganizer() {
                 </button>
               </div>
             </div>
-            <div className="border border-gray-300 rounded-xl p-5">
+            <div className="border border-gray-300 rounded-xl p-5 h-max">
               <p className="font-semibold text-sm">Upcoming Events</p>
               <div className="grid gap-3 mt-3 ">
-                {dataEvent.slice(0, 2).map((data) => {
+                {organizerData.map((data) => {
                   return (
                     <div
                       key={data.id}
@@ -220,9 +229,12 @@ function DashboardOrganizer() {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-10 right-10 w-12 h-12 bg-orange flex justify-center items-center rounded-full text-white">
+      <Link
+        to={"/create-event"}
+        className="fixed bottom-10 right-10 w-12 h-12 bg-orange flex justify-center items-center rounded-full text-white"
+      >
         <Plus />
-      </div>
+      </Link>
     </section>
   );
 }

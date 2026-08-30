@@ -42,22 +42,22 @@ function OverviewAdmin() {
         <div className="pt-4 grid gap-3 grid-">
             <div className="flex gap-3 items-center justify-between">
                 <UsersRound width={16} className="text-green-500"/>
-                <p className="text-sm">284 new users registered this month</p>
+                <p className="text-sm lg:grow">284 new users registered this month</p>
                 <p className="text-xs text-manatee">Today</p>
             </div>
             <div className="flex gap-3 items-center justify-between">
                 <Calendar width={16} className="text-blue-500"/>
-                <p className="text-sm w-60">"AI Product Design Summit" reached 234 registrations</p>
+                <p className="text-sm sm:w-60 lg:grow">"AI Product Design Summit" reached 234 registrations</p>
                 <p className="text-xs text-manatee ">2h ago</p>
             </div>
             <div className="flex gap-3 items-center justify-between">
                 <Flag width={16} className="text-orange"/>
-                <p className="text-sm">3 new organizer applications received</p>
+                <p className="text-sm sm:w-60 lg:grow">3 new organizer applications received</p>
                 <p className="text-xs text-manatee">5h ago</p>
             </div>
             <div className="flex gap-3 items-center justify-between">
                 <UsersRound width={16} className="text-green-500"/>
-                <p className="text-sm w-60">Jakarta AI & ML Club crossed 2,000 members</p>
+                <p className="text-sm sm:w-60 lg:grow">Jakarta AI & ML Club crossed 2,000 members</p>
                 <p className="text-xs text-manatee">1d ago</p>
             </div>
         </div>
