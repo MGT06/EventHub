@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { X, Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
@@ -13,7 +13,6 @@ function EditProfileModal({ isClose }) {
   const getPhoto = dataUser.find((data) => data.email === userActive.email);
 
   const { register, handleSubmit } = useForm();
-  const fileInputRef = useRef(null);
 
   function handleSave(dataInput) {
     dispatch(
@@ -36,14 +35,14 @@ function EditProfileModal({ isClose }) {
         </div>
         <form>
           <div className="px-5 py-5 flex flex-col gap-5">
-            <div
+            <label
               className="relative self-center w-20 h-20 bg-orange rounded-2xl cursor-pointer group"
-              onClick={() => fileInputRef.current.click()}
+              htmlFor="photo"
             >
               <input
                 type="file"
                 accept="image/*"
-                ref={fileInputRef}
+                id="photo"
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
@@ -73,7 +72,7 @@ function EditProfileModal({ isClose }) {
                   size={18}
                 />
               </div>
-            </div>
+            </label>
 
             <div>
               <label className="text-sm font-medium block mb-1.5">
