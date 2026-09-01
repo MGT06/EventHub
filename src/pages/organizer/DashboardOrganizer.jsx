@@ -160,10 +160,10 @@ function DashboardOrganizer() {
                       </div>
                     </div>
                     <div className="flex gap-3">
-                      <button className="flex gap-2 px-3 py-1.5 items-center border border-gray-300 rounded-lg">
+                      <Link to={`/edit-event/${data.id}`} className="flex gap-2 px-3 py-1.5 items-center border border-gray-300 rounded-lg">
                         <PencilLine width={16} />
                         <p className="font-medium text-sm">Edit</p>
-                      </button>
+                      </Link>
                       <div className="py-1.5 px-3 flex items-center gap-2">
                         <Eye width={16} />
                         <p className="text-xs font-medium">48 attendees</p>

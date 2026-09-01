@@ -1,9 +1,9 @@
 import { MoveRight, UploadCloud, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import {
   nextStep,
   removeCategory,
@@ -22,12 +22,14 @@ const categories = [
 ];
 
 function BasicInformation() {
+  const { id } = useParams();
   const [preview, setPreview] = useState();
-
+  const { dataEvent } = useSelector((state) => state.eventState);
+  const dataEdit = dataEvent.find((data) => data.id === Number(id));
   const { dataCommunity } = useSelector((state) => state.communityState);
   const { basic } = useSelector((state) => state.eventState.createEvent);
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => {
@@ -36,9 +38,8 @@ function BasicInformation() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
-        console.log(reader);
       };
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     },
     accept: {
       "image/png": [".png"],
@@ -48,6 +49,28 @@ function BasicInformation() {
     multiple: false,
   });
 
+  useEffect(() => {
+    (() => {
+      if (id) {
+        setPreview(dataEdit.coverImage)
+        dispatch(
+          setBasic({
+            coverImage: dataEdit.coverImage,
+            title: dataEdit.title,
+            description: dataEdit.description,
+            category: dataEdit.category,
+            community: dataEdit.organizer.community,
+          }),
+        );
+      }
+      if (dataEdit) {
+        reset({
+          community: dataEdit.organizer.community,
+        });
+      }
+    })();
+  }, [dispatch, dataEdit, id, reset]);
+
   const onSubmit = (dataInput) => {
     dispatch(
       setBasic({
@@ -55,7 +78,6 @@ function BasicInformation() {
         coverImage: preview,
       }),
     );
-    console.log(dataInput.community)
     dispatch(nextStep());
     navigate("details");
   };
@@ -177,7 +199,7 @@ function BasicInformation() {
             {...register("community")}
             id="desc"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
-            defaultValue={basic.community ? basic.community : "community" }
+            defaultValue={"community"}
           >
             <option value="community" disabled className="text-sm w-max">
               No community

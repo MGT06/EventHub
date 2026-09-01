@@ -85,6 +85,11 @@ function AppRoutes() {
             <Route path="details" element={<DateLocationCapacity />} />
             <Route path="speaker-review" element={<SpeakersReview />} />
           </Route>
+          <Route path="edit-event/:id" element={<LayoutCreateEvent />}>
+            <Route index element={<BasicInformation />} />
+            <Route path="details" element={<DateLocationCapacity />} />
+            <Route path="speaker-review" element={<SpeakersReview />} />
+          </Route>
         </Route>
 
         <Route element={<ProtectedRoute roles={["admin"]} />}>

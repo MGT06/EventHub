@@ -1,29 +1,49 @@
 import { Laptop, MapPin, MoveRight } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import {
   nextStep,
   prevStep,
   setDateLocation,
 } from "../../redux/slices/eventSlices";
+import { useEffect } from "react";
 
 function DateLocationCapacity() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { dateLocation } = useSelector((state) => state.eventState.createEvent);
-  const { register, handleSubmit, control, setValue } = useForm({
-    defaultValues: {
-      format: dateLocation.format ? dateLocation.format : "in-person",
-    },
-  });
+  const { register, handleSubmit, control, setValue, reset } = useForm();
 
+  const { dataEvent } = useSelector((state) => state.eventState);
+  const dataEdit = dataEvent.find((data) => data.id === Number(id));
+  
+  useEffect(() => {
+    if (id) {
+      dispatch(
+        setDateLocation({
+          eventDate: dataEdit.eventDate,
+          startTime: dataEdit.startTime,
+          endTime: dataEdit.endTime,
+          format: dataEdit.format,
+          location: dataEdit.location,
+          capacity: dataEdit.capacity
+        }),
+      );
+    }
+    if (dataEdit) {
+      reset({
+        format: dataEdit.format
+      });
+    }
+  }, [dispatch, dataEdit, id, reset]);
   const selectFormat = useWatch({ control, name: "format" });
 
   const onSubmit = (dataInput) => {
     dispatch(setDateLocation(dataInput));
     dispatch(nextStep());
-    navigate("/create-event/speaker-review");
+    navigate("../speaker-review");
   };
   return (
     <div>
@@ -41,7 +61,7 @@ function DateLocationCapacity() {
           <input
             type="date"
             id="date"
-            {...register("eventDate", {required: true})}
+            {...register("eventDate", { required: true })}
             defaultValue={dateLocation.eventDate}
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
           />
@@ -53,7 +73,7 @@ function DateLocationCapacity() {
             </label>
             <input
               type="time"
-              {...register("startTime", {required: true})}
+              {...register("startTime", { required: true })}
               defaultValue={dateLocation.startTime}
               id="start"
               className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
@@ -65,7 +85,7 @@ function DateLocationCapacity() {
             </label>
             <input
               type="time"
-              {...register("endTime", {required: true})}
+              {...register("endTime", { required: true })}
               defaultValue={dateLocation.endTime}
               id="end"
               className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
@@ -105,7 +125,7 @@ function DateLocationCapacity() {
           </label>
           <input
             type="text"
-            {...register("location", {required: true})}
+            {...register("location", { required: true })}
             defaultValue={dateLocation.location}
             id="location"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
@@ -118,7 +138,7 @@ function DateLocationCapacity() {
           </label>
           <input
             type="number"
-            {...register("capacity", {required: true})}
+            {...register("capacity", { required: true })}
             defaultValue={dateLocation.capacity}
             id="capacity"
             className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg"
@@ -126,7 +146,7 @@ function DateLocationCapacity() {
           />
         </div>
         <div className="mt-8 pt-6 border-t border-t-gray-300 flex justify-between">
-          <Link to={"/create-event"} onClick={() => dispatch(prevStep())}>
+          <Link to={id ? `/edit-event/${id}` : "create-event" } onClick={() => dispatch(prevStep())}>
             <button className=" py-2 px-4 text-black rounded-lg">Back</button>
           </Link>
           <button

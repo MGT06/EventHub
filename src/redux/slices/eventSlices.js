@@ -19,11 +19,7 @@ const initialState = {
       location: "",
       capacity: "",
     },
-    organizer: {
-      avatar: "",
-      name: "",
-      community: ""
-    },
+    organizer: null,
     speakers: [],
     attendees: [],
   },
@@ -60,17 +56,33 @@ export const createEventThunk = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     try {
       const { dataEvent } = getState().eventState;
-      const payloadWithId = {
-        id: dataEvent[dataEvent.length - 1].id + 1,
-        ...payload
-      }
       const result = await new Promise((resolve) => {
         setTimeout(() => {
           resolve({
-            ...payloadWithId,
+            id: dataEvent[dataEvent.length - 1].id + 1,
+            ...payload
           });
         }, 1000);
       });
+      return result;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const editEventThunk = createAsyncThunk(
+  "edit_event",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const result = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            ...payload
+          });
+        }, 1000);
+      });
+      console.log(result)
       return result;
     } catch (e) {
       return rejectWithValue(e);
@@ -216,7 +228,7 @@ const eventSlices = createSlice({
         ...prev,
         createEvent: {
           ...prev.createEvent,
-          speakers: [...prev.createEvent.speakers, payload],
+          speakers: Array.isArray(payload) ? payload : [...prev.createEvent.speakers, payload],
         },
       };
     },
@@ -293,6 +305,29 @@ const eventSlices = createSlice({
         },
         fulfilled: (state, { payload }) => {
           state.dataEvent.push(payload);
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      })
+      .addAsyncThunk(editEventThunk, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.dataEvent = state.dataEvent.map(ele => {
+            if(ele.id === payload.id) {
+              return payload
+            }
+            return ele
+          })
           state.isPending = false;
           state.isFulfilled = true;
         },

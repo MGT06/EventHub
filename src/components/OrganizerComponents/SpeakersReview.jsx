@@ -1,9 +1,10 @@
 import { Check, Plus, X, Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router";
-import { useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
 import {
+  editEventThunk,
   prevStep,
   removeSpeakers,
   resetState,
@@ -13,6 +14,9 @@ import { createEventThunk } from "../../redux/slices/eventSlices";
 import { useAuth } from "../../hooks/useAuth";
 
 function SpeakersReview() {
+  const { id } = useParams();
+  const { dataEvent } = useSelector((state) => state.eventState);
+  const dataEdit = dataEvent.find((data) => data.id === Number(id));
   const dispatch = useDispatch();
   const { register, resetField, getValues } = useForm();
   const { basic, dateLocation, speakers, attendees } = useSelector(
@@ -21,7 +25,14 @@ function SpeakersReview() {
   const { userActive } = useAuth();
   const navigate = useNavigate();
   const [speakerAvatar, setSpeakerAvatar] = useState("");
-  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    (() => {
+      if (id) {
+        dispatch(setSpeakers(dataEdit.speakers));
+      }
+    })();
+  }, [dispatch, dataEdit, id]);
 
   const handleAddSpeaker = (e) => {
     e.preventDefault();
@@ -57,14 +68,14 @@ function SpeakersReview() {
         </label>
 
         <div className="flex gap-2 items-start">
-          <div
+          <label
             className="w-11 h-11 rounded-full bg-gray-200 cursor-pointer"
-            onClick={() => fileInputRef.current.click()}
+            htmlFor="photo"
           >
             <input
               type="file"
               accept="image/*"
-              ref={fileInputRef}
+              id="photo"
               onChange={(e) => {
                 const file = e.target.files[0];
                 if (file) {
@@ -88,7 +99,7 @@ function SpeakersReview() {
                 <Camera size={16} className="text-manatee" />
               </div>
             )}
-          </div>
+          </label>
 
           <div className="grid gap-2 grow">
             <input
@@ -198,10 +209,7 @@ function SpeakersReview() {
           </div>
         </div>
         <div className="mt-8 pt-6 border-t border-t-gray-300 flex justify-between">
-          <Link
-            to={"/create-event/details"}
-            onClick={() => dispatch(prevStep())}
-          >
+          <Link to={"../details"} onClick={() => dispatch(prevStep())}>
             <button className=" py-2 px-4 text-black rounded-lg">Back</button>
           </Link>
           <button
@@ -209,27 +217,44 @@ function SpeakersReview() {
             className="flex gap-2 py-2 px-4 text-white bg-green-500 rounded-lg"
             onClick={(e) => {
               e.preventDefault();
-              const {community, ...newBasic} = basic
-              dispatch(
-                createEventThunk({
-                  ...newBasic,
-                  ...dateLocation,
-                  speakers: speakers,
-                  attendees: attendees,
-                  organizer: {
-                    avatar: "",
-                    name: userActive.name,
-                    community
-                  },
-                  userSaved: [],
-                  status: "open"
-                }),
-              );
+              const { community, ...newBasic } = basic;
+              id
+                ? dispatch(
+                    editEventThunk({
+                      id: Number(id),
+                      ...newBasic,
+                      ...dateLocation,
+                      speakers: speakers,
+                      attendees: attendees,
+                      organizer: {
+                        avatar: "",
+                        name: userActive.name,
+                        community,
+                      },
+                      userSaved: [],
+                      status: "open",
+                    }),
+                  )
+                : dispatch(
+                    createEventThunk({
+                      ...newBasic,
+                      ...dateLocation,
+                      speakers: speakers,
+                      attendees: attendees,
+                      organizer: {
+                        avatar: "",
+                        name: userActive.name,
+                        community,
+                      },
+                      userSaved: [],
+                      status: "open",
+                    }),
+                  );
               dispatch(resetState());
               navigate("/dashboard-organizer");
             }}
           >
-            <Check /> Publish Event
+            <Check />{id ? "Edit Event" : "Publish Event"}
           </button>
         </div>
       </form>

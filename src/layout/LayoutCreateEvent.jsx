@@ -1,9 +1,10 @@
 import { MoveLeft } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useParams } from "react-router";
 import { resetState } from "../redux/slices/eventSlices";
 
 function LayoutCreateEvent() {
+  const { id } = useParams()
   const { step } = useSelector((state) => state.eventState.createEvent);
   const dispatch  = useDispatch()
   return (
@@ -15,7 +16,7 @@ function LayoutCreateEvent() {
             <p>Back</p>
           </div>
         </Link>
-        <p className="font-semibold">Create Event</p>
+        <p className="font-semibold"> {id ? "Edit Event" : "Create Event"}</p>
         <div className="grow flex gap-2 items-center justify-end">
           <span
             className={`rounded-full text-xs font-semibold grid items-center justify-center w-6 h-6 ${

@@ -37,7 +37,7 @@ const persistSignInConfig = {
 const persistEventConfig = {
   key: "joinEvent",
   storage,
-  blacklist: ['createEvent']
+  // blacklist: ['createEvent']
 };
 const persistCommunityConfig = {
   key: "joinCommunity",
