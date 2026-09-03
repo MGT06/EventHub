@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 function CardCommunities({ community }) {
   const [modal, setModal] = useState(false);
   const { isJoined, addJoined } = useJoin("joinedCommunities");
-  const { isAuthenticated, userActive } = useAuth();
+  const { isAuthenticated, userActive, role } = useAuth();
 
   const alreadyJoined = isJoined(userActive?.email, community.members);
 
@@ -27,6 +27,8 @@ function CardCommunities({ community }) {
       },
     );
   }
+
+  const disabled = role === "organizer" || role === "admin";
   return (
     <div className="rounded-lg border border-gray-300 h-full flex flex-col">
       <Link to={`/communities/detail/${community.id}`} className="relative">
@@ -78,6 +80,7 @@ function CardCommunities({ community }) {
             alreadyJoined ? "bg-green-500" : "bg-orange"
           }`}
           onClick={() => {
+            if(disabled) return
             isAuthenticated ? joinHandled() : setModal(true);
           }}
         >

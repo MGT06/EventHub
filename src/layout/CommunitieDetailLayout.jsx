@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 function CommunitieDetailLayout() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isAuthenticated, userActive } = useAuth();
+  const { isAuthenticated, userActive, role } = useAuth();
 
   const { dataCommunity } = useSelector((state) => state.communityState);
 
@@ -34,6 +34,8 @@ function CommunitieDetailLayout() {
       },
     );
   }
+
+  const disabled = role === "organizer" || role === "admin";
 
   const tabActive = ({ isActive }) =>
     `text-sm px-4 py-2.5 font-medium ${
@@ -79,6 +81,7 @@ function CommunitieDetailLayout() {
           <div>
             <button
               onClick={() => {
+                if (disabled) return;
                 isAuthenticated ? joinHandled() : setModal(true);
               }}
               className={`flex items-center w-max justify-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg cursor-pointer ${

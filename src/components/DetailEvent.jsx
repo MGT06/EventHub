@@ -8,6 +8,7 @@ import {
   Bookmark,
   Share2,
   SendHorizonal,
+  Check,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
@@ -21,9 +22,8 @@ import { toast } from "react-toastify";
 function DetailEvent() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isJoined, addJoined, addSaved, isSaved, removeJoin } =
-    useJoin("joinedEvents");
-  const { isAuthenticated, userActive } = useAuth();
+  const { isJoined, addJoined, addSaved, isSaved, removeJoin } = useJoin();
+  const { isAuthenticated, userActive, role } = useAuth();
   const { dataEvent } = useSelector((state) => state.eventState);
 
   const dataDetail = dataEvent.find((detail) => detail.id == id);
@@ -84,6 +84,9 @@ function DetailEvent() {
       },
     );
   }
+
+  const disabled =
+    dataDetail.status === "ended" || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc(
     (dataDetail.attendees.length / dataDetail.capacity) * 100,
@@ -170,12 +173,26 @@ function DetailEvent() {
             </div>
             <div className="grid gap-2">
               <button
-                className={`py-2 px-4 rounded-lg text-white cursor-pointer ${alreadyJoined ? " bg-green-600" : "bg-orange"}`}
+                className={`py-2 px-4 rounded-lg cursor-pointer ${
+                  dataDetail.status === "full" || dataDetail.status === "ended"
+                    ? "bg-gray-200 text-gray-600"
+                    : alreadyJoined
+                      ? "bg-green-500 text-white  flex justify-center"
+                      : "bg-orange text-white"
+                }`}
                 onClick={() => {
+                  if (disabled) return;
                   isAuthenticated ? joinHandled() : setModal(true);
                 }}
               >
-                {alreadyJoined ? "Registered" : "Join Event"}
+                {alreadyJoined && <Check />}
+                {dataDetail.status === "full"
+                  ? "Full"
+                  : dataDetail.status === "ended"
+                    ? "Ended"
+                    : alreadyJoined
+                      ? "Joined"
+                      : "Join Event"}
               </button>
               {alreadyJoined && (
                 <button
@@ -196,9 +213,10 @@ function DetailEvent() {
                     ? "border-orange text-orange"
                     : "border-gray-300 text-manatee hover:bg-gray-100"
                 }`}
-                onClick={() =>
-                  isAuthenticated ? saveHandled() : setModal(true)
-                }
+                onClick={() => {
+                  if (disabled) return;
+                  isAuthenticated ? saveHandled() : setModal(true);
+                }}
               >
                 <Bookmark
                   size={18}
@@ -219,13 +237,21 @@ function DetailEvent() {
             </div>
           </div>
           <div className="grid gap-2 p-4 border border-gray-300 rounded-xl">
-            <p className="font-semibold text-xs text-manatee h-max">ORGANIZED BY</p>
+            <p className="font-semibold text-xs text-manatee h-max">
+              ORGANIZED BY
+            </p>
             <div className="flex gap-3 items-center">
-              <img
-                src={dataDetail.organizer?.avatar}
-                alt=""
-                className="rounded-full w-8 h-8"
-              />
+              {dataDetail.organizer.avatar ? (
+                <img
+                  src={dataDetail.organizer.avatar}
+                  alt=""
+                  className="rounded-full w-8 h-8"
+                />
+              ) : (
+                <div className="hidden lg:flex items-center justify-center rounded-full h-8 w-8 cursor-pointer bg-orange text-white capitalize">
+                  {dataDetail.organizer.name.charAt(0)}
+                </div>
+              )}
               <div>
                 <p className="font-semibold text-sm">
                   {dataDetail.organizer?.name}
