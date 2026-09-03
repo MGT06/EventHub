@@ -20,14 +20,19 @@ function Register() {
 
   const onSubmit = async (dataInput) => {
     try {
-      await toast.promise(signUp(dataInput), {
-        pending: "Proses register",
-        success: "Register success",
-        error: "Register fail"
-      }, {
-        autoClose: 2000,
-      });
-      
+      await toast.promise(
+        signUp(dataInput),
+        {
+          pending: "Proses register",
+          success: "Register success",
+          error: "Register fail",
+        },
+        {
+          autoClose: 2000,
+          position: "bottom-right",
+        },
+      );
+
       navigate("/auth/login");
     } catch (e) {
       return e;
