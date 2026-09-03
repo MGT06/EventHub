@@ -11,7 +11,7 @@ function EventAdmin() {
             <img src={ele.coverImage} alt="" className="w-12 h-12 rounded-lg mr-2" />
             <div>
               <p className="font-medium text-sm">{ele.title}</p>
-              <p className="text-xs text-manatee">{ele.date} · {ele.location}</p>
+              <p className="text-xs text-manatee">{ele.eventDate} · {ele.location}</p>
             </div>
             <span className="bg-green-500/20 py-0.5 px-2 rounded-full mr-4 text-xs text-center capitalize">{ele.status === "open" ? "Active" : ele.status}</span>
             <MoreHorizontal className="self-center"/>

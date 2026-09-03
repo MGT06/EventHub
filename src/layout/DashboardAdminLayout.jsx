@@ -10,7 +10,7 @@ const tabActive = ({ isActive }) =>
 function DashboardAdminLayout() {
   return (
     <>
-      <section className="py-8 px-4">
+      <section className="py-8 px-4 lg:px-13.5">
         <div className="flex gap-3 items-center">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-orange/25 text-orange">
             <Shield width={20} />
@@ -22,7 +22,7 @@ function DashboardAdminLayout() {
             </p>
           </div>
         </div>
-        <div className="mt-4 flex overflow-scroll">
+        <div className="mt-4 flex overflow-scroll no-scrollbar">
           <NavLink to={`/dashboard-admin`} end className={tabActive}>
             <Shield />
             Overview
