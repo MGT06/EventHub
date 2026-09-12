@@ -113,7 +113,7 @@ function SpeakersReview() {
               type="text"
               {...register("role")}
               className="px-3 py-2.5 border outline-none border-gray-300 rounded-lg w-full"
-              placeholder="Speaker title/role (e.g. CEO, Founder)"
+              placeholder="Speaker role and company"
             />
           </div>
 

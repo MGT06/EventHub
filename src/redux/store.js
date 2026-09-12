@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import signUpReducer from "./slices/signUpSlices.js";
-import signInReducer from "./slices/signInSlices.js";
+import dataUserReducer from "./slices/dataUserSlices.js";
+import loggedUserReducer from "./slices/loggedUserSlices.js";
 import eventReducer from "./slices/eventSlices.js";
 import communityReducer from "./slices/communitySlices.js";
 import {
@@ -46,8 +46,8 @@ const persistCommunityConfig = {
 
 const store = configureStore({
   reducer: {
-    dataUserState: persistReducer(persistSignUpConfig, signUpReducer),
-    loggedUserState: persistReducer(persistSignInConfig, signInReducer),
+    dataUserState: persistReducer(persistSignUpConfig, dataUserReducer),
+    loggedUserState: persistReducer(persistSignInConfig, loggedUserReducer),
     eventState: persistReducer(persistEventConfig, eventReducer),
     communityState: persistReducer(persistCommunityConfig, communityReducer),
   },

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changePasswordThunk, registerThunk } from "../redux/slices/signUpSlices.js";
-import { loginThunk, logout as signOut } from "../redux/slices/signInSlices.js";
+import { changePasswordThunk, registerThunk } from "../redux/slices/dataUserSlices.js";
+import { loginThunk, logout as signOut } from "../redux/slices/loggedUserSlices.js";
 
 export function useAuth() {
   const dispatch = useDispatch();
