@@ -3,7 +3,7 @@ import { X, Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "../../redux/slices/signUpSlices";
+import { editUser } from "../../redux/slices/dataUserSlices.js";
 
 function EditProfileModal({ isClose }) {
   const { userActive } = useAuth();

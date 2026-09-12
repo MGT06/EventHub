@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
-import { changePasswordThunk } from "../../redux/slices/signUpSlices";
+import { changePasswordThunk } from "../../redux/slices/dataUserSlices.js";
 
 function ChangePasswordModal({ isClose }) {
   const { userActive } = useAuth();
