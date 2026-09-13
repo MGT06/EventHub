@@ -2,10 +2,7 @@ import { X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
 function ModalLogout({ isClose }) {
-  const { logout } = useAuth();
-  const handleLogout = () => {
-    logout();
-  };
+  const { signOut } = useAuth();
   return (
     <div
       className={`fixed inset-0 bg-[#00000030] flex justify-center items-center z-50`}
@@ -24,7 +21,7 @@ function ModalLogout({ isClose }) {
           <button
             className="py-2 px-4 bg-orange text-white text-sm font-medium rounded-lg"
             onClick={() => {
-                handleLogout()
+                signOut()
                 isClose()
             }}
           >

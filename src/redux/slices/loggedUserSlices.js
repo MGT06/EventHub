@@ -22,8 +22,8 @@ const admin = {
   access: import.meta.env.VITE_ADMIN_ACCESS,
 };
 
-export const loginThunk = createAsyncThunk(
-  "login",
+export const signInThunk = createAsyncThunk(
+  "sign_in",
   (payload, { getState, rejectWithValue }) => {
     const { dataUser } = getState().dataUserState;
     if (
@@ -69,7 +69,7 @@ const signInSlices = createSlice({
   name: "loggedUser",
   initialState,
   reducers: {
-    logout: (prev) => {
+    signOutAction: (prev) => {
       return {
         ...prev,
         loggedUser: "",
@@ -77,7 +77,7 @@ const signInSlices = createSlice({
     },
   },
   extraReducers: (builder) => {
-    return builder.addAsyncThunk(loginThunk, {
+    return builder.addAsyncThunk(signInThunk, {
       pending: (state) => {
         state.isPending = true;
         state.isFulfilled = false;
@@ -98,6 +98,6 @@ const signInSlices = createSlice({
   }
 });
 
-export const { logout } = signInSlices.actions;
+export const { signOutAction } = signInSlices.actions;
 
 export default signInSlices.reducer;

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 function Login() {
   const [openEye, setOpenEye] = useState(false);
-  const { login } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const { error } = useSelector((state) => state.loggedUserState);
   const {
@@ -25,7 +25,7 @@ function Login() {
 
   const onSubmit = async (dataInput) => {
     try {
-      await toast.promise(login(dataInput), {
+      await toast.promise(signIn(dataInput), {
         pending: "Proses login",
         success: "Login success",
         error: "Login fail"

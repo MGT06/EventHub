@@ -8,8 +8,8 @@ const initialState = {
   error: null,
 };
 
-export const registerThunk = createAsyncThunk(
-  "register",
+export const signUpThunk = createAsyncThunk(
+  "sign_up",
   (payload, { getState, rejectWithValue }) => {
     const { dataUser } = getState().dataUserState;
     for (const dataLocal of dataUser) {
@@ -35,7 +35,7 @@ export const registerThunk = createAsyncThunk(
 );
 
 export const changePasswordThunk = createAsyncThunk(
-  "change-password",
+  "change_password",
   (payload, { getState, rejectWithValue }) => {
     const { dataUser } = getState().dataUserState;
     if (payload.password !== payload.confirm)
@@ -83,7 +83,7 @@ const signUpSlices = createSlice({
     },
   },
   extraReducers: (builder) => {
-    return builder.addAsyncThunk(registerThunk, {
+    return builder.addAsyncThunk(signUpThunk, {
       pending: (state) => {
         state.isPending = true;
         state.isFulfilled = false;
