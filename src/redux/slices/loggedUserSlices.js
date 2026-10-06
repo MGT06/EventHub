@@ -1,69 +1,64 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   loggedUser: null,
-  isPending: false,
+  token: "",
+  isPending: false, 
   isFulfilled: false,
   isRejected: false,
   error: null,
 };
 
-const organizer = {
-  name: import.meta.env.VITE_ORGANIZER_NAME,
-  email: import.meta.env.VITE_ORGANIZER_EMAIL,
-  password: import.meta.env.VITE_ORGANIZER_PASSWORD,
-  access: import.meta.env.VITE_ORGANIZER_ACCESS,
-};
-
-const admin = {
-  name: import.meta.env.VITE_ADMIN_NAME,
-  email: import.meta.env.VITE_ADMIN_EMAIL,
-  password: import.meta.env.VITE_ADMIN_PASSWORD,
-  access: import.meta.env.VITE_ADMIN_ACCESS,
-};
-
 export const signInThunk = createAsyncThunk(
   "sign_in",
-  (payload, { getState, rejectWithValue }) => {
-    const { dataUser } = getState().dataUserState;
-    if (
-      payload.email === organizer.email &&
-      payload.password === organizer.password
-    ) {
-      const result = new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(organizer)
-        }, 2000)
+  async (payload, { rejectWithValue }) => {
+    try {
+      const data = JSON.stringify({
+        email: payload.email,
+        password: payload.password
       })
-      return result
+      const response = await axios.post("http://localhost:9000/auth/login", data)
+      return response.data.Data
+    } catch (err) {
+      return rejectWithValue(err);
     }
-
-    if (payload.email === admin.email && payload.password === admin.password) {
-      const result = new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(admin)
-        }, 2000)
-      })
-      return result
-    }
-
-    for (const dataLocal of dataUser) {
-      if (
-        dataLocal.email === payload.email &&
-        dataLocal.password === payload.password
-      ) {
-        const result = new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(dataUser.find((data) => data.email === payload.email))
-          }, 2000)
-        })
-        return result
-      }
-    }
-
-    return rejectWithValue("email or password are incorrect");
   },
 );
+
+export const getInfoUserThunk = createAsyncThunk(
+  "get_info",
+  async (_, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const response = await axios.get("http://localhost:9000/user/headerinfo", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data.Data
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
+
+export const signOutThunk = createAsyncThunk(
+  "sign_out",
+  async (_, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const response = await axios.post("http://localhost:9000/auth/logout", null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data.Message
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
 
 const signInSlices = createSlice({
   name: "loggedUser",
@@ -85,7 +80,7 @@ const signInSlices = createSlice({
         state.error = null;
       },
       fulfilled: (state, { payload }) => {
-        state.loggedUser = payload;
+        state.token = payload.token;
         state.isPending = false;
         state.isFulfilled = true;
       },
@@ -94,7 +89,44 @@ const signInSlices = createSlice({
         state.isRejected = true;
         state.error = payload;
       },
-    })
+    }),
+      builder.addAsyncThunk(getInfoUserThunk, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.loggedUser = payload;
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      }),
+      builder.addAsyncThunk(signOutThunk, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state) => {
+          state.loggedUser = ""
+          state.token = ""
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      })
   }
 });
 

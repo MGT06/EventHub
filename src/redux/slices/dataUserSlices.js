@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   dataUser: [],
-  isPending: false,
+  isPending: false, 
   isFulfilled: false,
   isRejected: false,
   error: null,
@@ -10,27 +11,23 @@ const initialState = {
 
 export const signUpThunk = createAsyncThunk(
   "sign_up",
-  (payload, { getState, rejectWithValue }) => {
-    const { dataUser } = getState().dataUserState;
-    for (const dataLocal of dataUser) {
-      if (dataLocal.email === payload.email)
-        return rejectWithValue({
-          typeError: "email",
-          message: "Email is exist",
-        });
-    }
+  async (payload, { rejectWithValue }) => {
     if (payload.password !== payload.confirm)
       return rejectWithValue({
         typeError: "password",
         message: "Password do not match",
       });
-
-    const result = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ ...payload, access: "attendee" })
-      }, 2000)
-    })
-    return result;
+    try {
+      const response = await axios.post("http://localhost:9000/auth/register", {
+        fullname: payload.name,
+        email: payload.email,
+        password: payload.password
+      })
+      console.log(response)
+      return response
+    } catch (err) {
+      return rejectWithValue(err)
+    }
   },
 );
 
@@ -91,7 +88,7 @@ const signUpSlices = createSlice({
         state.error = null;
       },
       fulfilled: (state, { payload }) => {
-        state.dataUser.push(payload);
+        state.dataUser.push(payload.data);
         state.isPending = false;
         state.isFulfilled = true;
       },

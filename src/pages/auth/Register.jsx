@@ -13,13 +13,14 @@ function Register() {
   const { error } = useSelector((state) => state.dataUserState);
   const { signUp } = useAuth();
   const {
-    register,
+    register, 
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (dataInput) => {
     try {
+      console.log(dataInput)
       await toast.promise(
         signUp(dataInput),
         {

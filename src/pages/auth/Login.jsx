@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 function Login() {
   const [openEye, setOpenEye] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, getInfo  } = useAuth();
   const navigate = useNavigate();
   const { error } = useSelector((state) => state.loggedUserState);
   const {
@@ -33,6 +33,7 @@ function Login() {
         autoClose: 2000,
         position: "bottom-right"
       })
+      getInfo()
       navigate("/")
     } catch (e) {
       reset({ password: "" });
