@@ -35,7 +35,7 @@ const persistSignInConfig = {
   storage,
 };
 const persistEventConfig = {
-  key: "joinEvent",
+  key: "event",
   storage,
   // blacklist: ['createEvent']
 };
