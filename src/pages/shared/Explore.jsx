@@ -80,7 +80,7 @@ function Explore() {
                 ></path>
               </svg>
 
-              <p class="mt-4 font-medium text-gray-700">Loading...</p>
+              <p className="mt-4 font-medium text-gray-700">Loading...</p>
             </div>
           ) : (
             dataEvent
@@ -118,7 +118,7 @@ function Explore() {
                 ></path>
               </svg>
 
-              <p class="mt-4 font-medium text-gray-700">Loading...</p>
+              <p className="mt-4 font-medium text-gray-700">Loading...</p>
             </div>
           ) : (
             dataCommunity
