@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   dataUser: [],
-  isPending: false, 
+  isPending: false,
   isFulfilled: false,
   isRejected: false,
   error: null,
@@ -33,29 +33,22 @@ export const signUpThunk = createAsyncThunk(
 
 export const changePasswordThunk = createAsyncThunk(
   "change_password",
-  (payload, { getState, rejectWithValue }) => {
-    const { dataUser } = getState().dataUserState;
-    if (payload.password !== payload.confirm)
-      return rejectWithValue({
-        typeError: "password",
-        message: "Password do not match",
-      });
-
-    const { email, ...newPayload } = payload;
-    const result = dataUser.map(ele => {
-      if (ele.email === email) {
-        return {
-          ...ele,
-          ...newPayload,
-        };
-      }
-      return ele;
-    })
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(result)
-      }, 2000)
-    })
+  async (payload, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const data = JSON.stringify({
+        currentPassword: payload.currPassword,
+        newPassword: payload.password
+      })
+      const response = await axios.post("http://localhost:9000/user/change-password", data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data.Message
+    } catch (err) {
+      return rejectWithValue(err)
+    }
   }
 )
 
@@ -104,8 +97,7 @@ const signUpSlices = createSlice({
         state.isRejected = false;
         state.error = null;
       },
-      fulfilled: (state, { payload }) => {
-        state.dataUser = payload;
+      fulfilled: (state) => {
         state.isPending = false;
         state.isFulfilled = true;
       },

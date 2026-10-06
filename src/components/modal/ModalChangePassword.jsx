@@ -2,19 +2,16 @@ import { X, Lock } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { useAuth } from "../../hooks/useAuth";
 import { changePasswordThunk } from "../../redux/slices/dataUserSlices.js";
 
 function ChangePasswordModal({ isClose }) {
-  const { userActive } = useAuth();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const changePassword = (dataInput) => {
     return dispatch(
       changePasswordThunk({
-        ...dataInput,
-        email: userActive.email,
+        ...dataInput
       }),
     ).unwrap();
   };
@@ -53,6 +50,17 @@ function ChangePasswordModal({ isClose }) {
 
         <form>
           <div className="px-5 py-5 flex flex-col gap-4">
+            <div>
+              <label className="text-sm font-medium block mb-1.5">
+                Current Password
+              </label>
+              <input
+                type="password"
+                {...register("currPassword")}
+                placeholder="Enter your current password"
+                className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
+              />
+            </div>
             <div>
               <label className="text-sm font-medium block mb-1.5">
                 New Password

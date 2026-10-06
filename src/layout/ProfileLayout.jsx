@@ -89,7 +89,7 @@ function ProfileLayout() {
               </div>
 
               <span className="py-1 px-3 rounded-full text-xs font-medium w-max bg-orange-100 text-orange capitalize">
-                {userActive.access}
+                {userActive.role}
               </span>
 
               <p className="text-sm text-gray-700">
