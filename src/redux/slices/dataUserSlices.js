@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../../api/interceptor";
 
 const initialState = {
   dataUser: [],
@@ -40,7 +41,7 @@ export const changePasswordThunk = createAsyncThunk(
         currentPassword: payload.currPassword,
         newPassword: payload.password
       })
-      const response = await axios.post("http://localhost:9000/user/change-password", data, {
+      const response = await api.post("/user/change-password", data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -64,7 +65,7 @@ export const editProfileThunk = createAsyncThunk(
         position: payload.position,
         avatar_url: payload.avatar
       }
-      const response = await axios.patch("http://localhost:9000/user/edit", data, {
+      const response = await axios.patch("/user/edit", data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"

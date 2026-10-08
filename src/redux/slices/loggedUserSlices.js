@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../../api/interceptor";
 
 const initialState = {
   loggedUser: null,
@@ -32,7 +33,7 @@ export const getInfoUserThunk = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const { token } = getState().loggedUserState
     try {
-      const response = await axios.get("http://localhost:9000/user/headerinfo", {
+      const response = await api.get("/user/headerinfo", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -49,7 +50,7 @@ export const getProfileUser = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const { token } = getState().loggedUserState
     try {
-      const response = await axios.get("http://localhost:9000/user", {
+      const response = await api.get("/user", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -66,7 +67,7 @@ export const signOutThunk = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const { token } = getState().loggedUserState
     try {
-      const response = await axios.post("http://localhost:9000/auth/logout", null, {
+      const response = await api.post("/auth/logout", null, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -81,14 +82,7 @@ export const signOutThunk = createAsyncThunk(
 const signInSlices = createSlice({
   name: "loggedUser",
   initialState,
-  reducers: {
-    signOutAction: (prev) => {
-      return {
-        ...prev,
-        loggedUser: "",
-      };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     return builder.addAsyncThunk(signInThunk, {
       pending: (state) => {
