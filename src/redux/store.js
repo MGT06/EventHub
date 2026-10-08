@@ -29,6 +29,7 @@ const storage = {
 const persistSignUpConfig = {
   key: "dataUser",
   storage,
+  blacklist: ['error']
 };
 const persistSignInConfig = {
   key: "loggedUser",

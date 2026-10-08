@@ -117,8 +117,8 @@ function Register() {
             {errors.email && (
               <p className="text-red-500 text-xs">{errors.email.message}</p>
             )}
-            {error?.typeError === "email" && (
-              <p className="text-red-500 text-xs">{error.message}</p>
+            {error?.status === 409 && (
+              <p className="text-red-500 text-xs">{error.data.Message}</p>
             )}
           </div>
           <div className="relative">
