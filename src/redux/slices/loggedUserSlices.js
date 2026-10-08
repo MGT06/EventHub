@@ -4,7 +4,8 @@ import axios from "axios";
 const initialState = {
   loggedUser: null,
   token: "",
-  isPending: false, 
+  role: "",
+  isPending: false,
   isFulfilled: false,
   isRejected: false,
   error: null,
@@ -32,6 +33,23 @@ export const getInfoUserThunk = createAsyncThunk(
     const { token } = getState().loggedUserState
     try {
       const response = await axios.get("http://localhost:9000/user/headerinfo", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data.Data
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
+
+export const getProfileUser = createAsyncThunk(
+  "get_profile",
+  async (_, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const response = await axios.get("http://localhost:9000/user", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -118,6 +136,25 @@ const signInSlices = createSlice({
         fulfilled: (state) => {
           state.loggedUser = ""
           state.token = ""
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      }),
+      builder.addAsyncThunk(getProfileUser, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.loggedUser = payload;
+          state.role = payload.role
           state.isPending = false;
           state.isFulfilled = true;
         },

@@ -1,16 +1,23 @@
 import { MapPin, Calendar, Pencil, Lock } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import EditProfileModal from "../components/modal/EditProfileModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChangePasswordModal from "../components/modal/ModalChangePassword";
+import { getProfileUser } from "../redux/slices/loggedUserSlices";
 
 function ProfileLayout() {
   const [ isEditOpen, setIsEditOpen ] = useState(false);
   const [ isChangeOpen, setIsChangeOpen ] = useState(false);
   const { userActive, role } = useAuth();
   const { dataUser } = useSelector((state) => state.dataUserState);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getProfileUser())
+  }, [dispatch])
+
   const getPhoto = dataUser.find((data) => data.email === userActive.email);
 
   const { dataEvent } = useSelector((state) => state.eventState);
@@ -77,7 +84,7 @@ function ProfileLayout() {
                 <div className="flex items-center gap-1 w-max">
                   <MapPin size={14} className="text-manatee" />
                   <span className="text-manatee text-xs">
-                    {userActive.location ? userActive.location : "Set Location"}
+                    {userActive.user_location ? userActive.user_location : "Set Location"}
                   </span>
                 </div>
                 <div className="flex items-center gap-1 w-max">
