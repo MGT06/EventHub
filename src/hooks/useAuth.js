@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { changePasswordThunk, signUpThunk } from "../redux/slices/dataUserSlices.js";
-import { signInThunk, signOutAction } from "../redux/slices/loggedUserSlices.js";
+import { signInThunk, signOutThunk } from "../redux/slices/loggedUserSlices.js";
 
 export function useAuth() {
   const dispatch = useDispatch();
-  const { loggedUser } = useSelector((state) => state.loggedUserState);
+  const { loggedUser, token } = useSelector((state) => state.loggedUserState);
 
   const signIn = (dataInput) => {
     return dispatch(signInThunk(dataInput)).unwrap();
   };
 
   const signOut = () => {
-    dispatch(signOutAction());
+    dispatch(signOutThunk());
   };
 
   const signUp = (dataInput) => {
@@ -25,11 +25,11 @@ export function useAuth() {
 
   return {
     userActive: loggedUser,
-    isAuthenticated: !!loggedUser,
-    role: loggedUser?.access ?? null,
+    isAuthenticated: !!token,
+    role: loggedUser?.role ?? null,
     signUp,
     signIn,
     signOut,
-    changePassword
+    changePassword,
   };
 }
