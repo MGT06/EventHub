@@ -2,24 +2,20 @@ import { useState } from "react";
 import { X, Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "../../redux/slices/dataUserSlices.js";
+import { useDispatch } from "react-redux";
+import { editProfileThunk } from "../../redux/slices/dataUserSlices.js";
 
 function EditProfileModal({ isClose }) {
   const { userActive } = useAuth();
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(null);
-  const { dataUser } = useSelector((state) => state.dataUserState);
-  const getPhoto = dataUser.find((data) => data.email === userActive.email);
-
   const { register, handleSubmit } = useForm();
 
   function handleSave(dataInput) {
     dispatch(
-      editUser({
-        email: userActive.email,
+      editProfileThunk({
         ...dataInput,
-        profile: avatar,
+        avatar: avatar,
       }),
     );
     isClose();
@@ -55,9 +51,9 @@ function EditProfileModal({ isClose }) {
                 }}
                 className="hidden"
               />
-              {avatar || getPhoto.profile ? (
+              {avatar || userActive.avatar_url ? (
                 <img
-                  src={avatar || getPhoto.profile}
+                  src={avatar || userActive.avatar_url}
                   alt="Profile"
                   className="w-20 h-20 rounded-2xl bg-gray-200 object-cover"
                 />
@@ -94,6 +90,18 @@ function EditProfileModal({ isClose }) {
                 type="text"
                 defaultValue={userActive?.location}
                 {...register("location")}
+                className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium block mb-1.5">
+                Position
+              </label>
+              <input
+                type="text"
+                defaultValue={userActive?.position}
+                {...register("position")}
                 className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
               />
             </div>

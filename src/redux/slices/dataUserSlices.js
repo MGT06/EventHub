@@ -52,26 +52,35 @@ export const changePasswordThunk = createAsyncThunk(
   }
 )
 
+export const editProfileThunk = createAsyncThunk(
+  "edit_profile",
+  async (payload, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const data = {
+        name : payload.name,
+        bio : payload.bio,
+        user_location: payload.location,
+        position: payload.position,
+        avatar_url: payload.avatar
+      }
+      const response = await axios.patch("http://localhost:9000/user/edit", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+        }
+      })
+      return response.data.Message
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
+
 const signUpSlices = createSlice({
   name: "dataUser",
   initialState,
-  reducers: {
-    editUser: (prev, { payload }) => {
-      const { email, ...newPayload } = payload;
-      return {
-        ...prev,
-        dataUser: prev.dataUser.map((ele) => {
-          if (ele.email === email) {
-            return {
-              ...ele,
-              ...newPayload,
-            };
-          }
-          return ele;
-        }),
-      };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     return builder.addAsyncThunk(signUpThunk, {
       pending: (state) => {
