@@ -22,7 +22,7 @@ export const signInThunk = createAsyncThunk(
       const response = await axios.post("http://localhost:9000/auth/login", data)
       return response.data.Data
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.response.data.Message);
     }
   },
 );
