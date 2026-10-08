@@ -33,11 +33,11 @@ const persistSignUpConfig = {
 const persistSignInConfig = {
   key: "loggedUser",
   storage,
+  whitelist: ['token']
 };
 const persistEventConfig = {
   key: "event",
   storage,
-  // blacklist: ['createEvent']
 };
 const persistCommunityConfig = {
   key: "joinCommunity",
