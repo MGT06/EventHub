@@ -33,7 +33,7 @@ function CardCommunities({ community }) {
     <div className="rounded-lg border border-gray-300 h-full flex flex-col">
       <Link to={`/communities/detail/${community.id}`} className="relative">
         <img
-          src={community.image}
+          src={community.image_url}
           alt=""
           className="rounded-t-lg w-full h-44 object-cover"
         />
@@ -48,7 +48,7 @@ function CardCommunities({ community }) {
         <p className="text-xs text-manatee">{community.description}</p>
 
         <div>
-          {community.tags.map((t, idx) => {
+          {community.category.map((t, idx) => {
             return (
               <span
                 key={idx}
@@ -64,13 +64,13 @@ function CardCommunities({ community }) {
           <div className="flex items-center gap-2">
             <UsersRound width={9} />
             <p className="text-xs text-manatee">
-              {community.members.length} members
+              {community.total_members} members
             </p>
           </div>
           <div className="flex  items-center gap-2">
             <Calendar width={9} />
             <p className="text-xs text-manatee">
-              {community.upcomingEvents} upcoming
+              {community.upcoming_events} upcoming
             </p>
           </div>
         </div>

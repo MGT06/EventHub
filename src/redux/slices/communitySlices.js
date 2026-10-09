@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   dataCommunity: [],
@@ -10,14 +11,10 @@ const initialState = {
 
 export const getCommunityThunk = createAsyncThunk(
   "get_community",
-  async (payload, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const event = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(payload);
-        }, 2000);
-      });
-      return event;
+      const response = await axios.get("http://localhost:9000/community")
+      return response.data.Data
     } catch (e) {
       return rejectWithValue(e.message);
     }

@@ -19,7 +19,7 @@ function MainLayout() {
     }
     
     dispatch(getEventThunk(dummy.event));
-    dispatch(getCommunityThunk(dummy.communities));
+    dispatch(getCommunityThunk());
   }, [isAuthenticated, dispatch]);
 
   return (

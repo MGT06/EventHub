@@ -46,9 +46,9 @@ function Communities() {
 
   const filteredCommunities = sortCommunities(
     dataCommunity
-      .filter((c) => c.name.toLowerCase().includes(title.toLowerCase()))
+      .filter((c) => c.community_name.toLowerCase().includes(title.toLowerCase()))
       .filter(
-        (c) => filCategory === "All Categories" || c.tags.includes(filCategory),
+        (c) => filCategory === "All Categories" || c.category.includes(filCategory),
       ),
     filJoinStatus,
   );
