@@ -1,16 +1,53 @@
-# React + Vite
+# EventHub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06b6d4?logo=tailwindcss&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-24-339933?logo=nodedotjs&logoColor=white)
 
-Currently, two official plugins are available:
+EventHub adalah aplikasi web untuk menemukan dan mengelola acara serta komunitas dalam satu tempat. Aplikasi ini menyediakan pengalaman berbeda bagi peserta, penyelenggara, dan administrator—mulai dari eksplorasi acara hingga pengelolaan komunitas dan dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+## Features 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Usage Instruction
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/MGT06/EventHub.git
+
+cd EventHub
+```
+
+### 2. Install dependency
+
+```bash
+npm ci
+```
+
+### 3. Jalankan Frontend
+
+```bash
+npm run dev
+```
+
+### Command tambahan
+
+```bash
+# Periksa lint
+npm run lint
+
+# Buat build production di direktori dist/
+npm run build
+```
+
+##  LICENSE
+
+This project is licensed under the MIT License
+
+## Related Project
+
+[Frontend](https://github.com/MGT06/EventHub_Backend)
