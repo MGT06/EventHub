@@ -1,28 +1,38 @@
 import { UsersRound, Calendar, Check, MoveLeft } from "lucide-react";
 import { Link, NavLink, Outlet, useParams } from "react-router";
 import useJoin from "../hooks/useJoin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalGuest from "../components/modal/ModalGuest";
 import { useAuth } from "../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getDetailCommunity } from "../redux/slices/communitySlices";
 
 function CommunitieDetailLayout() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isAuthenticated, userActive, role } = useAuth();
+  const { isAuthenticated, role } = useAuth();
+  const dispatch = useDispatch();
 
-  const { dataCommunity } = useSelector((state) => state.communityState);
+  useEffect(() => {
+    dispatch(getDetailCommunity(id));
+  }, [dispatch, id]);
 
-  const dataDetail = dataCommunity.find((detail) => detail.id == id);
+  const { detailCommunity } = useSelector((state) => state.communityState);
+  const { isJoined, joinCommunity } = useJoin("joinedCommunities");
 
-  const { isJoined, addJoined } = useJoin("joinedCommunities");
+  if (!detailCommunity.communityInformation) {
+    return <div>Loading data community...</div>;
+  }
 
-  const alreadyJoined = isJoined(userActive.email, dataDetail.members);
+  const alreadyJoined = isJoined(
+    // userActive.email,
+    detailCommunity.communityMembers,
+  );
 
   function joinHandled() {
     toast.promise(
-      addJoined("community", dataDetail.id, userActive.email),
+      joinCommunity(id),
       {
         pending: "Join procces",
         success: "Join success",
@@ -54,26 +64,27 @@ function CommunitieDetailLayout() {
       </div>
       <div className="relative w-full h-48 lg:h-69">
         <img
-          src={dataDetail.image}
-          alt={dataDetail.name}
+          src={detailCommunity.communityInformation.image_url}
+          alt={detailCommunity.communityInformation.name}
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-4 left-4 right-4 lg:left-20 lg:right-20 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-white font-bold text-xl lg:text-2xl">
-              {dataDetail.name}
+              {detailCommunity.communityInformation.name}
             </h1>
             <div className="flex items-center gap-4 mt-1">
               <div className="flex items-center gap-1.5">
                 <UsersRound size={14} className="text-white/80" />
                 <p className="text-xs text-white/80">
-                  {dataDetail.members.length} members
+                  {detailCommunity.communityInformation.total_members} members
                 </p>
               </div>
               <div className="flex items-center gap-1.5">
                 <Calendar size={14} className="text-white/80" />
                 <p className="text-xs text-white/80">
-                  {dataDetail.upcomingEvents} upcoming events
+                  {detailCommunity.communityInformation.upcoming_events}{" "}
+                  upcoming events
                 </p>
               </div>
             </div>
@@ -109,14 +120,16 @@ function CommunitieDetailLayout() {
             workshops, and mentoring for Gophers at all levels.
           </p>
           <div className="pt-3 flex gap-4">
-            {dataDetail.tags.map((tag, idx) => (
-              <span
-                key={idx}
-                className="bg-blue-400/30 py-0.5 px-2 text-blue-600 rounded-2xl "
-              >
-                {tag}
-              </span>
-            ))}
+            {detailCommunity.communityInformation.category.map(
+              (category, idx) => (
+                <span
+                  key={idx}
+                  className="bg-blue-400/30 py-0.5 px-2 text-blue-600 rounded-2xl "
+                >
+                  {category}
+                </span>
+              ),
+            )}
           </div>
         </div>
         <div className="border-b border-gray-200 pt-6">
@@ -139,7 +152,7 @@ function CommunitieDetailLayout() {
           </div>
           {modal && <ModalGuest isClose={() => setModal(false)} />}
         </div>
-        <Outlet context={{ nameCommunity: dataDetail.name }} />
+        <Outlet />
       </section>
     </>
   );

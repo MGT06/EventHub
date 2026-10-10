@@ -11,8 +11,8 @@ function CardEvent({ event }) {
   const { isJoined, addJoined, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
-  const alreadyJoined = isJoined(userActive?.email, event.attendees);
-  const alreadySaved = isSaved(userActive?.email, event.userSaved);
+  const alreadyJoined = isJoined();
+  const alreadySaved = isSaved();
 
   function saveHandled() {
     toast.promise(
@@ -48,7 +48,7 @@ function CardEvent({ event }) {
     event.status === "ended" || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc(
-    (event.attendees.length / event.capacity) * 100,
+    (event.attendees / event.capacity) * 100,
   );
   const barColor =
     event.status === "ended"
@@ -64,12 +64,12 @@ function CardEvent({ event }) {
       <Link to={`/event/detail/${event.id}`}>
         <div className="relative overflow-hidden">
           <img
-            src={event.coverImage}
+            src={event.image_url}
             alt={event.title}
             className="rounded-t-lg w-full object-cover "
           />
           <div className="absolute bottom-3 left-2  ">
-            {event.category.map((t, idx) => {
+            {event.categories.map((t, idx) => {
               return (
                 <span
                   key={idx}
@@ -96,14 +96,14 @@ function CardEvent({ event }) {
           <div className="flex items-center gap-2">
             <UsersRound width={9} />
             <p className="text-xs text-manatee">
-              {event.attendees.length} / {event.capacity} attendees
+              {event.attendees} / {event.capacity} attendees
             </p>
           </div>
         </div>
         <div>
           <div className="flex justify-between">
             <p className="text-xs text-manatee">
-              {event.attendees.length} attendees
+              {event.attendees} attendees
             </p>
             <p className="text-xs text-manatee">{event.capacity} capacity</p>
           </div>

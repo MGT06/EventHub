@@ -1,20 +1,28 @@
+import { useEffect } from "react";
 import CardEvent from "../cardComponents/CardEvent";
-import { useOutletContext } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getEventCommunity } from "../../redux/slices/communitySlices";
+import { useParams } from "react-router";
 
 function EventCommunityList() {
-  const { nameCommunity } = useOutletContext();
-  const { dataEvent } = useSelector((state) => state.eventState);
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const haveEvent = dataEvent.filter(
-    (data) => data.organizer.community == nameCommunity,
-  );
-  
+  useEffect(() => {
+    dispatch(getEventCommunity(id));
+  }, [dispatch, id]);
+
+  const { detailCommunity } = useSelector((state) => state.communityState);
+
+  if (!detailCommunity.communityEvents) {
+    return <div>Loading data community...</div>;
+  }
+
   return (
     <div className="pt-6">
       <p className="font-semibold text-sm text-manatee">UPCOMING</p>
       <div className="pt-4 grid lg:grid-cols-3 ">
-        {haveEvent.map((e) => (
+        {detailCommunity.communityEvents.map((e) => (
           <CardEvent key={e.id} event={e} />
         ))}
       </div>
