@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../../api/interceptor";
 
 const initialState = {
   dataCommunity: [],
@@ -18,41 +19,20 @@ export const getCommunityThunk = createAsyncThunk(
     } catch (e) {
       return rejectWithValue(e.message);
     }
-  },
-  {
-    condition: (_, { getState }) => {
-      const { dataCommunity } = getState().communityState;
-      if (dataCommunity.length > 0) return false;
-    }
-  },
+  }
 );
 
 export const joinCommunityThunk = createAsyncThunk(
   "join_community",
   async (payload, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
     try {
-      const { dataCommunity } = getState().communityState;
-
-      const newData = dataCommunity.map((ele) => {
-        if (ele.id !== payload.id) return ele;
-
-        if (ele.members.includes(payload.email)) {
-          return {
-            ...ele,
-            members: ele.members.filter((join) => join !== payload.email),
-          };
+      const response = await api.post(`http://localhost:9000/community/join/${payload}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-        return {
-          ...ele,
-          members: [...ele.members, payload.email],
-        };
-      });
-      const result = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(newData);
-        }, 1000);
-      });
-      return result;
+      })
+      return response.data.status
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -90,8 +70,7 @@ const communitySlices = createSlice({
           state.isRejected = false;
           state.error = null;
         },
-        fulfilled: (state, { payload }) => {
-          state.dataCommunity = payload;
+        fulfilled: (state) => {
           state.isPending = false;
           state.isFulfilled = true;
         },

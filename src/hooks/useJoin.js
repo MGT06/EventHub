@@ -25,6 +25,10 @@ function useJoin() {
     ).unwrap();
   };
 
+  const joinCommunity = (id) => {
+    return dispatch(joinCommunityThunk(id)).unwrap()
+  }
+
   const addSaved = (idEvent, email) => {
     return dispatch(
       savedEventThunk({
@@ -51,6 +55,7 @@ function useJoin() {
 
   return {
     addJoined,
+    joinCommunity,
     addSaved,
     removeJoin,
     isJoined,

@@ -8,14 +8,14 @@ import { toast } from "react-toastify";
 
 function CardCommunities({ community }) {
   const [modal, setModal] = useState(false);
-  const { isJoined, addJoined } = useJoin("joinedCommunities");
+  const { isJoined, joinCommunity } = useJoin("joinedCommunities");
   const { isAuthenticated, userActive, role } = useAuth();
 
   const alreadyJoined = isJoined(userActive?.email, community.members);
 
-  function joinHandled() {
+  function joinHandled(id) {
     toast.promise(
-      addJoined("community", community.id, userActive.email),
+      joinCommunity(id),
       {
         pending: "Join procces",
         success: "Join success",
@@ -80,8 +80,8 @@ function CardCommunities({ community }) {
             alreadyJoined ? "bg-green-500" : "bg-orange"
           }`}
           onClick={() => {
-            if(disabled) return
-            isAuthenticated ? joinHandled() : setModal(true);
+            if (disabled) return;
+            isAuthenticated ? joinHandled(community.id) : setModal(true);
           }}
         >
           {alreadyJoined && <Check />}
