@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../../api/interceptor";
+import { getProfileUser } from "./loggedUserSlices";
 
 const initialState = {
   dataUser: [],
@@ -55,7 +56,7 @@ export const changePasswordThunk = createAsyncThunk(
 
 export const editProfileThunk = createAsyncThunk(
   "edit_profile",
-  async (payload, { getState, rejectWithValue }) => {
+  async (payload, { getState, rejectWithValue, dispatch }) => {
     const { token } = getState().loggedUserState
     try {
       const response = await api.patch("/user/edit", payload, {
@@ -63,6 +64,7 @@ export const editProfileThunk = createAsyncThunk(
           Authorization: `Bearer ${token}`
         }
       })
+      dispatch(getProfileUser())
       return response.data.Message
     } catch (err) {
       return rejectWithValue(err)

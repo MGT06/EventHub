@@ -147,7 +147,7 @@ const signInSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.loggedUser = payload;
+          state.loggedUser = { ...state.loggedUser, ...payload};
           state.role = payload.role
           state.isPending = false;
           state.isFulfilled = true;
