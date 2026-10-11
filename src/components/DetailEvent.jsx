@@ -11,38 +11,63 @@ import {
   Check,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router";
 import CardEvent from "./cardComponents/CardEvent";
 import useJoin from "../hooks/useJoin";
 import ModalGuest from "./modal/ModalGuest";
 import { toast } from "react-toastify";
+import { getDetailEvent } from "../redux/slices/eventSlices";
+import DiscussionItem from "./DiscussionItem";
+
 
 function DetailEvent() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
   const { isJoined, addJoined, addSaved, isSaved, removeJoin } = useJoin();
   const { isAuthenticated, userActive, role } = useAuth();
-  const { dataEvent } = useSelector((state) => state.eventState);
+  const dispatch = useDispatch();
 
-  const dataDetail = dataEvent.find((detail) => detail.id == id);
+  useEffect(() => {
+    dispatch(getDetailEvent(id));
+  }, [dispatch, id]);
 
-  const getRelatedEvents = dataEvent
+  const { listEvent, detailEvent } = useSelector((state) => state.eventState);
+
+  if (!detailEvent) {
+    return <div>Loading data community...</div>;
+  }
+
+  const getRelatedEvents = listEvent
     .filter(
       (e) =>
-        e.id !== dataDetail.id &&
+        e.id !== detailEvent.id &&
         e.status !== "ended" &&
-        e.category.some((tag) => dataDetail.category.includes(tag)),
+        e.categories.some((tag) => detailEvent.categories.includes(tag)),
     )
     .slice(0, 3);
 
-  const alreadyJoined = isJoined(userActive.email, dataDetail.attendees);
-  const alreadySaved = isSaved(userActive.email, dataDetail.userSaved);
+  const startObj = new Date(detailEvent.start_at);
+  const startTime = startObj.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  const endObj = new Date(detailEvent.end_at);
+  const endTime = endObj.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  const alreadyJoined = isJoined();
+  const alreadySaved = isSaved();
 
   function saveHandled() {
     toast.promise(
-      addSaved(dataDetail.id, userActive.email),
+      addSaved(detailEvent.id, userActive.email),
       {
         pending: "Save procces",
         success: "Save success",
@@ -57,7 +82,7 @@ function DetailEvent() {
 
   function joinHandled() {
     toast.promise(
-      addJoined("event", dataDetail.id, userActive.email),
+      addJoined("event", detailEvent.id, userActive.email),
       {
         pending: "Save procces",
         success: "Save success",
@@ -72,7 +97,7 @@ function DetailEvent() {
 
   function unJoin() {
     toast.promise(
-      removeJoin(dataDetail.id, userActive.email),
+      removeJoin(detailEvent.id, userActive.email),
       {
         pending: "Unjoin procces",
         success: "Unjoin success",
@@ -86,13 +111,13 @@ function DetailEvent() {
   }
 
   const disabled =
-    dataDetail.status === "ended" || role === "organizer" || role === "admin";
+    detailEvent.status === "ended" || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc(
-    (dataDetail.attendees.length / dataDetail.capacity) * 100,
+    (detailEvent.attendees / detailEvent.capacity) * 100,
   );
   const barColor =
-    dataDetail.status === "full"
+    detailEvent.attendees === detailEvent.capacity
       ? "bg-red-500"
       : percentage < 80
         ? "bg-green-500"
@@ -108,13 +133,13 @@ function DetailEvent() {
       </div>
       <div className="py-6 px-4 lg:px-16 xl:px-29 grid gap-6 lg:gap-8 grid-cols-1 lg:grid-cols-6">
         <img
-          src={dataDetail.coverImage}
+          src={detailEvent.image_url}
           alt=""
           className="rounded-xl w-full lg:col-start-1 lg:col-end-5"
         />
         <div className="lg:col-start-1 lg:col-end-5">
           <div className="flex flex-wrap gap-2 mb-3">
-            {dataDetail.category.map((t, idx) => {
+            {detailEvent.categories.map((t, idx) => {
               return (
                 <span
                   key={idx}
@@ -125,7 +150,7 @@ function DetailEvent() {
               );
             })}
           </div>
-          <h2 className="font-bold text-xl sm:text-2xl">{dataDetail.title}</h2>
+          <h2 className="font-bold text-xl sm:text-2xl">{detailEvent.title}</h2>
         </div>
         <div className="grid gap-3 lg:col-start-5 lg:col-end-7 lg:row-start-1 lg:row-end-3">
           <div className="grid gap-2 p-4 border border-gray-300 rounded-xl">
@@ -135,17 +160,17 @@ function DetailEvent() {
             <div className="grid gap-2 pb-3 border-b border-b-gray-200">
               <div className="flex items-center gap-2 text-sm">
                 <Calendar size={16} className="text-manatee shrink-0" />
-                <span>{dataDetail.eventDate}</span>
+                <span>{detailEvent.start_at.split('T')[0]}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Clock size={16} className="text-manatee shrink-0" />
                 <span>
-                  {dataDetail.startTime} – {dataDetail.endTime}
+                  {startTime} – {endTime}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <MapPin size={16} className="text-manatee shrink-0" />
-                <span>{dataDetail.location}</span>
+                <span>{detailEvent.location}</span>
               </div>
             </div>
 
@@ -153,16 +178,16 @@ function DetailEvent() {
               <Users size={16} className="shrink-0" />
               <span>
                 {percentage}% full ·{" "}
-                {dataDetail.capacity - dataDetail.attendees.length} spots left
+                {detailEvent.capacity - detailEvent.attendees} spots left
               </span>
             </div>
 
             <div className="flex justify-between">
               <p className="text-xs text-manatee">
-                {dataDetail.attendees.length} attendees
+                {detailEvent.attendees} attendees
               </p>
               <p className="text-xs text-manatee">
-                {dataDetail.capacity} capacity
+                {detailEvent.capacity} capacity
               </p>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-1.5 my-2">
@@ -174,7 +199,8 @@ function DetailEvent() {
             <div className="grid gap-2">
               <button
                 className={`py-2 px-4 rounded-lg cursor-pointer ${
-                  dataDetail.status === "full" || dataDetail.status === "ended"
+                  detailEvent.status === "full" ||
+                  detailEvent.status === "ended"
                     ? "bg-gray-200 text-gray-600"
                     : alreadyJoined
                       ? "bg-green-500 text-white  flex justify-center"
@@ -186,9 +212,9 @@ function DetailEvent() {
                 }}
               >
                 {alreadyJoined && <Check />}
-                {dataDetail.status === "full"
+                {detailEvent.status === "full"
                   ? "Full"
-                  : dataDetail.status === "ended"
+                  : detailEvent.status === "ended"
                     ? "Ended"
                     : alreadyJoined
                       ? "Joined"
@@ -241,23 +267,23 @@ function DetailEvent() {
               ORGANIZED BY
             </p>
             <div className="flex gap-3 items-center">
-              {dataDetail.organizer.avatar ? (
+              {detailEvent.organizer.avatar_url ? (
                 <img
-                  src={dataDetail.organizer.avatar}
+                  src={detailEvent.organizer.avatar_url}
                   alt=""
                   className="rounded-full w-8 h-8"
                 />
               ) : (
                 <div className="hidden lg:flex items-center justify-center rounded-full h-8 w-8 cursor-pointer bg-orange text-white capitalize">
-                  {dataDetail.organizer.name.charAt(0)}
+                  {detailEvent.organizer.name.charAt(0)}
                 </div>
               )}
               <div>
                 <p className="font-semibold text-sm">
-                  {dataDetail.organizer?.name}
+                  {detailEvent.organizer?.name}
                 </p>
                 <p className="text-xs text-blue-400">
-                  {dataDetail.organizer?.community}
+                  {detailEvent.organizer?.position}
                 </p>
               </div>
             </div>
@@ -265,29 +291,30 @@ function DetailEvent() {
         </div>
         <div className="lg:col-start-1 lg:col-end-5">
           <p className="font-semibold text-lg">About this event</p>
-          <p className="text-manatee">{dataDetail.description}</p>
+          <p className="text-manatee">{detailEvent.description}</p>
         </div>
         <div className="lg:col-start-1 lg:col-end-5">
           <p className="font-semibold text-lg">Speakers</p>
           <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2">
-            {dataDetail?.speakers.map((speak, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="p-4 flex gap-3 border border-gray-200 rounded-xl"
-                >
-                  <img
-                    src={speak.avatar}
-                    alt=""
-                    className="rounded-full w-8 h-8 object-cover"
-                  />
-                  <div>
-                    <p className="font-semibold text-sm">{speak.name}</p>
-                    <p className="text-manatee text-sm">{speak.role}</p>
+            {detailEvent.speakers &&
+              detailEvent.speakers.map((speak, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="p-4 flex gap-3 border border-gray-200 rounded-xl"
+                  >
+                    <img
+                      src={speak.avatar_url}
+                      alt=""
+                      className="rounded-full w-8 h-8 object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold text-sm">{speak.name}</p>
+                      <p className="text-manatee text-sm">{speak.position}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
         <div className="lg:col-start-1 lg:col-end-5">
@@ -296,31 +323,17 @@ function DetailEvent() {
             <p className="font-semibold text-lg">Discussion</p>
             <p className="text-manatee text-sm">
               (
-              {dataDetail.discussions
-                ? dataDetail.discussions.length
+              {detailEvent.discuss
+                ? detailEvent.discuss.length
                 : "Tidak ada discussion"}
               )
             </p>
           </div>
           <div className="grid gap-3 mt-4">
-            {dataDetail.discussions?.map((dis) => {
-              return (
-                <div key={dis.id} className="flex gap-3">
-                  <img
-                    src={dis.avatar}
-                    alt=""
-                    className="rounded-full w-6 h-6 shrink-0"
-                  />
-                  <div className="py-3 px-4 rounded-xl border border-gray-300 grow">
-                    <div className="flex gap-3 items-center">
-                      <p className="font-semibold text-sm">{dis.name}</p>
-                      <p className="text-xs text-manatee">{dis.timeAgo}</p>
-                    </div>
-                    <p className="text-gray-700 text-sm">{dis.message}</p>
-                  </div>
-                </div>
-              );
-            })}
+            {detailEvent.discuss &&
+              detailEvent.discuss.map((discussion) => (
+                <DiscussionItem key={discussion.id} discussion={discussion} />
+              ))}
             <div className="flex gap-3">
               <img
                 src="https://i.pravatar.cc/100?img=2"

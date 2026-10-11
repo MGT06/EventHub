@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  dataEvent: [],
+  listEvent: [],
+  detailEvent: null,
   createEvent: {
     step: 1,
     basic: {
@@ -42,15 +43,28 @@ export const getEventThunk = createAsyncThunk(
   },
 );
 
+export const getDetailEvent = createAsyncThunk(
+  "detail_event",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`http://localhost:9000/event/detail/${payload}`)
+      return response.data.Data
+    } catch (e) {
+      return rejectWithValue(e)
+    }
+  }
+)
+
+
 export const createEventThunk = createAsyncThunk(
   "create_event",
   async (payload, { getState, rejectWithValue }) => {
     try {
-      const { dataEvent } = getState().eventState;
+      const { listEvent } = getState().eventState;
       const result = await new Promise((resolve) => {
         setTimeout(() => {
           resolve({
-            id: dataEvent[dataEvent.length - 1].id + 1,
+            id: listEvent[listEvent.length - 1].id + 1,
             ...payload
           });
         }, 1000);
@@ -85,8 +99,8 @@ export const joinEventThunk = createAsyncThunk(
   "join_event",
   async (payload, { getState, rejectWithValue }) => {
     try {
-      const { dataEvent } = getState().eventState;
-      const newData = dataEvent.map((ele) => {
+      const { listEvent } = getState().eventState;
+      const newData = listEvent.map((ele) => {
         if (ele.id === payload.id) {
           return {
             ...ele,
@@ -110,8 +124,8 @@ export const unjoinEventThunk = createAsyncThunk(
   "unjoin_event",
   async (payload, { getState, rejectWithValue }) => {
     try {
-      const { dataEvent } = getState().eventState;
-      const newData = dataEvent.map((ele) => {
+      const { listEvent } = getState().eventState;
+      const newData = listEvent.map((ele) => {
         if (ele.id !== payload.id) return ele;
 
         return {
@@ -135,8 +149,8 @@ export const savedEventThunk = createAsyncThunk(
   "saved_event",
   async (payload, { getState, rejectWithValue }) => {
     try {
-      const { dataEvent } = getState().eventState;
-      const newData = dataEvent.map((ele) => {
+      const { listEvent } = getState().eventState;
+      const newData = listEvent.map((ele) => {
         if (ele.id !== payload.id) return ele;
         if (ele.userSaved.includes(payload.email)) {
           return {
@@ -277,7 +291,24 @@ const eventSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.dataEvent = payload;
+          state.listEvent = payload;
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      }).addAsyncThunk(getDetailEvent, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.detailEvent = payload;
           state.isPending = false;
           state.isFulfilled = true;
         },
@@ -295,7 +326,7 @@ const eventSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.dataEvent.push(payload);
+          state.listEvent.push(payload);
           state.isPending = false;
           state.isFulfilled = true;
         },
@@ -313,7 +344,7 @@ const eventSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.dataEvent = state.dataEvent.map(ele => {
+          state.listEvent = state.listEvent.map(ele => {
             if (ele.id === payload.id) {
               return payload
             }
@@ -336,7 +367,7 @@ const eventSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.dataEvent = payload;
+          state.listEvent = payload;
           state.isPending = false;
           state.isFulfilled = true;
         },
@@ -354,7 +385,7 @@ const eventSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.dataEvent = payload;
+          state.listEvent = payload;
           state.isPending = false;
           state.isFulfilled = true;
         },
@@ -372,7 +403,7 @@ const eventSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.dataEvent = payload;
+          state.listEvent = payload;
           state.isPending = false;
           state.isFulfilled = true;
         },
