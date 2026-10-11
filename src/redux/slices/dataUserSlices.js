@@ -20,7 +20,7 @@ export const signUpThunk = createAsyncThunk(
         message: "Password do not match",
       });
     try {
-      const response = await axios.post("/api/auth/register", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
         fullname: payload.name,
         email: payload.email,
         password: payload.password

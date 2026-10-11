@@ -21,7 +21,7 @@ export const getCommunityThunk = createAsyncThunk(
   "get_community",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/community")
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/community`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e.message);
@@ -52,7 +52,7 @@ export const getDetailCommunity = createAsyncThunk(
   "detail_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/community/detail/${payload}`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/community/detail/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -64,7 +64,7 @@ export const getEventCommunity = createAsyncThunk(
   "event_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/community/event/${payload}`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/community/event/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -76,7 +76,7 @@ export const getMembersCommunity = createAsyncThunk(
   "member_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/community/members/${payload}`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/community/members/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -88,7 +88,7 @@ export const getDiscussCommunity = createAsyncThunk(
   "discuss_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/community/discussions/${payload}`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/community/discussions/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
