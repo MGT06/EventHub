@@ -50,6 +50,7 @@ function CardEvent({ event }) {
   const percentage = Math.trunc((event.attendees / event.capacity) * 100);
 
   const eventFull = event.attendees === event.capacity;
+  const eventEnded = new Date(event.start_at) < new Date();
 
   function convertTime() {
     const dateObj = new Date(event.start_at);
@@ -67,14 +68,13 @@ function CardEvent({ event }) {
     );
   }
 
-  const barColor =
-    event.status === "ended"
-      ? "bg-gray-400"
-      : eventFull
-        ? "bg-red-500"
-        : percentage < 80
-          ? "bg-green-500"
-          : "bg-yellow-500";
+  const barColor = eventEnded
+    ? "bg-gray-400"
+    : eventFull
+      ? "bg-red-500"
+      : percentage < 80
+        ? "bg-green-500"
+        : "bg-yellow-500";
 
   return (
     <div className="border border-gray-200 rounded-xl flex flex-col">
@@ -133,7 +133,7 @@ function CardEvent({ event }) {
           <button
             disabled={event.status === "full" || alreadyJoined}
             className={`py-1.5 col-span-5 rounded-lg cursor-pointer grow ${
-              eventFull || event.status === "ended"
+              eventFull || eventEnded
                 ? "bg-gray-200 text-gray-600"
                 : alreadyJoined
                   ? "bg-green-500 text-white  flex justify-center"
@@ -145,10 +145,10 @@ function CardEvent({ event }) {
             }}
           >
             {alreadyJoined && <Check />}
-            {eventFull
-              ? "Full"
-              : event.status === "ended"
-                ? "Ended"
+            {eventEnded
+              ? "Ended"
+              : eventFull
+                ? "Full"
                 : alreadyJoined
                   ? "Joined"
                   : "Join Event"}
