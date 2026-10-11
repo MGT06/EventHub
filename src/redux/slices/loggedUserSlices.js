@@ -20,7 +20,7 @@ export const signInThunk = createAsyncThunk(
         email: payload.email,
         password: payload.password
       })
-      const response = await axios.post("http://localhost:9000/auth/login", data)
+      const response = await axios.post("/api/auth/login", data)
       return response.data.Data
     } catch (err) {
       return rejectWithValue(err.response.data.Message);

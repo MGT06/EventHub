@@ -21,7 +21,7 @@ export const getCommunityThunk = createAsyncThunk(
   "get_community",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:9000/community")
+      const response = await axios.get("/api/community")
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e.message);
@@ -34,7 +34,7 @@ export const joinCommunityThunk = createAsyncThunk(
   async (payload, { getState, rejectWithValue, dispatch }) => {
     const { token } = getState().loggedUserState
     try {
-      const response = await api.post(`http://localhost:9000/community/join/${payload}`, null, {
+      const response = await api.post(`/community/join/${payload}`, null, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -52,7 +52,7 @@ export const getDetailCommunity = createAsyncThunk(
   "detail_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:9000/community/detail/${payload}`)
+      const response = await axios.get(`/api/community/detail/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -64,7 +64,7 @@ export const getEventCommunity = createAsyncThunk(
   "event_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:9000/community/event/${payload}`)
+      const response = await axios.get(`/api/community/event/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -76,7 +76,7 @@ export const getMembersCommunity = createAsyncThunk(
   "member_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:9000/community/members/${payload}`)
+      const response = await axios.get(`/api/community/members/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -88,7 +88,7 @@ export const getDiscussCommunity = createAsyncThunk(
   "discuss_community",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:9000/community/discussions/${payload}`)
+      const response = await axios.get(`/api/community/discussions/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)

@@ -19,7 +19,7 @@ export const getStatsAdmin = createAsyncThunk(
     async (_, { getState, rejectWithValue }) => {
         const { token } = getState().loggedUserState
         try {
-            const response = await api.get(`http://localhost:9000/admin`, {
+            const response = await api.get(`/admin`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -36,7 +36,7 @@ export const getAllUsers = createAsyncThunk(
     async (_, { getState, rejectWithValue }) => {
         const { token } = getState().loggedUserState
         try {
-            const response = await api.get(`http://localhost:9000/admin/users`, {
+            const response = await api.get(`/admin/users`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -53,7 +53,7 @@ export const getAllEvents = createAsyncThunk(
     async (_, { getState, rejectWithValue }) => {
         const { token } = getState().loggedUserState
         try {
-            const response = await api.get(`http://localhost:9000/admin/events`, {
+            const response = await api.get(`/admin/events`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -70,7 +70,7 @@ export const getAllCommunities = createAsyncThunk(
     async (_, { getState, rejectWithValue }) => {
         const { token } = getState().loggedUserState
         try {
-            const response = await api.get(`http://localhost:9000/admin/communities`, {
+            const response = await api.get(`/admin/communities`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

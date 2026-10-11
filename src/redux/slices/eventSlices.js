@@ -37,7 +37,7 @@ export const getEventThunk = createAsyncThunk(
   "get_event",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:9000/event")
+      const response = await axios.get("/event")
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e.message);
@@ -49,7 +49,7 @@ export const getDetailEvent = createAsyncThunk(
   "detail_event",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:9000/event/detail/${payload}`)
+      const response = await axios.get(`/event/detail/${payload}`)
       return response.data.Data
     } catch (e) {
       return rejectWithValue(e)
@@ -102,7 +102,7 @@ export const joinEventThunk = createAsyncThunk(
   async (payload, { getState, rejectWithValue, dispatch }) => {
     const { token } = getState().loggedUserState
     try {
-      const response = await api.post(`http://localhost:9000/event/join/${payload}`, null, {
+      const response = await api.post(`/event/join/${payload}`, null, {
         headers: {
           Authorization: `Bearer ${token}`
         }
