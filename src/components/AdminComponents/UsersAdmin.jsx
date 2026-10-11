@@ -1,6 +1,19 @@
 import { MoreHorizontal, Search } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../redux/slices/adminSlice";
 
 function UsersAdmin() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  const { dataDashboard } = useSelector((state) => state.adminState);
+
+  if (!dataDashboard.users) {
+    return <div>Loading data admin...</div>;
+  }
   return (
     <>
       <div className="flex py-2.5 px-3 gap-2 my-4 rounded-lg bg-gray-100">
@@ -24,50 +37,32 @@ function UsersAdmin() {
             JOINED
           </p>
         </div>
-        <div className="grid grid-cols-[150px_auto_auto] lg:grid-cols-[3fr_2fr_2fr_2fr_1fr] px-4 py-2 ">
-          <div>
-            <p className="font-medium text-sm">Alex Kim</p>
-            <p className="text-xs text-manatee">alex.kim@example.com</p>
-          </div>
-          <div className="self-center place-self-center hidden lg:block">
-            <span className="bg-gray-400/20 rounded-full text-gray-500 h-max py-1  px-2.5 text-xs font-medium flex items-center">
-              Attendee
-            </span>
-          </div>
-          <div className="self-center place-self-center">
-            <span className="bg-green-400/20 rounded-full text-green-500 h-max py-1  px-2.5 text-xs font-medium flex items-center">
-              Active
-            </span>
-          </div>
-          <div className="self-center place-self-center hidden lg:block">
-            <p className="text-xs text-gray-300">Mar 2025</p>
-          </div>
-          <div className="self-center place-self-end lg:place-self-center">
-            <MoreHorizontal />
-          </div>
-        </div>
-        <div className="grid grid-cols-[150px_auto_auto] lg:grid-cols-[3fr_2fr_2fr_2fr_1fr] px-4 py-2">
-          <div>
-            <p className="font-medium text-sm">Hendra Wijaya</p>
-            <p className="text-xs text-manatee">hendra@example.com</p>
-          </div>
-          <div className="self-center place-self-center hidden lg:block">
-            <span className="bg-orange-400/20 rounded-full text-orange h-max py-1  px-2.5 text-xs font-medium flex items-center">
-              Organizer
-            </span>
-          </div>
-          <div className="self-center place-self-center">
-            <span className="bg-red-400/20 rounded-full text-red-500 h-max py-1  px-2.5 text-xs font-medium flex items-center">
-              Suspended
-            </span>
-          </div>
-          <div className="self-center place-self-center hidden lg:block">
-            <p className="text-xs text-gray-300">Mar 2025</p>
-          </div>
-          <div className="self-center place-self-end lg:place-self-center">
-            <MoreHorizontal />
-          </div>
-        </div>
+        {dataDashboard.users.map((user) => {
+          return (
+            <div className="grid grid-cols-[150px_auto_auto] lg:grid-cols-[3fr_2fr_2fr_2fr_1fr] px-4 py-2 ">
+              <div>
+                <p className="font-medium text-sm">{user.name}</p>
+                <p className="text-xs text-manatee">alex.kim@example.com</p>
+              </div>
+              <div className="self-center place-self-center hidden lg:block">
+                <span className="bg-gray-400/20 rounded-full text-gray-500 h-max py-1  px-2.5 text-xs font-medium flex items-center">
+                  {user.role}
+                </span>
+              </div>
+              <div className="self-center place-self-center">
+                <span className="bg-green-400/20 rounded-full text-green-500 h-max py-1  px-2.5 text-xs font-medium flex items-center">
+                  {user.status}
+                </span>
+              </div>
+              <div className="self-center place-self-center hidden lg:block">
+                <p className="text-xs text-gray-300">Mar 2025</p>
+              </div>
+              <div className="self-center place-self-end lg:place-self-center">
+                <MoreHorizontal />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );
