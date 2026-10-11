@@ -37,16 +37,16 @@ const persistSignInConfig = {
   storage,
   whitelist: ['token']
 };
-const persistEventConfig = {
-  key: "event",
-  storage,
-};
+// const persistEventConfig = {
+//   key: "event",
+//   storage,
+// };
 
 const store = configureStore({
   reducer: {
     dataUserState: persistReducer(persistSignUpConfig, dataUserReducer),
     loggedUserState: persistReducer(persistSignInConfig, loggedUserReducer),
-    eventState: persistReducer(persistEventConfig, eventReducer),
+    eventState: eventReducer,
     communityState: communityReducer,
     adminState: adminReducer, 
   },

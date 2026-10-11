@@ -8,26 +8,30 @@ import ChangePasswordModal from "../components/modal/ModalChangePassword";
 import { getProfileUser } from "../redux/slices/loggedUserSlices";
 
 function ProfileLayout() {
-  const [ isEditOpen, setIsEditOpen ] = useState(false);
-  const [ isChangeOpen, setIsChangeOpen ] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isChangeOpen, setIsChangeOpen] = useState(false);
   const { userActive, role } = useAuth();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProfileUser())
-  }, [dispatch])
+    dispatch(getProfileUser());
+  }, [dispatch]);
 
   const { listEvent } = useSelector((state) => state.eventState);
   const { dataCommunity } = useSelector((state) => state.communityState);
 
-  const events = listEvent.filter((ele) =>
-    ele.attendees
+  const events = listEvent.filter(
+    (ele) =>
+      userActive.event_join.includes(ele.id) &&
+      new Date(ele.end_at) >= new Date(),
   );
+
   const saved = listEvent.filter((ele) =>
     ele.userSaved?.includes(userActive.email),
   );
+  
   const community = dataCommunity.filter((ele) =>
-    ele.members?.includes(userActive.email),
+    userActive.community_member.includes(ele.id),
   );
 
   const tabActive = ({ isActive }) =>
@@ -81,7 +85,9 @@ function ProfileLayout() {
                 <div className="flex items-center gap-1 w-max">
                   <MapPin size={14} className="text-manatee" />
                   <span className="text-manatee text-xs">
-                    {userActive.user_location ? userActive.user_location : "Set Location"}
+                    {userActive.user_location
+                      ? userActive.user_location
+                      : "Set Location"}
                   </span>
                 </div>
                 <div className="flex items-center gap-1 w-max">
@@ -127,8 +133,12 @@ function ProfileLayout() {
             Saved
           </NavLink>
         </div>
-        {isEditOpen && <EditProfileModal isClose={() => setIsEditOpen(false)} />}
-        {isChangeOpen && <ChangePasswordModal isClose={() => setIsChangeOpen(false)} />}
+        {isEditOpen && (
+          <EditProfileModal isClose={() => setIsEditOpen(false)} />
+        )}
+        {isChangeOpen && (
+          <ChangePasswordModal isClose={() => setIsChangeOpen(false)} />
+        )}
       </section>
       <section className="pb-5 px-4 lg:px-61">
         <Outlet />

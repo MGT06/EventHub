@@ -27,7 +27,11 @@ function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const { dataUser } = useSelector((state) => state.dataUserState);
-  const getphoto = dataUser.find((data) => data.email === userActive.email);
+  var getphoto
+  
+  if (userActive !== null) {
+    getphoto = dataUser.find((data) => data.email === userActive.email);
+  }
 
   const toggle = () => setIsOpen((prev) => !prev);
 
@@ -120,7 +124,7 @@ function Header() {
 
           <div onClick={() => toggleTheme()}>{theme ? <Sun /> : <Moon />}</div>
 
-          {isAuthenticated ? (
+          {userActive ? (
             <>
               {getphoto?.profile ? (
                 <img
