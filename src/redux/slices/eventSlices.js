@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   dataEvent: [],
@@ -31,23 +32,13 @@ const initialState = {
 
 export const getEventThunk = createAsyncThunk(
   "get_event",
-  async (payload, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const event = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(payload);
-        }, 2000);
-      });
-      return event;
+      const response = await axios.get("http://localhost:9000/event")
+      return response.data.Data
     } catch (e) {
       return rejectWithValue(e.message);
     }
-  },
-  {
-    condition: (_, { getState }) => {
-      const { dataEvent } = getState().eventState;
-      if (dataEvent.length > 0) return false;
-    },
   },
 );
 
@@ -323,7 +314,7 @@ const eventSlices = createSlice({
         },
         fulfilled: (state, { payload }) => {
           state.dataEvent = state.dataEvent.map(ele => {
-            if(ele.id === payload.id) {
+            if (ele.id === payload.id) {
               return payload
             }
             return ele

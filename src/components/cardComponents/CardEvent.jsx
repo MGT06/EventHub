@@ -47,13 +47,30 @@ function CardEvent({ event }) {
   const disabled =
     event.status === "ended" || role === "organizer" || role === "admin";
 
-  const percentage = Math.trunc(
-    (event.attendees / event.capacity) * 100,
-  );
+  const percentage = Math.trunc((event.attendees / event.capacity) * 100);
+
+  const eventFull = event.attendees === event.capacity;
+
+  function convertTime() {
+    const dateObj = new Date(event.start_at);
+    const jamMenit = dateObj.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    const tanggal = event.start_at.split("T")[0];
+
+    return (
+      <p className="text-xs text-manatee">
+        {tanggal} · {jamMenit} WIB
+      </p>
+    );
+  }
+
   const barColor =
     event.status === "ended"
       ? "bg-gray-400"
-      : event.status === "full"
+      : eventFull
         ? "bg-red-500"
         : percentage < 80
           ? "bg-green-500"
@@ -87,7 +104,7 @@ function CardEvent({ event }) {
         <div>
           <div className="flex items-center gap-2">
             <Calendar width={9} />
-            <p className="text-xs text-manatee">{event.eventDate}</p>
+            {convertTime()}
           </div>
           <div className="flex items-center gap-2">
             <MapPin width={9} />
@@ -102,9 +119,7 @@ function CardEvent({ event }) {
         </div>
         <div>
           <div className="flex justify-between">
-            <p className="text-xs text-manatee">
-              {event.attendees} attendees
-            </p>
+            <p className="text-xs text-manatee">{event.attendees} attendees</p>
             <p className="text-xs text-manatee">{event.capacity} capacity</p>
           </div>
         </div>
@@ -118,7 +133,7 @@ function CardEvent({ event }) {
           <button
             disabled={event.status === "full" || alreadyJoined}
             className={`py-1.5 col-span-5 rounded-lg cursor-pointer grow ${
-              event.status === "full" || event.status === "ended"
+              eventFull || event.status === "ended"
                 ? "bg-gray-200 text-gray-600"
                 : alreadyJoined
                   ? "bg-green-500 text-white  flex justify-center"
@@ -130,7 +145,7 @@ function CardEvent({ event }) {
             }}
           >
             {alreadyJoined && <Check />}
-            {event.status === "full"
+            {eventFull
               ? "Full"
               : event.status === "ended"
                 ? "Ended"

@@ -9,6 +9,8 @@ function Explore() {
     (state) => state.communityState,
   );
 
+  const now = new Date()
+
   return (
     <>
       <section className="relative bg-black overflow-hidden">
@@ -83,9 +85,7 @@ function Explore() {
               <p className="mt-4 font-medium text-gray-700">Loading...</p>
             </div>
           ) : (
-            dataEvent
-              .filter((e) => e.status !== "ended")
-              .map((e) => <CardEvent key={e.id} event={e} />)
+            dataEvent.slice(0, 6).filter((e) => new Date(e.start_at) < now).map((e) => <CardEvent key={e.id} event={e} />)
           )}
         </div>
       </section>
