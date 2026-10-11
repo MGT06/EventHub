@@ -50,6 +50,9 @@ function useJoin() {
   const isJoined = (userActive, listUserJoin) =>
     listUserJoin?.includes(userActive);
 
+  const isMemberCommunity = (listJoinUser, communityId) =>
+    listJoinUser?.includes(communityId);
+
   const isSaved = (userActive, eventSaved) =>
     eventSaved?.includes(userActive);
 
@@ -59,6 +62,7 @@ function useJoin() {
     addSaved,
     removeJoin,
     isJoined,
+    isMemberCommunity,
     isSaved,
   };
 }
