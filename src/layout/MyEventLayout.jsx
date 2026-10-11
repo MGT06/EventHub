@@ -5,12 +5,20 @@ import { useSelector } from "react-redux";
 function MyEventLayout() {
   const { userActive } = useAuth();
 
-  const { dataEvent } = useSelector((state) => state.eventState);
-  const events = dataEvent.filter(
+  const { listEvent } = useSelector((state) => state.eventState);
+  const UpcomingEvent = listEvent.filter(
     (ele) =>
-      ele.status !== "ended" && ele.attendees?.includes(userActive.email),
+      userActive.event_join.includes(ele.id) &&
+      new Date(ele.end_at) >= new Date(),
   );
-  const saved = dataEvent.filter((ele) =>
+
+  const pastEvent = listEvent.filter(
+    (ele) =>
+      userActive.event_join.includes(ele.id) &&
+      new Date(ele.end_at) < new Date(),
+  );
+
+  const saved = listEvent.filter((ele) =>
     ele.userSaved?.includes(userActive.email),
   );
 
@@ -26,10 +34,10 @@ function MyEventLayout() {
         <h2 className="font-bold text-2xl">My Event</h2>
         <div className="mt-4 flex gap-1">
           <NavLink to={`/my-events`} end className={tabActive}>
-            Upcoming ({events.length})
+            Upcoming ({UpcomingEvent.length})
           </NavLink>
           <NavLink to={`/my-events/past`} className={tabActive}>
-            Past (2)
+            Past ({pastEvent.length})
           </NavLink>
           <NavLink to={`/my-events/saved`} className={tabActive}>
             Saved ({saved.length})
