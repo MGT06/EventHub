@@ -2,6 +2,8 @@ FROM node:24.15.0 AS builder
 
 WORKDIR /app
 
+ENV VITE_API_URL=/api
+
 COPY package-lock.json package.json ./
 RUN npm ci
 
