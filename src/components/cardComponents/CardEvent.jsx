@@ -44,13 +44,13 @@ function CardEvent({ event }) {
     );
   }
 
-  const disabled =
-    event.status === "ended" || role === "organizer" || role === "admin";
+  const eventFull = event.attendees === event.capacity;
+  const eventEnded = new Date(event.start_at) < new Date();
+
+  const disabled = eventEnded || eventFull || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc((event.attendees / event.capacity) * 100);
 
-  const eventFull = event.attendees === event.capacity;
-  const eventEnded = new Date(event.start_at) < new Date();
 
   function convertTime() {
     const dateObj = new Date(event.start_at);
@@ -131,7 +131,6 @@ function CardEvent({ event }) {
         </div>
         <div className="flex gap-2 pt-1 items-center">
           <button
-            disabled={event.status === "full" || alreadyJoined}
             className={`py-1.5 col-span-5 rounded-lg cursor-pointer grow ${
               eventFull || eventEnded
                 ? "bg-gray-200 text-gray-600"

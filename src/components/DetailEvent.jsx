@@ -21,11 +21,10 @@ import { toast } from "react-toastify";
 import { getDetailEvent } from "../redux/slices/eventSlices";
 import DiscussionItem from "./DiscussionItem";
 
-
 function DetailEvent() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isJoined, addJoined, addSaved, isSaved, removeJoin } = useJoin();
+  const { isJoinEvent, joinEvent, addSaved, isSaved } = useJoin();
   const { isAuthenticated, userActive, role } = useAuth();
   const dispatch = useDispatch();
 
@@ -39,11 +38,14 @@ function DetailEvent() {
     return <div>Loading data community...</div>;
   }
 
+  const eventFull = detailEvent.attendees === detailEvent.capacity;
+  const eventEnded = new Date(detailEvent.start_at) < new Date();
+
   const getRelatedEvents = listEvent
     .filter(
       (e) =>
         e.id !== detailEvent.id &&
-        e.status !== "ended" &&
+        eventEnded &&
         e.categories.some((tag) => detailEvent.categories.includes(tag)),
     )
     .slice(0, 3);
@@ -62,7 +64,7 @@ function DetailEvent() {
     hour12: false,
   });
 
-  const alreadyJoined = isJoined();
+  const alreadyJoined = isJoinEvent(userActive?.event_join, detailEvent.id);
   const alreadySaved = isSaved();
 
   function saveHandled() {
@@ -82,7 +84,7 @@ function DetailEvent() {
 
   function joinHandled() {
     toast.promise(
-      addJoined("event", detailEvent.id, userActive.email),
+      joinEvent(detailEvent.id),
       {
         pending: "Save procces",
         success: "Save success",
@@ -95,33 +97,16 @@ function DetailEvent() {
     );
   }
 
-  function unJoin() {
-    toast.promise(
-      removeJoin(detailEvent.id, userActive.email),
-      {
-        pending: "Unjoin procces",
-        success: "Unjoin success",
-        error: "Unjoin failed",
-      },
-      {
-        autoClose: 2000,
-        position: "bottom-right",
-      },
-    );
-  }
-
-  const disabled =
-    detailEvent.status === "ended" || role === "organizer" || role === "admin";
+  const disabled = eventEnded || eventFull || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc(
     (detailEvent.attendees / detailEvent.capacity) * 100,
   );
-  const barColor =
-    detailEvent.attendees === detailEvent.capacity
-      ? "bg-red-500"
-      : percentage < 80
-        ? "bg-green-500"
-        : "bg-yellow-500";
+  const barColor = eventFull
+    ? "bg-red-500"
+    : percentage < 80
+      ? "bg-green-500"
+      : "bg-yellow-500";
 
   return (
     <section>
@@ -160,7 +145,7 @@ function DetailEvent() {
             <div className="grid gap-2 pb-3 border-b border-b-gray-200">
               <div className="flex items-center gap-2 text-sm">
                 <Calendar size={16} className="text-manatee shrink-0" />
-                <span>{detailEvent.start_at.split('T')[0]}</span>
+                <span>{detailEvent.start_at.split("T")[0]}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Clock size={16} className="text-manatee shrink-0" />
@@ -199,11 +184,10 @@ function DetailEvent() {
             <div className="grid gap-2">
               <button
                 className={`py-2 px-4 rounded-lg cursor-pointer ${
-                  detailEvent.status === "full" ||
-                  detailEvent.status === "ended"
+                  eventEnded || eventEnded
                     ? "bg-gray-200 text-gray-600"
                     : alreadyJoined
-                      ? "bg-green-500 text-white  flex justify-center"
+                      ? "bg-green-500 text-white  flex items-center justify-center"
                       : "bg-orange text-white"
                 }`}
                 onClick={() => {
@@ -212,24 +196,14 @@ function DetailEvent() {
                 }}
               >
                 {alreadyJoined && <Check />}
-                {detailEvent.status === "full"
-                  ? "Full"
-                  : detailEvent.status === "ended"
-                    ? "Ended"
+                {eventEnded
+                  ? "Ended"
+                  : eventFull
+                    ? "Full"
                     : alreadyJoined
                       ? "Joined"
                       : "Join Event"}
               </button>
-              {alreadyJoined && (
-                <button
-                  className="py-2 px-4 rounded-lg bg-gray-100 border border-gray-300 cursor-pointer"
-                  onClick={() => {
-                    unJoin();
-                  }}
-                >
-                  Cancel Registered
-                </button>
-              )}
             </div>
 
             <div className="grid grid-cols-2 gap-2">
