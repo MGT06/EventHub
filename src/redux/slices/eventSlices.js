@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../../api/interceptor";
+import { getInfoUserThunk } from "./loggedUserSlices";
 
 const initialState = {
   listEvent: [],
@@ -98,7 +99,7 @@ export const editEventThunk = createAsyncThunk(
 
 export const joinEventThunk = createAsyncThunk(
   "join_event",
-  async (payload, { getState, rejectWithValue }) => {
+  async (payload, { getState, rejectWithValue, dispatch }) => {
     const { token } = getState().loggedUserState
     try {
       const response = await api.post(`http://localhost:9000/event/join/${payload}`, null, {
@@ -106,6 +107,8 @@ export const joinEventThunk = createAsyncThunk(
           Authorization: `Bearer ${token}`
         }
       })
+      dispatch(getEventThunk())
+      dispatch(getInfoUserThunk())
       return response.data.status
     } catch (e) {
       return rejectWithValue(e);

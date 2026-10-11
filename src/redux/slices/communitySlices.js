@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../../api/interceptor";
+import { getInfoUserThunk } from "./loggedUserSlices";
 
 const initialState = {
   dataCommunity: [],
@@ -30,7 +31,7 @@ export const getCommunityThunk = createAsyncThunk(
 
 export const joinCommunityThunk = createAsyncThunk(
   "join_community",
-  async (payload, { getState, rejectWithValue }) => {
+  async (payload, { getState, rejectWithValue, dispatch }) => {
     const { token } = getState().loggedUserState
     try {
       const response = await api.post(`http://localhost:9000/community/join/${payload}`, null, {
@@ -38,6 +39,8 @@ export const joinCommunityThunk = createAsyncThunk(
           Authorization: `Bearer ${token}`
         }
       })
+      dispatch(getCommunityThunk())
+      dispatch(getInfoUserThunk())
       return response.data.status
     } catch (e) {
       return rejectWithValue(e);
