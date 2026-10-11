@@ -65,6 +65,23 @@ export const getAllEvents = createAsyncThunk(
     }
 )
 
+export const getAllCommunities = createAsyncThunk(
+    "allCommunities_admin",
+    async (_, { getState, rejectWithValue }) => {
+        const { token } = getState().loggedUserState
+        try {
+            const response = await api.get(`http://localhost:9000/admin/communities`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data.Data
+        } catch (e) {
+            return rejectWithValue(e)
+        }
+    }
+)
+
 
 const adminSlice = createSlice({
     name: "admin",
@@ -114,6 +131,23 @@ const adminSlice = createSlice({
             },
             fulfilled: (state, { payload }) => {
                 state.dataDashboard.events = payload;
+                state.isPending = false;
+                state.isFulfilled = true;
+            },
+            rejected: (state, { payload }) => {
+                state.isPending = false;
+                state.isRejected = true;
+                state.error = payload;
+            },
+        }).addAsyncThunk(getAllCommunities, {
+            pending: (state) => {
+                state.isPending = true;
+                state.isFulfilled = false;
+                state.isRejected = false;
+                state.error = null;
+            },
+            fulfilled: (state, { payload }) => {
+                state.dataDashboard.communities = payload;
                 state.isPending = false;
                 state.isFulfilled = true;
             },
