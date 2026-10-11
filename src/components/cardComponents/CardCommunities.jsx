@@ -11,7 +11,7 @@ function CardCommunities({ community }) {
   const { isMemberCommunity, joinCommunity } = useJoin("joinedCommunities");
   const { isAuthenticated, userActive, role } = useAuth();
 
-  const alreadyJoined = isMemberCommunity(userActive.community_member, community.id);
+  const alreadyJoined = isMemberCommunity(userActive?.community_member, community.id);
 
   function joinHandled() {
     toast.promise(
