@@ -58,17 +58,9 @@ export const editProfileThunk = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { token } = getState().loggedUserState
     try {
-      const data = {
-        name : payload.name,
-        bio : payload.bio,
-        user_location: payload.location,
-        position: payload.position,
-        avatar_url: payload.avatar
-      }
-      const response = await axios.patch("/user/edit", data, {
+      const response = await api.patch("/user/edit", payload, {
         headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data"
+          Authorization: `Bearer ${token}`
         }
       })
       return response.data.Message

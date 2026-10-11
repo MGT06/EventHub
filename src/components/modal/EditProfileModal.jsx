@@ -8,17 +8,27 @@ import { editProfileThunk } from "../../redux/slices/dataUserSlices.js";
 function EditProfileModal({ isClose }) {
   const { userActive } = useAuth();
   const dispatch = useDispatch();
-  const [avatar, setAvatar] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
   const { register, handleSubmit } = useForm();
 
-  function handleSave(dataInput) {
-    dispatch(
-      editProfileThunk({
-        ...dataInput,
-        avatar: avatar,
-      }),
-    );
-    isClose();
+  async function handleSave(dataInput) {
+    const formData = new FormData();
+    formData.append("name", dataInput.name);
+    formData.append("bio", dataInput.bio);
+    formData.append("user_location", dataInput.location);
+    formData.append("position", dataInput.position);
+
+    if (avatarFile) {
+      formData.append("avatar", avatarFile);
+    }
+
+    try {
+      await dispatch(editProfileThunk(formData)).unwrap();
+      isClose();
+    } catch (err) {
+      console.log(err)
+    }
   }
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-100 p-0 sm:p-4">
@@ -42,18 +52,17 @@ function EditProfileModal({ isClose }) {
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
+                    setAvatarFile(file);
                     const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setAvatar(reader.result);
-                    };
+                    reader.onloadend = () => setAvatarPreview(reader.result);
                     reader.readAsDataURL(file);
                   }
                 }}
                 className="hidden"
               />
-              {avatar || userActive.avatar_url ? (
+              {avatarPreview || userActive.avatar_url ? (
                 <img
-                  src={avatar || userActive.avatar_url}
+                  src={avatarPreview || userActive.avatar_url}
                   alt="Profile"
                   className="w-20 h-20 rounded-2xl bg-gray-200 object-cover"
                 />
@@ -88,7 +97,7 @@ function EditProfileModal({ isClose }) {
               </label>
               <input
                 type="text"
-                defaultValue={userActive?.location}
+                defaultValue={userActive?.user_location}
                 {...register("location")}
                 className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
               />

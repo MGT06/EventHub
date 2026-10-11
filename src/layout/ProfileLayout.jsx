@@ -11,22 +11,19 @@ function ProfileLayout() {
   const [ isEditOpen, setIsEditOpen ] = useState(false);
   const [ isChangeOpen, setIsChangeOpen ] = useState(false);
   const { userActive, role } = useAuth();
-  const { dataUser } = useSelector((state) => state.dataUserState);
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getProfileUser())
   }, [dispatch])
 
-  const getPhoto = dataUser.find((data) => data.email === userActive.email);
-
-  const { dataEvent } = useSelector((state) => state.eventState);
+  const { listEvent } = useSelector((state) => state.eventState);
   const { dataCommunity } = useSelector((state) => state.communityState);
 
-  const events = dataEvent.filter((ele) =>
-    ele.attendees?.includes(userActive.email),
+  const events = listEvent.filter((ele) =>
+    ele.attendees
   );
-  const saved = dataEvent.filter((ele) =>
+  const saved = listEvent.filter((ele) =>
     ele.userSaved?.includes(userActive.email),
   );
   const community = dataCommunity.filter((ele) =>
@@ -44,9 +41,9 @@ function ProfileLayout() {
       <section className="py-8 px-4 lg:px-61">
         <div className=" flex gap-4">
           <div className="w-20 h-20 bg-orange rounded-2xl">
-            {getPhoto?.profile ? (
+            {userActive.avatar_url ? (
               <img
-                src={getPhoto.profile}
+                src={`http://localhost:9000/${userActive.avatar_url}`}
                 alt=""
                 className="w-full rounded-2xl h-full object-cover bg-gray-200"
               />
