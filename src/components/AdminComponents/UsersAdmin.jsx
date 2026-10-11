@@ -39,10 +39,10 @@ function UsersAdmin() {
         </div>
         {dataDashboard.users.map((user) => {
           return (
-            <div className="grid grid-cols-[150px_auto_auto] lg:grid-cols-[3fr_2fr_2fr_2fr_1fr] px-4 py-2 ">
+            <div key={user.id} className="grid grid-cols-[150px_auto_auto] lg:grid-cols-[3fr_2fr_2fr_2fr_1fr] px-4 py-2 ">
               <div>
                 <p className="font-medium text-sm">{user.name}</p>
-                <p className="text-xs text-manatee">alex.kim@example.com</p>
+                <p className="text-xs text-manatee">{user.email}</p>
               </div>
               <div className="self-center place-self-center hidden lg:block">
                 <span className="bg-gray-400/20 rounded-full text-gray-500 h-max py-1  px-2.5 text-xs font-medium flex items-center">
@@ -55,7 +55,9 @@ function UsersAdmin() {
                 </span>
               </div>
               <div className="self-center place-self-center hidden lg:block">
-                <p className="text-xs text-gray-300">Mar 2025</p>
+                <p className="text-xs text-gray-300">
+                  {user.joined.split("T")[0]}
+                </p>
               </div>
               <div className="self-center place-self-end lg:place-self-center">
                 <MoreHorizontal />
