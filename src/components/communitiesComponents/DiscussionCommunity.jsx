@@ -1,14 +1,23 @@
 import { SendHorizonal } from "lucide-react";
-import { useOutletContext } from "react-router";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { getDiscussCommunity } from "../../redux/slices/communitySlices";
+import DiscussionItem from "../DiscussionItem";
 
 function DiscussionCommunity() {
-  const { nameCommunity } = useOutletContext();
-  const { dataCommunity } = useSelector((state) => state.communityState);
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const dataCommunities = dataCommunity.find(
-    (data) => data.name == nameCommunity,
-  );
+  useEffect(() => {
+    dispatch(getDiscussCommunity(id));
+  }, [dispatch, id]);
+
+  const { detailCommunity } = useSelector((state) => state.communityState);
+
+  if (!detailCommunity.communityDiscuss) {
+    return <div>Loading data community...</div>;
+  }
 
   return (
     <div className="flex flex-col gap-3 mt-5">
@@ -28,28 +37,8 @@ function DiscussionCommunity() {
         </div>
       </div>
 
-      {dataCommunities.discussions.map((discussion, idx) => (
-        <div key={idx} className="flex gap-3">
-          <img
-            src={discussion.author.avatar}
-            alt={discussion.author.name}
-            className="h-9 w-9 rounded-full object-cover shrink-0"
-          />
-          <div
-            key={discussion.id}
-            className="flex items-start gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 grow"
-          >
-            <div className="min-w-0">
-              <p className="text-sm text-gray-900">
-                <span className="font-medium">{discussion.author.name}</span>{" "}
-                <span className="text-xs text-gray-400">
-                  {discussion.timeAgo}
-                </span>
-              </p>
-              <p className="mt-1 text-sm text-gray-600">{discussion.message}</p>
-            </div>
-          </div>
-        </div>
+      {detailCommunity.communityDiscuss.map((discussion) => (
+        <DiscussionItem key={discussion.id} discussion={discussion} />
       ))}
     </div>
   );
