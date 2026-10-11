@@ -3,6 +3,7 @@ import dataUserReducer from "./slices/dataUserSlices.js";
 import loggedUserReducer from "./slices/loggedUserSlices.js";
 import eventReducer from "./slices/eventSlices.js";
 import communityReducer from "./slices/communitySlices.js";
+import adminReducer from "./slices/adminSlice.js";
 import {
   FLUSH,
   PAUSE,
@@ -40,17 +41,14 @@ const persistEventConfig = {
   key: "event",
   storage,
 };
-const persistCommunityConfig = {
-  key: "joinCommunity",
-  storage,
-};
 
 const store = configureStore({
   reducer: {
     dataUserState: persistReducer(persistSignUpConfig, dataUserReducer),
     loggedUserState: persistReducer(persistSignInConfig, loggedUserReducer),
     eventState: persistReducer(persistEventConfig, eventReducer),
-    communityState: persistReducer(persistCommunityConfig, communityReducer),
+    communityState: communityReducer,
+    adminState: adminReducer, 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
