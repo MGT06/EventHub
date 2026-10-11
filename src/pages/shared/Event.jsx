@@ -33,7 +33,7 @@ function Event() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filterOpen, setFilterOpen] = useState(false);
   const [idTimeout, setIdTimeout] = useState(0);
-  const { dataEvent } = useSelector((state) => state.eventState);
+  const { listEvent } = useSelector((state) => state.eventState);
 
   const title = searchParams.get("title") ?? "";
   const filCategory = searchParams.get("category") ?? "All";
@@ -70,7 +70,7 @@ function Event() {
   }
 
   const filteredEvents = sortEvents(
-    dataEvent
+    listEvent
       .filter((e) => e.status !== "ended")
       .filter((dataFilter) =>
         dataFilter.title.toLowerCase().includes(title.toLowerCase()),
@@ -220,16 +220,16 @@ function Event() {
       <div className="py-6 px-4 lg:px-13">
         <p className="text-sm text-manatee ">
           <span className="text-sm text-black font-semibold">
-            {filteredEvents.length}
+            {filteredEvents.filter((e) => new Date(e.start_at) > new Date()).length}
           </span>{" "}
           events found
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pt-5">
-          {filteredEvents.map((e) => (
+          {filteredEvents.filter((e) => new Date(e.start_at) > new Date()).map((e) => (
             <CardEvent key={e.id} event={e} />
           ))}
         </div>
-        {filteredEvents.filter((e) => e.status !== "ended").length > 6 && (
+        {filteredEvents.filter((e) => new Date(e.start_at) > new Date()).length > 6 && (
           <div className="pt-8 grid justify-center">
             <span className="py-2 px-4 rounded-lg border border-gray-300 cursor-pointer">
               Load more events

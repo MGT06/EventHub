@@ -4,12 +4,10 @@ import CardCommunities from "../../components/cardComponents/CardCommunities";
 import { useSelector } from "react-redux";
 
 function Explore() {
-  const { dataEvent, isPending } = useSelector((state) => state.eventState);
+  const { listEvent, isPending } = useSelector((state) => state.eventState);
   const { dataCommunity, isPending: isPendingCommunity } = useSelector(
     (state) => state.communityState,
   );
-
-  const now = new Date()
 
   return (
     <>
@@ -85,7 +83,7 @@ function Explore() {
               <p className="mt-4 font-medium text-gray-700">Loading...</p>
             </div>
           ) : (
-            dataEvent.slice(0, 6).filter((e) => new Date(e.start_at) < now).map((e) => <CardEvent key={e.id} event={e} />)
+            listEvent.slice(0, 6).filter((e) => new Date(e.start_at) > new Date()).map((e) => <CardEvent key={e.id} event={e} />)
           )}
         </div>
       </section>
@@ -94,7 +92,7 @@ function Explore() {
         <h3 className="font-bold text-lg">Popular Communities</h3>
         <div className="pt-5 grid gap-4 lg:grid-cols-4">
           {isPendingCommunity ? (
-            <div class="text-center lg:col-span-2 lg:col-start-2" role="status">
+            <div className="text-center lg:col-span-2 lg:col-start-2" role="status">
               <svg
                 className="mx-auto size-20 animate-spin text-indigo-600"
                 xmlns="http://www.w3.org/2000/svg"
