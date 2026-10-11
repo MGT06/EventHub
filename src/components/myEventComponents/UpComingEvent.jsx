@@ -5,9 +5,14 @@ import { useSelector } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
 
 function UpComingEvent() {
-   const { userActive } = useAuth();
-   const { dataEvent } = useSelector(state => state.eventState)
-   const events = dataEvent.filter((ele) => ele.attendees?.includes(userActive.email))
+  const { userActive } = useAuth();
+  const { listEvent } = useSelector((state) => state.eventState);
+
+  if (!userActive) return null;
+
+  const events = listEvent.filter((ele) =>
+    userActive.event_join.includes(ele.id) && new Date(ele.end_at) >= new Date()
+  );
 
   return (
     <>
@@ -20,11 +25,11 @@ function UpComingEvent() {
           ) : (
             <div>
               <Bookmark />
-              <p className="font-semibold">No saved events</p>
-              <p className="text-sm text-manatee">Bookmark events you're interested in.</p>
-              <Link to={"/event"}>
-                Explore Events
-              </Link>
+              <p className="font-semibold">No join events</p>
+              <p className="text-sm text-manatee">
+                Bookmark events you're interested in.
+              </p>
+              <Link to={"/event"}>Explore Events</Link>
             </div>
           )}
         </div>
