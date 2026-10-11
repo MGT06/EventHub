@@ -48,6 +48,22 @@ export const getAllUsers = createAsyncThunk(
     }
 )
 
+export const getAllEvents = createAsyncThunk(
+    "allEvents_admin",
+    async (_, { getState, rejectWithValue }) => {
+        const { token } = getState().loggedUserState
+        try {
+            const response = await api.get(`http://localhost:9000/admin/events`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data.Data
+        } catch (e) {
+            return rejectWithValue(e)
+        }
+    }
+)
 
 
 const adminSlice = createSlice({
@@ -81,6 +97,23 @@ const adminSlice = createSlice({
             },
             fulfilled: (state, { payload }) => {
                 state.dataDashboard.users = payload;
+                state.isPending = false;
+                state.isFulfilled = true;
+            },
+            rejected: (state, { payload }) => {
+                state.isPending = false;
+                state.isRejected = true;
+                state.error = payload;
+            },
+        }).addAsyncThunk(getAllEvents, {
+            pending: (state) => {
+                state.isPending = true;
+                state.isFulfilled = false;
+                state.isRejected = false;
+                state.error = null;
+            },
+            fulfilled: (state, { payload }) => {
+                state.dataDashboard.events = payload;
                 state.isPending = false;
                 state.isFulfilled = true;
             },
