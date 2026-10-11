@@ -69,6 +69,20 @@ export const getEventCommunity = createAsyncThunk(
   }
 )
 
+export const getMembersCommunity = createAsyncThunk(
+  "member_community",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`http://localhost:9000/community/members/${payload}`,)
+      return response.data.Data
+    } catch (e) {
+      return rejectWithValue(e)
+    }
+  }
+)
+
+
+
 const communitySlices = createSlice({
   name: "joinedCommunity",
   initialState,
@@ -137,6 +151,24 @@ const communitySlices = createSlice({
         },
         fulfilled: (state, { payload }) => {
           state.detailCommunity.communityEvents = payload
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      })
+      .addAsyncThunk(getMembersCommunity, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.detailCommunity.communityMembers = payload
           state.isPending = false;
           state.isFulfilled = true;
         },
