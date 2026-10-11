@@ -8,10 +8,10 @@ import { toast } from "react-toastify";
 
 function CardEvent({ event }) {
   const { isAuthenticated, userActive, role } = useAuth();
-  const { isJoined, addJoined, addSaved, isSaved } = useJoin("joinedEvents");
+  const { isJoinEvent, joinEvent, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
-  const alreadyJoined = isJoined();
+  const alreadyJoined = isJoinEvent(userActive.event_join, event.id);
   const alreadySaved = isSaved();
 
   function saveHandled() {
@@ -31,7 +31,7 @@ function CardEvent({ event }) {
 
   function joinHandled() {
     toast.promise(
-      addJoined("event", event.id, userActive.email),
+      joinEvent(event.id),
       {
         pending: "Join procces",
         success: "Join success",

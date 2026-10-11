@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../../api/interceptor";
 
 const initialState = {
   listEvent: [],
@@ -98,47 +99,14 @@ export const editEventThunk = createAsyncThunk(
 export const joinEventThunk = createAsyncThunk(
   "join_event",
   async (payload, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
     try {
-      const { listEvent } = getState().eventState;
-      const newData = listEvent.map((ele) => {
-        if (ele.id === payload.id) {
-          return {
-            ...ele,
-            attendees: [...ele.attendees, payload.email],
-          };
+      const response = await api.post(`http://localhost:9000/event/join/${payload}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-        return ele;
-      });
-      const result = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(newData);
-        }, 1000);
-      });
-      return result;
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  },
-);
-export const unjoinEventThunk = createAsyncThunk(
-  "unjoin_event",
-  async (payload, { getState, rejectWithValue }) => {
-    try {
-      const { listEvent } = getState().eventState;
-      const newData = listEvent.map((ele) => {
-        if (ele.id !== payload.id) return ele;
-
-        return {
-          ...ele,
-          attendees: ele.attendees.filter((join) => join !== payload.email),
-        };
-      });
-      const result = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(newData);
-        }, 1000);
-      });
-      return result;
+      })
+      return response.data.status
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -366,26 +334,7 @@ const eventSlices = createSlice({
           state.isRejected = false;
           state.error = null;
         },
-        fulfilled: (state, { payload }) => {
-          state.listEvent = payload;
-          state.isPending = false;
-          state.isFulfilled = true;
-        },
-        rejected: (state, { payload }) => {
-          state.isPending = false;
-          state.isRejected = true;
-          state.error = payload;
-        },
-      })
-      .addAsyncThunk(unjoinEventThunk, {
-        pending: (state) => {
-          state.isPending = true;
-          state.isFulfilled = false;
-          state.isRejected = false;
-          state.error = null;
-        },
-        fulfilled: (state, { payload }) => {
-          state.listEvent = payload;
+        fulfilled: (state) => {
           state.isPending = false;
           state.isFulfilled = true;
         },

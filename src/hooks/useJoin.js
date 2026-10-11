@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import {
   joinEventThunk,
   savedEventThunk,
-  unjoinEventThunk,
 } from "../redux/slices/eventSlices";
 import { joinCommunityThunk } from "../redux/slices/communitySlices";
 
@@ -29,18 +28,13 @@ function useJoin() {
     return dispatch(joinCommunityThunk(id)).unwrap()
   }
 
+  const joinEvent = (id) => {
+    return dispatch(joinEventThunk(id)).unwrap()
+  }
+
   const addSaved = (idEvent, email) => {
     return dispatch(
       savedEventThunk({
-        id: idEvent,
-        email,
-      }),
-    ).unwrap();
-  };
-
-  const removeJoin = (idEvent, email) => {
-    return dispatch(
-      unjoinEventThunk({
         id: idEvent,
         email,
       }),
@@ -52,6 +46,9 @@ function useJoin() {
 
   const isMemberCommunity = (listJoinUser, communityId) =>
     listJoinUser?.includes(communityId);
+  
+  const isJoinEvent = (listJoinUser, eventId) =>
+    listJoinUser?.includes(eventId);
 
   const isSaved = (userActive, eventSaved) =>
     eventSaved?.includes(userActive);
@@ -59,10 +56,11 @@ function useJoin() {
   return {
     addJoined,
     joinCommunity,
+    joinEvent,
     addSaved,
-    removeJoin,
     isJoined,
     isMemberCommunity,
+    isJoinEvent,
     isSaved,
   };
 }
