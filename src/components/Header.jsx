@@ -126,9 +126,9 @@ function Header() {
 
           {userActive ? (
             <>
-              {getphoto?.profile ? (
+              {userActive?.avatar_url ? (
                 <img
-                  src={getphoto.profile}
+                  src={`${import.meta.env.VITE_API_URL}/${userActive.avatar_url}`}
                   alt=""
                   className="hidden lg:block rounded-full object-cover h-8 w-8 cursor-pointer"
                   onClick={toggle}
