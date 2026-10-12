@@ -102,7 +102,7 @@ export const joinEventThunk = createAsyncThunk(
   async (payload, { getState, rejectWithValue, dispatch }) => {
     const { token } = getState().loggedUserState
     try {
-      const response = await api.post(`${import.meta.env.VITE_API_URL}/event/join/${payload}`, null, {
+      const response = await api.post(`/event/join/${payload}`, null, {
         headers: {
           Authorization: `Bearer ${token}`
         }
