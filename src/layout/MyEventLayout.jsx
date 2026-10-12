@@ -8,13 +8,13 @@ function MyEventLayout() {
   const { listEvent } = useSelector((state) => state.eventState);
   const UpcomingEvent = listEvent.filter(
     (ele) =>
-      userActive.event_join.includes(ele.id) &&
+      userActive?.event_join.includes(ele.id) &&
       new Date(ele.end_at) >= new Date(),
   );
 
   const pastEvent = listEvent.filter(
     (ele) =>
-      userActive.event_join.includes(ele.id) &&
+      userActive?.event_join.includes(ele.id) &&
       new Date(ele.end_at) < new Date(),
   );
 

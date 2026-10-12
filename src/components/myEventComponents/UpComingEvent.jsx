@@ -11,7 +11,7 @@ function UpComingEvent() {
   if (!userActive) return null;
 
   const events = listEvent.filter((ele) =>
-    userActive.event_join.includes(ele.id) && new Date(ele.end_at) >= new Date()
+    userActive?.event_join.includes(ele.id) && new Date(ele.end_at) >= new Date()
   );
 
   return (

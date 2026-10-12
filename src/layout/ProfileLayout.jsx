@@ -22,7 +22,7 @@ function ProfileLayout() {
 
   const events = listEvent.filter(
     (ele) =>
-      userActive.event_join.includes(ele.id) &&
+      userActive?.event_join.includes(ele.id) &&
       new Date(ele.end_at) >= new Date(),
   );
 

@@ -11,7 +11,7 @@ function CardEvent({ event }) {
   const { isJoinEvent, joinEvent, addSaved, isSaved } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
-  const alreadyJoined = isJoinEvent(userActive.event_join, event.id);
+  const alreadyJoined = isJoinEvent(userActive?.event_join, event.id);
   const alreadySaved = isSaved();
 
   function saveHandled() {
