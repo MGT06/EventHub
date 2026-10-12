@@ -44,7 +44,7 @@ function CardCommunities({ community }) {
         )}
       </Link>
       <div className="grid gap-3 p-4 grow">
-        <p className="font-semibold">{community.name}</p>
+        <p className="font-semibold">{community.community_name}</p>
         <p className="text-xs text-manatee">{community.description}</p>
 
         <div>

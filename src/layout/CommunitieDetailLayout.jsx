@@ -65,13 +65,13 @@ function CommunitieDetailLayout() {
       <div className="relative w-full h-48 lg:h-69">
         <img
           src={detailCommunity.communityInformation.image_url}
-          alt={detailCommunity.communityInformation.name}
+          alt={detailCommunity.communityInformation.community_name}
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-4 left-4 right-4 lg:left-20 lg:right-20 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-white font-bold text-xl lg:text-2xl">
-              {detailCommunity.communityInformation.name}
+              {detailCommunity.communityInformation.community_name}
             </h1>
             <div className="flex items-center gap-4 mt-1">
               <div className="flex items-center gap-1.5">
