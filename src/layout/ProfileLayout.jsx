@@ -47,7 +47,7 @@ function ProfileLayout() {
           <div className="w-20 h-20 bg-orange rounded-2xl">
             {userActive.avatar_url ? (
               <img
-                src={`http://localhost:9000/${userActive.avatar_url}`}
+                src={`${import.meta.env.VITE_API_URL}${userActive.avatar_url}`}
                 alt=""
                 className="w-full rounded-2xl h-full object-cover bg-gray-200"
               />
