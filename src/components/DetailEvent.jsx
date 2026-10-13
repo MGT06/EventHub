@@ -24,7 +24,7 @@ import DiscussionItem from "./DiscussionItem";
 function DetailEvent() {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const { isJoinEvent, joinEvent, addSaved, isSaved } = useJoin();
+  const { isJoinEvent, joinEvent, savedEvent, isSavedEvent } = useJoin();
   const { isAuthenticated, userActive, role } = useAuth();
   const dispatch = useDispatch();
 
@@ -65,11 +65,11 @@ function DetailEvent() {
   });
 
   const alreadyJoined = isJoinEvent(userActive?.event_join, detailEvent.id);
-  const alreadySaved = isSaved();
+  const alreadySaved = isSavedEvent(userActive?.event_save, detailEvent.id);
 
   function saveHandled() {
     toast.promise(
-      addSaved(detailEvent.id, userActive.email),
+      savedEvent(detailEvent.id),
       {
         pending: "Save procces",
         success: "Save success",

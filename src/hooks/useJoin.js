@@ -32,13 +32,8 @@ function useJoin() {
     return dispatch(joinEventThunk(id)).unwrap()
   }
 
-  const addSaved = (idEvent, email) => {
-    return dispatch(
-      savedEventThunk({
-        id: idEvent,
-        email,
-      }),
-    ).unwrap();
+  const savedEvent = (id) => {
+    return dispatch(savedEventThunk(id)).unwrap();
   };
 
   const isJoined = (userActive, listUserJoin) =>
@@ -46,22 +41,22 @@ function useJoin() {
 
   const isMemberCommunity = (listJoinUser, communityId) =>
     listJoinUser?.includes(communityId);
-  
+
   const isJoinEvent = (listJoinUser, eventId) =>
     listJoinUser?.includes(eventId);
 
-  const isSaved = (userActive, eventSaved) =>
-    eventSaved?.includes(userActive);
+  const isSavedEvent = (listSaveUser, eventId) =>
+    listSaveUser?.includes(eventId);
 
   return {
     addJoined,
     joinCommunity,
     joinEvent,
-    addSaved,
+    savedEvent,
     isJoined,
     isMemberCommunity,
     isJoinEvent,
-    isSaved,
+    isSavedEvent,
   };
 }
 

@@ -8,15 +8,15 @@ import { toast } from "react-toastify";
 
 function CardEvent({ event }) {
   const { isAuthenticated, userActive, role } = useAuth();
-  const { isJoinEvent, joinEvent, addSaved, isSaved } = useJoin("joinedEvents");
+  const { isJoinEvent, joinEvent, savedEvent, isSavedEvent } = useJoin("joinedEvents");
   const [modal, setModal] = useState(false);
 
   const alreadyJoined = isJoinEvent(userActive?.event_join, event.id);
-  const alreadySaved = isSaved();
+  const alreadySaved = isSavedEvent(userActive?.event_save, event.id);
 
   function saveHandled() {
     toast.promise(
-      addSaved(event.id, userActive.email),
+      savedEvent(event.id),
       {
         pending: "Save procces",
         success: "Save success",
@@ -47,7 +47,7 @@ function CardEvent({ event }) {
   const eventFull = event.attendees === event.capacity;
   const eventEnded = new Date(event.start_at) < new Date();
 
-  const disabled = eventEnded || eventFull || role === "organizer" || role === "admin";
+  const disabled = eventEnded || role === "organizer" || role === "admin";
 
   const percentage = Math.trunc((event.attendees / event.capacity) * 100);
 

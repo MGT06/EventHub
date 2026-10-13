@@ -118,29 +118,17 @@ export const joinEventThunk = createAsyncThunk(
 
 export const savedEventThunk = createAsyncThunk(
   "saved_event",
-  async (payload, { getState, rejectWithValue }) => {
+  async (payload, { getState, rejectWithValue, dispatch }) => {
+    const { token } = getState().loggedUserState
     try {
-      const { listEvent } = getState().eventState;
-      const newData = listEvent.map((ele) => {
-        if (ele.id !== payload.id) return ele;
-        if (ele.userSaved.includes(payload.email)) {
-          return {
-            ...ele,
-            userSaved: ele.userSaved.filter((saved) => saved !== payload.email),
-          };
+      const response = await api.post(`/event/save/${payload}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-
-        return {
-          ...ele,
-          userSaved: [...ele.userSaved, payload.email],
-        };
-      });
-      const result = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(newData);
-        }, 1000);
-      });
-      return result;
+      })
+      dispatch(getEventThunk())
+      dispatch(getInfoUserThunk())
+      return response.data.status
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -354,8 +342,7 @@ const eventSlices = createSlice({
           state.isRejected = false;
           state.error = null;
         },
-        fulfilled: (state, { payload }) => {
-          state.listEvent = payload;
+        fulfilled: (state) => {
           state.isPending = false;
           state.isFulfilled = true;
         },

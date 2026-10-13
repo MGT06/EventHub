@@ -27,7 +27,7 @@ function ProfileLayout() {
   );
 
   const saved = listEvent.filter((ele) =>
-    ele.userSaved?.includes(userActive.email),
+    userActive?.event_save.includes(ele.id),
   );
   
   const community = dataCommunity.filter((ele) =>
