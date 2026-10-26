@@ -3,21 +3,34 @@ import { X, Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { editProfileThunk } from "../../redux/slices/dataUserSlices.js";
+import { editProfileThunk } from "../../redux/slices/loggedUserSlices.js";
 
 function EditProfileModal({ isClose }) {
   const { userActive } = useAuth();
   const dispatch = useDispatch();
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { dirtyFields },
+  } = useForm({
+    defaultValues: {
+      name: userActive.name,
+      location: userActive?.user_location,
+      position: userActive?.position,
+      bio: userActive?.bio,
+    },
+  });
 
   async function handleSave(dataInput) {
     const formData = new FormData();
-    formData.append("name", dataInput.name);
-    formData.append("bio", dataInput.bio);
-    formData.append("user_location", dataInput.location);
-    formData.append("position", dataInput.position);
+    if (Object.keys(dirtyFields).length > 0) {
+      if (dirtyFields.name) formData.append("name", dataInput.name);
+      if (dirtyFields.bio) formData.append("bio", dataInput.bio);
+      if (dirtyFields.location) formData.append("user_location", dataInput.location);
+      if (dirtyFields.position) formData.append("position", dataInput.position);
+    }
 
     if (avatarFile) {
       formData.append("avatar", avatarFile);
@@ -27,8 +40,8 @@ function EditProfileModal({ isClose }) {
       await dispatch(editProfileThunk(formData)).unwrap();
       isClose();
     } catch (err) {
-      console.log(err)
-    }
+      console.log(err);
+    } 
   }
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-100 p-0 sm:p-4">
@@ -62,8 +75,11 @@ function EditProfileModal({ isClose }) {
               />
               {avatarPreview || userActive.avatar_url ? (
                 <img
-                  src={avatarPreview || userActive.avatar_url}
-                  alt="Profile"
+                  src={
+                    avatarPreview ||
+                    `${import.meta.env.VITE_API_URL}/${userActive.avatar_url}`
+                  }
+                  alt={userActive.name}
                   className="w-20 h-20 rounded-2xl bg-gray-200 object-cover"
                 />
               ) : (
@@ -86,7 +102,6 @@ function EditProfileModal({ isClose }) {
               <input
                 type="text"
                 {...register("name")}
-                defaultValue={userActive.name}
                 className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
               />
             </div>
@@ -97,7 +112,6 @@ function EditProfileModal({ isClose }) {
               </label>
               <input
                 type="text"
-                defaultValue={userActive?.user_location}
                 {...register("location")}
                 className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
               />
@@ -109,7 +123,6 @@ function EditProfileModal({ isClose }) {
               </label>
               <input
                 type="text"
-                defaultValue={userActive?.position}
                 {...register("position")}
                 className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm"
               />
@@ -119,7 +132,6 @@ function EditProfileModal({ isClose }) {
               <label className="text-sm font-medium block mb-1.5">Bio</label>
               <textarea
                 {...register("bio")}
-                defaultValue={userActive?.bio}
                 placeholder="Tell the community a little about yourself..."
                 rows={4}
                 className="w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:border-orange text-sm resize-none"
