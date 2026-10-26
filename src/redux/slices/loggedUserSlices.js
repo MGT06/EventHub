@@ -62,6 +62,23 @@ export const getProfileUser = createAsyncThunk(
   }
 )
 
+export const editProfileThunk = createAsyncThunk(
+  "edit_profile",
+  async (payload, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const response = await api.patch("/user/edit", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data.Data
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
+
 export const signOutThunk = createAsyncThunk(
   "sign_out",
   async (_, { getState, rejectWithValue }) => {
@@ -147,7 +164,25 @@ const signInSlices = createSlice({
           state.error = null;
         },
         fulfilled: (state, { payload }) => {
-          state.loggedUser = { ...state.loggedUser, ...payload};
+          state.loggedUser = { ...state.loggedUser, ...payload };
+          state.role = payload.role
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      }), builder.addAsyncThunk(editProfileThunk, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.loggedUser = { ...state.loggedUser, ...payload };
           state.role = payload.role
           state.isPending = false;
           state.isFulfilled = true;
