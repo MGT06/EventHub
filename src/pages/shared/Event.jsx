@@ -75,7 +75,7 @@ function Event() {
       .filter((dataFilter) =>
         dataFilter.title.toLowerCase().includes(title.toLowerCase()),
       )
-      .filter((e) => filCategory === "All" || e.tags.includes(filCategory))
+      .filter((e) => filCategory === "All" || e.categories.includes(filCategory))
       .filter(
         (e) => filLocation === "All Locations" || e.location === filLocation,
       ),
