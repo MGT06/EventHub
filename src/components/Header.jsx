@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Bell,
   Moon,
@@ -16,22 +16,30 @@ import {
 } from "lucide-react";
 import { NavLink, Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ThemeContext from "../context/themeContext";
 import ModalLogout from "./modal/ModalLogout";
+import { notificationThunk } from "../redux/slices/loggedUserSlices";
 
 function Header() {
   const { isAuthenticated, role, userActive } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   const { dataUser } = useSelector((state) => state.dataUserState);
-  var getphoto
-  
+  var getphoto;
+
   if (userActive !== null) {
     getphoto = dataUser.find((data) => data.email === userActive.email);
   }
+
+  useEffect(() => {
+    dispatch(notificationThunk());
+  }, [dispatch]);
+
+  const { notification } = useSelector((state) => state.loggedUserState);
 
   const toggle = () => setIsOpen((prev) => !prev);
 
@@ -116,8 +124,14 @@ function Header() {
               <Link to={"/notification"}>
                 <Bell />
               </Link>
-              <span className="rounded-full bg-orange text-xs flex items-center justify-center text-white w-5 h-5 absolute -top-2 -right-1">
-                3
+              <span
+                className={
+                  notification?.length === 0
+                    ? "hidden"
+                    : "rounded-full bg-orange text-xs flex items-center justify-center text-white w-5 h-5 absolute -top-2 -right-1"
+                }
+              >
+                {notification?.length}
               </span>
             </div>
           )}
