@@ -6,6 +6,7 @@ const initialState = {
   loggedUser: null,
   token: "",
   role: "",
+  notification: null,
   isPending: false,
   isFulfilled: false,
   isRejected: false,
@@ -90,6 +91,23 @@ export const signOutThunk = createAsyncThunk(
         }
       })
       return response.data.Message
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
+
+export const notificationThunk = createAsyncThunk(
+  "notify",
+  async (_, { getState, rejectWithValue }) => {
+    const { token } = getState().loggedUserState
+    try {
+      const response = await api.get("/notification", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data.Data
     } catch (err) {
       return rejectWithValue(err)
     }
@@ -184,6 +202,23 @@ const signInSlices = createSlice({
         fulfilled: (state, { payload }) => {
           state.loggedUser = { ...state.loggedUser, ...payload };
           state.role = payload.role
+          state.isPending = false;
+          state.isFulfilled = true;
+        },
+        rejected: (state, { payload }) => {
+          state.isPending = false;
+          state.isRejected = true;
+          state.error = payload;
+        },
+      }), builder.addAsyncThunk(notificationThunk, {
+        pending: (state) => {
+          state.isPending = true;
+          state.isFulfilled = false;
+          state.isRejected = false;
+          state.error = null;
+        },
+        fulfilled: (state, { payload }) => {
+          state.notification = payload;
           state.isPending = false;
           state.isFulfilled = true;
         },
